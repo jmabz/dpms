@@ -38,11 +38,12 @@ class PatientRecordType extends AbstractType
                 'label' => 'Diagnosis',
             ])
             ->add('diagnosiscategory', EntityType::class, [
+                'label' => 'Diagnosis Category',
                 'class' => DiagnosisCategory::class,
                 'choice_label' => function ($diagnosiscategory) {
                     return $diagnosiscategory->getDiagnosisName();
                 },
-                'choice_value' => function (DiagnosisCategory $diagnosiscategory = null){
+                'choice_value' => function (DiagnosisCategory $diagnosiscategory = null) {
                     return $diagnosiscategory ? $diagnosiscategory->getId() : '';
                 }
             ]);

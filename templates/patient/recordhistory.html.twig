@@ -13,12 +13,14 @@
 			</tr>
 		</thead>
 		<tbody>
+		{% for record in records %}
 			<tr>
-				<td>record.checkup_date</td>
-				<td>record.doctor.fname</td>
-				<td>record.checkup_reason</td>
-				<td>record.diagnosis_category</td>
+				<td>{{ record.checkupDate }}</td>
+				<td>{{ record.doctor.userinfo.fname }} {{ record.doctor.userinfo.mname }} {{ record.doctor.userinfo.lname }} {{ record.doctor.userinfo.suffix }}</td>
+				<td>{{ record.checkupReason }}</td>
+				<td>{{ record.diagnosisCategory }}</td>
 			</tr>
+		{% endfor %}
 		</tbody>
 	</table>
 

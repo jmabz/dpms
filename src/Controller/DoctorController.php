@@ -20,6 +20,8 @@ class DoctorController extends Controller
 
         $form->handleRequest($request);
 
+        //TODO: query doctor and patient's ID, to be passed to the record
+
         if ($form->isSubmitted() && $form->isValid()) {
             $patientRecord = $form->getData();
 

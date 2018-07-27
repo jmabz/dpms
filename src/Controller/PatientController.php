@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Patient;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -20,9 +21,18 @@ class PatientController extends Controller
     /**
      * @Route("patient/records", name="record_history")
      */
-    public function viewRecordHistory()
+    public function listRecordHistory($patientId = 5)
     {
-        return $this->render('patient/recordhistory.html.twig');
+        $patientId = 5;
+        $patient = $this->getDoctrine()
+            ->getRepository(Patient::class)
+            ->find($patientId);
+
+        $records = $patient->getPatientRecords();
+
+        return $this->render('patient/recordhistory.html.twig', [
+            'records' => $records,
+        ]);
     }
 
     /**
