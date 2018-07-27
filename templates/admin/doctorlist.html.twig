@@ -19,14 +19,16 @@
 				</tr>
 			</thead>
 			<tbody>
+			{% for doctor in doctors %}
 				<tr>
-					<td><a href="#">doctor.fname</a></td>
+					<td><a href="#">doctor.userInfo.fname</a></td>
 					<td>doctor.accreditationinfo.accreditationcode</td>
 					<td>
 						<a href="#" class="button primary">Edit</a>
 						<a href="#" class="button alert">Delete</a>
 					</td>
 				</tr>
+			{% endfor %}
 			</tbody>
 		</table>
 	</div>

@@ -2,6 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\DiagnosisCategory;
+use App\Entity\Doctor;
+use App\Entity\Patient;
+use App\Form\DiagnosisCategoryType;
+use App\Form\DoctorType;
+use App\Form\PatientType;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -22,6 +28,8 @@ class AdminController extends Controller
      */
     public function listClinics()
     {
+        $entityManager = $this->getDoctrine()->getManager();
+
         return $this->render('admin/cliniclist.html.twig');
     }
 
@@ -30,7 +38,13 @@ class AdminController extends Controller
      */
     public function listPatients()
     {
-        return $this->render('admin/patientlist.html.twig');
+        $patients = $this->getDoctrine()
+            ->getRepository(Patient::class)
+            ->findAll();
+
+        return $this->render('admin/patientlist.html.twig', [
+            'patients' => $patients
+        ]);
     }
 
     /**
@@ -38,16 +52,27 @@ class AdminController extends Controller
      */
     public function listDoctors()
     {
-        return $this->render('admin/doctorlist.html.twig');
-    }
+        $doctors = $this->getDoctrine()
+            ->getRepository(Doctor::class)
+            ->findAll();
 
+        return $this->render('admin/doctorlist.html.twig', [
+                'doctors' => $doctors,
+        ]);
+    }
 
     /**
      * @Route("/diagnosiscategories", name="diagnosis_categories")
      */
     public function listDiagnosisCategories()
     {
-        return $this->render('admin/diagnosiscategories.html.twig');
+        $diagnosisCategories = $this->getDoctrine()
+            ->getRepository(DiagnosisCategory::class)
+            ->findAll();
+
+        return $this->render('admin/diagnosiscategories.html.twig', [
+                'diagnosiscategories' => $diagnosisCategories,
+        ]);
     }
 
     /**
@@ -56,7 +81,13 @@ class AdminController extends Controller
     public function addDoctor()
     {
         // TODO: place form here
-        return $this->render('admin/adddoctor.html.twig');
+        
+        $doctor = new Doctor();
+        $form = $this->createForm(DoctorType::class, $doctor);
+        
+        return $this->render('admin/adddoctor.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
 
     /**
@@ -65,7 +96,13 @@ class AdminController extends Controller
     public function addPatient()
     {
         // TODO: place form here
-        return $this->render('admin/addpatient.html.twig');
+        
+        $patient = new Patient();
+        $form = $this->createForm(PatientType::class, $patient);
+
+        return $this->render('admin/addpatient.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
 
     /**
@@ -74,6 +111,12 @@ class AdminController extends Controller
     public function addDiagnosisCategory()
     {
         // TODO: place form here
-        return $this->render('admin/adddiagnosiscategory.html.twig');
+        
+        $diagnosisCategory = new DiagnosisCategory();
+        $form = $this->createForm(DiagnosisCategoryType::class, $diagnosisCategory);
+
+        return $this->render('admin/adddiagnosiscategory.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
 }

@@ -18,13 +18,15 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr>
-					<td>diagnosiscategory.name</td>
-					<td>
-						<a href="#" class="button primary">Edit</a>
-						<a href="#" class="button alert">Delete</a>
-					</td>
-				</tr>
+			{% for diagnosiscategory in diagnosiscategories %}
+			<tr>
+				<td>diagnosiscategory.name</td>
+				<td>
+					<a href="#" class="button primary">Edit</a>
+					<a href="#" class="button alert">Delete</a>
+				</td>
+			</tr>
+			{% endfor %}
 			</tbody>
 		</table>
 	</div>

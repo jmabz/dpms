@@ -18,13 +18,19 @@
 				</tr>
 			</thead>
 			<tbody>
+			{% for patient in patients %}
 				<tr>
-					<td><a href="#">patient.fname</a></td>
+					<td>
+						<a href="#">
+							patient.userInfo.suffix patient.userInfo.fname patient.userInfo.mname patient.userInfo.lname
+						</a>
+					</td>
 					<td>
 						<a href="#" class="button primary">Edit</a>
 						<a href="#" class="button alert">Delete</a>
 					</td>
 				</tr>
+			{% endfor %}
 			</tbody>
 		</table>
 	</div>
