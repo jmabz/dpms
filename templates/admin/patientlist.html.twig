@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+{% block title %}List of Patients{% endblock %}
+{% block body %}
+	<div class="grid-container">
+		<div class="grid-x">
+			<div class="cell medium-9">
+				<h1>List of Patients</h1>
+			</div>
+			<div class="cell medium-3">
+				<a href="{{ path('add_patient') }}" class="button success">Add New Patient...</a>
+			</div>
+		</div>
+		<table>
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td><a href="#">patient.fname</a></td>
+					<td>
+						<a href="#" class="button primary">Edit</a>
+						<a href="#" class="button alert">Delete</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+{% endblock %}

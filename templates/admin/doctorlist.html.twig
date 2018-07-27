@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+{% block title %}List of Doctors{% endblock %}
+{% block body %}
+	<div class="grid-container">
+		<div class="grid-x">
+			<div class="cell medium-9">
+				<h1>List of Doctors</h1>
+			</div>
+			<div class="cell medium-3">
+				<a href="{{ path('add_doctor') }}" class="button success">Add New Doctor...</a>
+			</div>
+		</div>
+		<table>
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Accreditation Code</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td><a href="#">doctor.fname</a></td>
+					<td>doctor.accreditationinfo.accreditationcode</td>
+					<td>
+						<a href="#" class="button primary">Edit</a>
+						<a href="#" class="button alert">Delete</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+{% endblock %}

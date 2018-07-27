@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+{% block title %}Profile{% endblock %}
+{% block body %}
+	<div class="grid-container">
+		<h1>userinfo.suffix userinfo.fname</h1>
+		<h2>Profile</h2>
+		<table>
+			<tbody>
+				<tr>
+					<th>Gender:</th>
+					<td>userinfo.gender</td>
+				</tr>
+				<tr>
+					<th>Civil Status:</th>
+					<td>userinfo.civilstatus</td>
+				</tr>
+				<tr>
+					<th>Address:</th>
+					<td>userinfo.address</td>
+				</tr>
+				<tr>
+					<th>Birthdate:</th>
+					<td>userinfo.birthdate|format('m/d/Y')</td>
+				</tr>
+			</tbody>
+		</table>
+		<h2>Accreditation Info</h2>
+		<table>
+			<tbody>
+				<tr>
+					<th>Accreditation Code:</th>
+					<td>accreditationinfo.accreditation_code</td>
+				</tr>
+				<tr>
+					<th>Date Accredited:</th>
+					<td>accreditationinfo.accreditation_date</td>
+				</tr>
+				<tr>
+					<th>Expiry Date:</th>
+					<td>accreditationinfo.accreditation_expdate</td>
+				</tr>
+			</tbody>
+		</table>
+		<a href="#" class="button primary">Edit Profile</a>
+	</div>
+{% endblock %}

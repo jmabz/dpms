@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+{% block title %}Patient Record{% endblock %}
+{% block body %}
+<div class="grid-container">
+	<h1>Patient Record</h1>
+	<table>
+		<tbody>
+			<tr>
+				<th>Checkup Date:</th>
+				<td>record.checkup_date</td>
+				<th>Doctor in Charge:</th>
+				<td>record.doctor.fname</td>
+			</tr>
+			<tr>
+				<th>Checkup Reason:</th>
+				<td colspan="3">record.checkup_reason</td>
+			</tr>
+			<tr>
+				<th>Diagnosis Category:</th>
+				<td colspan="3">record.diagnosis_category</td>
+			</tr>
+			<tr>
+				<th>Diagnosis:</th>
+				<td colspan="3">record.diagnosis</td>
+			</tr>
+			<tr>
+				<th>Payment:</th>
+				<td colspan="3">record.payment</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+{% endblock %}

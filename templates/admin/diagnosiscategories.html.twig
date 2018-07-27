@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+{% block title %}Diagnosis Categories{% endblock %}
+{% block body %}
+	<div class="grid-container">
+		<div class="grid-x">
+			<div class="cell medium-9">
+				<h1>Diagnosis Categories</h1>
+			</div>
+			<div class="cell medium-3">
+				<a href="{{ path('add_diagnosis_category') }}" class="button success">Add New Category...</a>
+			</div>
+		</div>
+		<table>
+			<thead>
+				<tr>
+					<th scope="col">Name</th>
+					<th scope="col">Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>diagnosiscategory.name</td>
+					<td>
+						<a href="#" class="button primary">Edit</a>
+						<a href="#" class="button alert">Delete</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+{% endblock %}

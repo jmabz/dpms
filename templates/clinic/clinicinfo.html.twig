@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+{% block title %}Clinic Info{% endblock %}
+{% block body %}
+	<div class="grid-container">
+		<h1>clinic.name</h1>
+		<p>Schedule: clinic.startTime - clinic.endTime</p>
+		<p>Email address: clinic.email</p>
+
+		<h2>List of doctors</h2>
+		<table>
+			<tbody>
+				<tr>
+					<td>
+						clinic.doctors.name
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+{% endblock %}
