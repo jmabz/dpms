@@ -5,9 +5,12 @@ namespace App\Controller;
 use App\Entity\DiagnosisCategory;
 use App\Entity\Doctor;
 use App\Entity\Patient;
+use App\Entity\Clinic;
 use App\Form\DiagnosisCategoryType;
 use App\Form\DoctorType;
 use App\Form\PatientType;
+use App\Form\ClinicType;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -28,9 +31,13 @@ class AdminController extends Controller
      */
     public function listClinics()
     {
-        $entityManager = $this->getDoctrine()->getManager();
+        $clinics = $this->getDoctrine()
+            ->getRepository(Clinic::class)
+            ->findAll();
 
-        return $this->render('admin/cliniclist.html.twig');
+        return $this->render('admin/cliniclist.html.twig', [
+            'clinics' => $clinics
+        ]);
     }
 
     /**
@@ -78,13 +85,28 @@ class AdminController extends Controller
     /**
      * @Route("/adddoctor", name="add_doctor")
      */
-    public function addDoctor()
+    public function addDoctor(Request $request)
     {
-        // TODO: place form here
-        
         $doctor = new Doctor();
         $form = $this->createForm(DoctorType::class, $doctor);
         
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $doctor = $form->getData();
+
+            $password = $this->get('security.password_encoder')
+                ->encodePassword($doctor, $doctor->getPlainPassword());
+
+            $doctor->setPassword($password);
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($doctor);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('doctor_list');
+        }
+
         return $this->render('admin/adddoctor.html.twig', [
             'form' => $form->createView(),
         ]);
@@ -93,12 +115,27 @@ class AdminController extends Controller
     /**
      * @Route("/addpatient", name="add_patient")
      */
-    public function addPatient()
+    public function addPatient(Request $request)
     {
-        // TODO: place form here
-        
         $patient = new Patient();
         $form = $this->createForm(PatientType::class, $patient);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $patient = $form->getData();
+
+            $password = $this->get('security.password_encoder')
+                ->encodePassword($patient, $patient->getPlainPassword());
+
+            $patient->setPassword($password);
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($patient);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('patient_list');
+        }
 
         return $this->render('admin/addpatient.html.twig', [
             'form' => $form->createView(),
@@ -108,14 +145,52 @@ class AdminController extends Controller
     /**
      * @Route("/adddiagnosiscategory", name="add_diagnosis_category")
      */
-    public function addDiagnosisCategory()
+    public function addDiagnosisCategory(Request $request)
     {
-        // TODO: place form here
-        
         $diagnosisCategory = new DiagnosisCategory();
         $form = $this->createForm(DiagnosisCategoryType::class, $diagnosisCategory);
 
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $diagnosisCategory = $form->getData();
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($diagnosisCategory);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('diagnosis_categories');
+        }
+
         return $this->render('admin/adddiagnosiscategory.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/addclinic", name="add_clinic")
+     */
+    public function addClinic(Request $request)
+    {
+        $clinic = new Clinic();
+        $form = $this->createForm(
+            ClinicType::class,
+            $clinic
+        );
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $clinic = $form->getData();
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($clinic);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('clinic_list');
+        }
+
+        return $this->render('/admin/addclinic.html.twig', [
             'form' => $form->createView(),
         ]);
     }

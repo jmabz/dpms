@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Doctor;
 use App\Form\AcceditationInfoType;
 use App\Form\UserInfoType;
+
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -35,7 +36,7 @@ class DoctorType extends AbstractType
                 ],
             ])
             ->add('userinfo', UserInfoType::class)
-            ->add('accreditationInfo', AccreditationInfoType::class)
+            ->add('accreditationinfo', AccreditationInfoType::class)
         ;
     }
 

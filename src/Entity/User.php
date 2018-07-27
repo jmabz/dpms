@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -14,7 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\DiscriminatorColumn(name="discr", type="string")
  * @ORM\DiscriminatorMap({"user" = "User", "admin" = "Admin", "patient" = "Patient", "doctor" = "Doctor"})
  */
-class User
+class User implements AdvancedUserInterface
 {
     /**
      * @ORM\Id()
@@ -44,7 +45,17 @@ class User
     /**
      * @ORM\Column(type="json_array")
      */
-    protected $role;
+    protected $roles = array();
+
+    /**
+     * @ORM\Column(name="is_active", type="boolean")
+     */
+    protected $isActive = true;
+
+    public function __construct()
+    {
+        $this->isActive = true;
+    }
 
     public function getId()
     {
@@ -54,6 +65,11 @@ class User
     public function getUsername(): ?string
     {
         return $this->username;
+    }
+
+    public function getSalt()
+    {
+        return null;
     }
 
     public function setUsername(string $username): self
@@ -87,14 +103,49 @@ class User
         return $this;
     }
 
-    public function getRole()
+    public function getRoles()
     {
-        return $this->role;
+        return $this->roles;
     }
 
-    public function setRole($role): self
+    public function setRoles($roles): self
     {
-        $this->role = $role;
+        $this->roles = $roles;
+
+        if (!in_array('ROLE_USER', $roles)) {
+            $roles[] = 'ROLE_USER';
+        }
+
+        return $this;
+    }
+
+    public function eraseCredentials()
+    {
+    }
+
+    public function isAccountNonExpired()
+    {
+        return true;
+    }
+
+    public function isAccountNonLocked()
+    {
+        return true;
+    }
+
+    public function isCredentialsNonExpired()
+    {
+        return true;
+    }
+
+    public function isEnabled()
+    {
+        return $this->isActive;
+    }
+
+    public function enableOrDisable()
+    {
+        $this->isActive = $this->isActive ? false : true;
 
         return $this;
     }

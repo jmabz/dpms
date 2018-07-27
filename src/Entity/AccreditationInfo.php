@@ -32,7 +32,7 @@ class AccreditationInfo
     private $accreditationExpDate;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\User", mappedBy="accreditationInfo", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="App\Entity\Doctor", mappedBy="accreditationInfo", cascade={"persist", "remove"})
      */
     private $doctor;
 

@@ -44,7 +44,7 @@ class Clinic
     private $schedEnd;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\User", inversedBy="clinics")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Doctor", inversedBy="clinics")
      */
     private $doctors;
 

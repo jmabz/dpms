@@ -3,6 +3,9 @@
 namespace App\Form;
 
 use App\Entity\UserInfo;
+
+use App\Form\DataTransformer\DateToStringTransformer;
+
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -53,7 +56,14 @@ class UserInfoType extends AbstractType
             ])
             ->add('birthDate', TextType::class, [
                 'label' => 'Birth Date',
+                'attr' => [
+                    'class' => 'datepicker'
+                ]
             ]);
+
+        $builder
+            ->get('birthDate')
+            ->addModelTransformer(new DateToStringTransformer($builder->get('birthDate')));
     }
 
     /**

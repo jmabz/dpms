@@ -7,13 +7,17 @@
 				<h1>Clinic List</h1>
 			</div>
 			<div class="cell medium-3">
-				<a href="#" class="button success">Add New Clinic...</a>
+				<a href="{{ path('add_clinic') }}" class="button success">Add New Clinic...</a>
 			</div>
 		</div>
 		<table>
-			<tr>
-				<td>clinic.name</td>
-			</tr>
+			<tbody>
+				{% for clinic in clinics %}
+				<tr>
+					<td>{{ clinic.clinicName }}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
 		</table>
 	</div>
 {% endblock %}

@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\AccreditationInfo;
+use App\Form\DataTransformer\DateToStringTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -25,6 +26,13 @@ class AccreditationInfoType extends AbstractType
             ->add('accreditationExpDate', TextType::class, [
                     'label' => 'Accreditation Expiry Date'
                 ]);
+
+        $builder
+            ->get('accreditationDate')
+            ->addModelTransformer(new DateToStringTransformer($builder->get('accreditationDate')));
+        $builder
+            ->get('accreditationExpDate')
+            ->addModelTransformer(new DateToStringTransformer($builder->get('accreditationExpDate')));
     }
 
     /**

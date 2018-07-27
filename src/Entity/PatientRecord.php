@@ -43,13 +43,13 @@ class PatientRecord
     private $payment;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="patientRecords")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Patient", inversedBy="patientRecords")
      * @ORM\JoinColumn(nullable=false)
      */
     private $patient;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="patientRecords")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Doctor", inversedBy="patientRecords")
      * @ORM\JoinColumn(nullable=false)
      */
     private $doctor;

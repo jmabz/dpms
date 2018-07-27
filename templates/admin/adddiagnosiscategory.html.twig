@@ -4,7 +4,7 @@
 	<div class="grid-container">
 		<h1>Add Diagnosis Category</h1>
 		
-		{{ form_start(form) }}
+		{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
 			{{ form_widget(form) }}
 			<input type="submit" class="button success" value="Add Diagnosis Category">
 			<a href="{{ path('diagnosis_categories') }}" class="button">Cancel</a>

@@ -14,6 +14,6 @@ class Admin extends User
 {
     public function __construct()
     {
-    	parent::setRole(['ROLE_ADMIN']);
+    	parent::setRoles(['ROLE_ADMIN']);
     }
 }

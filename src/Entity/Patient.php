@@ -26,7 +26,7 @@ class Patient extends User
     public function __construct()
     {
         $this->patientRecords = new ArrayCollection();
-        parent::setRole(['ROLE_PATIENT']);
+        parent::setRoles(['ROLE_PATIENT']);
     }
 
     public function getPatientRecords(): Collection

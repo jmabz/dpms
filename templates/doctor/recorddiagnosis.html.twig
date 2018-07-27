@@ -3,7 +3,9 @@
 {% block body %}
 	<div class="grid-container">
 		<h1>Record Patient Diagnosis</h1>
-		{# TODO: create the form to be used here #}
+		{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+			{{ form_widget(form) }}
+		{{ form_end(form) }}
 		<input type="submit" class="button success" value="Submit">
 		<a href="#" class="button">Cancel</a>
 	</div>

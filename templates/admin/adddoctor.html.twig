@@ -4,8 +4,19 @@
 	<div class="grid-container">
 		<h1>Add Doctor</h1>
 
-		{{ form_start(form) }}
-			{{ form_widget(form) }}
+		{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+			<div class="grid-x">
+				<div class="cell">
+					{{ form_row(form.username) }}
+					{{ form_row(form.plainPassword) }}
+				</div>
+				<div class="cell medium-6">
+					{{ form_row(form.userinfo) }}
+				</div>
+				<div class="cell medium-6">
+					{{ form_row(form.accreditationinfo) }}
+				</div>
+			</div>
 			<input type="submit" class="button success" value="Add Doctor">
 			<a href="{{ path('doctor_list') }}" class="button">Cancel</a>
 		{{ form_end(form) }}
