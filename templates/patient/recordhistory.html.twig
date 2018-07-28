@@ -16,7 +16,7 @@
 		{% for record in records %}
 			<tr>
 				<td>{{ record.checkupDate }}</td>
-				<td>{{ record.doctor.userinfo.fname }} {{ record.doctor.userinfo.mname }} {{ record.doctor.userinfo.lname }} {{ record.doctor.userinfo.suffix }}</td>
+				<td>{{ record.doctor.userInfo.fname }} {{ record.doctor.userInfo.mname }} {{ record.doctor.userInfo.lname }} {{ record.doctor.userInfo.suffix }}</td>
 				<td>{{ record.checkupReason }}</td>
 				<td>{{ record.diagnosisCategory }}</td>
 			</tr>
