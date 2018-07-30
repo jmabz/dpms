@@ -14,7 +14,7 @@
 			<tbody>
 				{% for clinic in clinics %}
 				<tr>
-					<td>{{ clinic.clinicName }}</td>
+					<td><a href="{{ path('view_clinic', {clinicId : clinic.id}) }}">{{ clinic.clinicName }}</a></td>
 				</tr>
 				{% endfor %}
 			</tbody>

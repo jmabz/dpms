@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+{% block title %}Edit Profile{% endblock %}
+{% block body %}
+	<div class="grid-container">
+		<h1>Edit Profile</h1>
+
+		{# {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }} #}
+			<div class="grid-x">
+				<div class="cell">
+					{{ form_row(form.userinfo) }}
+				</div>
+				{% if accreditationinfo %}
+					<div class="cell">
+						{{ form_row(form.accreditationinfo) }}
+					</div>
+				{% endif %}
+			</div>
+			<input type="submit" class="button success" value="Save Changes">
+			<a href="{{ path('profile', {userId : 1}) }}" class="button">Cancel</a>
+		{# {{ form_end(form) }} #}
+	</div>
+{% endblock %}

@@ -33,6 +33,8 @@ class Clinic
 
     /**
      * @Assert\NotBlank()
+     * @Assert\GreaterThanOrEqual("6:00")
+     * @Assert\LessThan("17:00")
      * @ORM\Column(type="time")
      */
     private $schedStart;

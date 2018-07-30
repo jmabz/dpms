@@ -7,6 +7,7 @@
         {% block stylesheets %}
 			<link rel="stylesheet" type="text/css" href="{{ asset('css/foundation.min.css') }}">
             <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+            <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
         {% endblock %}
     </head>
     <body>
@@ -19,51 +20,28 @@
 			<script src="{{ asset('js/vendor/foundation.min.js') }}"></script>
 			<script src="{{ asset('js/vendor/jquery.js') }}"></script>
 			<script src="{{ asset('js/vendor/what-input.js') }}"></script>
-
+            <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
             <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/globalize/1.4.0/globalize-runtime.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/globalize/1.4.0/globalize-runtime/date.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/globalize/1.4.0/globalize.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/globalize/1.4.0/globalize/date.js"></script>
+
+
+
             <script>
-            $( function() {
-                $( ".datepicker" ).datepicker();
-            } );
+                $( function() {
+                    $(".datepicker").datepicker();
+                } );
             </script>
             <script>
-            $( function() {
-                $.widget( "ui.timespinner", $.ui.spinner, {
-                  options: {
-                    // seconds
-                    step: 60 * 1000,
-                    // hours
-                    page: 60
-                  },
-
-                  _parse: function( value ) {
-                    if ( typeof value === "string" ) {
-                      // already a timestamp
-                      if ( Number( value ) == value ) {
-                        return Number( value );
-                      }
-                      return +Globalize.parseDate( value );
-                    }
-                    return value;
-                  },
-
-                  _format: function( value = "en-EN") {
-                    return Globalize.format( new Date(value), "t" );
-                  }
+                $('.timepicker').timepicker({
+                    timeFormat: 'h:mm p',
+                    interval: 60,
+                    minTime: '6',
+                    maxTime: '6:00pm',
+                    defaultTime: '6',
+                    startTime: '6:00',
+                    dynamic: false,
+                    dropdown: true,
+                    scrollbar: true
                 });
-
-                $( ".spinner" ).timespinner();
-
-                $( "#culture" ).on( "change", function() {
-                  var current = $( ".spinner" ).timespinner( "value" );
-                  Globalize.culture( $(this).val() );
-                  $( ".spinner" ).timespinner( "value", current );
-                });
-            } );
             </script>
         {% endblock %}
     </body>

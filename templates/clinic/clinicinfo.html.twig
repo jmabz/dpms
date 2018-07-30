@@ -2,19 +2,23 @@
 {% block title %}Clinic Info{% endblock %}
 {% block body %}
 	<div class="grid-container">
-		<h1>clinic.name</h1>
-		<p>Schedule: clinic.startTime - clinic.endTime</p>
-		<p>Email address: clinic.email</p>
+		<h1>{{ clinic.clinicName }}</h1>
+		<p>Schedule: {{ clinic.schedStart|date('H:i:s') }} - {{ clinic.schedEnd|date('H:i:s') }}</p>
+		<p>Email address: {{ clinic.email }}</p>
 
-		<h2>List of doctors</h2>
-		<table>
-			<tbody>
-				<tr>
-					<td>
-						clinic.doctors.name
-					</td>
-				</tr>
-			</tbody>
-		</table>
+		{% if doctors.count != 0 %}
+			<h2>List of doctors</h2>
+			<table class="unstriped">
+				<tbody>
+					{% for doctor in doctors %}
+					<tr>
+						<td>
+							{{ doctor.userInfo.fname }} {{ doctor.userInfo.mname }} {{ doctor.userInfo.lname }} {{ doctor.userInfo.suffix }}
+						</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		{% endif %}
 	</div>
 {% endblock %}

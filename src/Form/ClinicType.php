@@ -3,7 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Clinic;
-use App\Entity\Form\DataTransformer\DateToStringTransformer;
+use App\Form\DataTransformer\DateToStringTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -27,12 +27,20 @@ class ClinicType extends AbstractType
             ])
             ->add('schedStart', TextType::class, [
                 'label' => 'Opening Time',
-                'attr' => ['class' => 'spinner']
+                'attr' => ['class' => 'timepicker']
             ])
             ->add('schedEnd', TextType::class, [
                 'label' => 'Closing Time',
-                'attr' => ['class' => 'spinner']
+                'attr' => ['class' => 'timepicker']
             ]);
+
+        $builder
+            ->get('schedStart')
+            ->addModelTransformer(new DateToStringTransformer($builder->get('schedStart')));
+
+        $builder
+            ->get('schedEnd')
+            ->addModelTransformer(new DateToStringTransformer($builder->get('schedEnd')));
     }
 
     /**

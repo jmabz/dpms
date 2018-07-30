@@ -10,7 +10,7 @@
 				<a href="{{ path('add_diagnosis_category') }}" class="button success">Add New Category...</a>
 			</div>
 		</div>
-		<table>
+		<table class="unstriped">
 			<thead>
 				<tr>
 					<th scope="col">Name</th>
@@ -29,5 +29,12 @@
 			{% endfor %}
 			</tbody>
 		</table>
+		<nav aria-label="Pagination">
+			<ul class="pagination text-center">
+				<li class="pagination-previous disabled">Previous</li>
+				<li class="current">1</li>
+				<li class="pagination-next disabled">Next</li>
+			</ul>
+		</nav>
 	</div>
 {% endblock %}

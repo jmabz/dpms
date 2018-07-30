@@ -20,10 +20,12 @@ class PatientController extends Controller
     }
 
     /**
-     * @Route("patient/{patientId}/records", name="record_history")
+     * @Route("patient/records", name="record_history")
      */
-    public function listRecordHistory($patientId)
+    public function listRecordHistory()
     {
+        // TODO: query active patient's ID
+        $patientId = 2;
         $patient = $this->getDoctrine()
             ->getRepository(Patient::class)
             ->find($patientId);
