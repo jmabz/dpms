@@ -15,10 +15,10 @@
 		<tbody>
 		{% for record in records %}
 			<tr>
-				<td>{{ record.checkupDate }}</td>
-				<td>{{ record.doctor.userinfo.fname }} {{ record.doctor.userinfo.mname }} {{ record.doctor.userinfo.lname }} {{ record.doctor.userinfo.suffix }}</td>
+				<td><a href="{{ path('view_record', {recordId : record.id}) }}">{{ record.checkupDate|date('m/d/Y') }}</a></td>
+				<td>{{ record.doctor.userInfo.fname }} {{ record.doctor.userInfo.mname }} {{ record.doctor.userInfo.lname }} {{ record.doctor.userInfo.suffix }}</td>
 				<td>{{ record.checkupReason }}</td>
-				<td>{{ record.diagnosisCategory }}</td>
+				<td>{{ record.diagnosisCategory.diagnosisName }}</td>
 			</tr>
 		{% endfor %}
 		</tbody>

@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PatientRecordRepository")
@@ -18,16 +19,19 @@ class PatientRecord
 
     /**
      * @ORM\Column(type="date")
+     * @Assert\NotBlank()
      */
     private $checkupDate;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank()
      */
     private $checkupReason;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank()
      */
     private $diagnosis;
 
@@ -39,6 +43,7 @@ class PatientRecord
 
     /**
      * @ORM\Column(type="decimal", precision=10, scale=2)
+     * @Assert\NotBlank()
      */
     private $payment;
 

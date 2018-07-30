@@ -21,7 +21,7 @@
 			<tbody>
 			{% for doctor in doctors %}
 				<tr>
-					<td><a href="#">{{ doctor.userInfo.fname }}</a></td>
+					<td><a href="{{ path('profile', {userId : doctor.id}) }}">{{ doctor.userInfo.fname }}</a></td>
 					<td>{{ doctor.accreditationinfo.accreditationcode }}</td>
 					<td>
 						<a href="#" class="button primary">Edit</a>

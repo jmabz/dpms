@@ -7,7 +7,7 @@ use App\Entity\Doctor;
 use App\Entity\Patient;
 use App\Entity\PatientRecord;
 
-use App\Entity\Form\DataTransformer\DateToStringTransformer;
+use App\Form\DataTransformer\DateToStringTransformer;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -46,7 +46,14 @@ class PatientRecordType extends AbstractType
                 'choice_value' => function (DiagnosisCategory $diagnosiscategory = null) {
                     return $diagnosiscategory ? $diagnosiscategory->getId() : '';
                 }
+            ])
+            ->add('payment', MoneyType::class, [
+                'label' => 'Payment'
             ]);
+
+        $builder
+            ->get('checkupDate')
+            ->addModelTransformer(new DateToStringTransformer($builder->get('checkupDate')));
     }
 
     /**

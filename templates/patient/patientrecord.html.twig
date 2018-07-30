@@ -7,25 +7,25 @@
 		<tbody>
 			<tr>
 				<th>Checkup Date:</th>
-				<td>record.checkup_date</td>
+				<td>{{ record.checkupDate|date('m/d/Y') }}</td>
 				<th>Doctor in Charge:</th>
-				<td>record.doctor.fname</td>
+				<td>{{ doctor.fname }} {{ doctor.mname }} {{ doctor.lname }} {{ doctor.suffix }}</td>
 			</tr>
 			<tr>
 				<th>Checkup Reason:</th>
-				<td colspan="3">record.checkup_reason</td>
+				<td colspan="3">{{ record.checkupReason }}</td>
 			</tr>
 			<tr>
 				<th>Diagnosis Category:</th>
-				<td colspan="3">record.diagnosis_category</td>
+				<td colspan="3">{{ record.diagnosisCategory.diagnosisName }}</td>
 			</tr>
 			<tr>
 				<th>Diagnosis:</th>
-				<td colspan="3">record.diagnosis</td>
+				<td colspan="3">{{ record.diagnosis }}</td>
 			</tr>
 			<tr>
 				<th>Payment:</th>
-				<td colspan="3">record.payment</td>
+				<td colspan="3">{{ record.payment }}</td>
 			</tr>
 		</tbody>
 	</table>

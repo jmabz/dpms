@@ -3,10 +3,11 @@
 {% block body %}
 	<div class="grid-container">
 		<h1>Record Patient Diagnosis</h1>
+		<p><b>Patient:</b> {{patient.fname}} {{patient.mname}} {{patient.lname}} {{patient.suffix}}</p>
 		{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
 			{{ form_widget(form) }}
+			<input type="submit" class="button success" value="Submit">
+			<a href="#" class="button">Cancel</a>
 		{{ form_end(form) }}
-		<input type="submit" class="button success" value="Submit">
-		<a href="#" class="button">Cancel</a>
 	</div>
 {% endblock %}

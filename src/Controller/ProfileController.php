@@ -2,26 +2,35 @@
 
 namespace App\Controller;
 
+use App\Entity\Doctor;
+use App\Entity\Patient;
+use App\Entity\User;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class ProfileController extends Controller
 {
     /**
-     * @Route("/recorddiagnosis", name="recorddiagnosis")
+     * @Route("/userprofile/{userId}", name="profile")
      */
-    public function index()
+    public function viewprofile($userId)
     {
-        return $this->render('doctor/recorddiagnosis.html.twig', [
-            'controller_name' => 'DoctorController',
-        ]);
-    }
+        $user = $this->getDoctrine()
+            ->getRepository(User::class)
+            ->find($userId);
 
-    /**
-     * @Route("/userprofile", name="profile")
-     */
-    public function viewprofile()
-    {
-    	return $this->render('profile/profile.html.twig');
+        $accreditationinfo = null;
+        $role = (new \ReflectionClass($user))->getShortName();
+
+        $userinfo = $user->getUserInfo();
+        if ($user instanceof Doctor) {
+            $accreditationinfo = $user->getAccreditationInfo();
+        }
+        
+        return $this->render('profile/profile.html.twig', [
+            'userinfo' => $userinfo,
+            'accreditationinfo' => $accreditationinfo,
+            'role' => $role,
+        ]);
     }
 }

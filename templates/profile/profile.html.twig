@@ -2,45 +2,50 @@
 {% block title %}Profile{% endblock %}
 {% block body %}
 	<div class="grid-container">
-		<h1>userinfo.suffix userinfo.fname</h1>
+	{% if userinfo %}
+		<h1>{{ userinfo.fname }} {{ userinfo.mname }} {{ userinfo.lname }} {{ userinfo.suffix }}</h1>
+		<p>{{ role }}</p>
 		<h2>Profile</h2>
 		<table>
 			<tbody>
 				<tr>
 					<th>Gender:</th>
-					<td>userinfo.gender</td>
+					<td>{{ userinfo.gender }}</td>
 				</tr>
 				<tr>
 					<th>Civil Status:</th>
-					<td>userinfo.civilstatus</td>
+					<td>{{ userinfo.civilstatus }}</td>
 				</tr>
 				<tr>
 					<th>Address:</th>
-					<td>userinfo.address</td>
+					<td>{{ userinfo.address }}</td>
 				</tr>
 				<tr>
 					<th>Birthdate:</th>
-					<td>userinfo.birthdate|format('m/d/Y')</td>
+					<td>{{ userinfo.birthdate|date('m/d/Y') }}</td>
 				</tr>
 			</tbody>
 		</table>
+	{% endif %}
+	{% if accreditationinfo %}
 		<h2>Accreditation Info</h2>
 		<table>
 			<tbody>
 				<tr>
 					<th>Accreditation Code:</th>
-					<td>accreditationinfo.accreditation_code</td>
+					<td>{{ accreditationinfo.accreditationcode }}</td>
 				</tr>
 				<tr>
 					<th>Date Accredited:</th>
-					<td>accreditationinfo.accreditation_date</td>
+					<td>{{ accreditationinfo.accreditationdate|date('m/d/Y') }}</td>
 				</tr>
 				<tr>
 					<th>Expiry Date:</th>
-					<td>accreditationinfo.accreditation_expdate</td>
+					<td>{{ accreditationinfo.accreditationexpdate|date('m/d/Y') }}</td>
 				</tr>
 			</tbody>
 		</table>
+	{% endif %}
 		<a href="#" class="button primary">Edit Profile</a>
 	</div>
 {% endblock %}

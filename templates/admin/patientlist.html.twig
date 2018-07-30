@@ -21,7 +21,7 @@
 			{% for patient in patients %}
 				<tr>
 					<td>
-						<a href="#">
+						<a href="{{ path('profile', {userId: patient.id}) }}">
 							 {{ patient.userInfo.fname }} {{ patient.userInfo.mname }} {{ patient.userInfo.lname }} {{ patient.userInfo.suffix }}
 						</a>
 					</td>

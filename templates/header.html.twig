@@ -1,0 +1,20 @@
+{% block header %}
+	<div class="top-bar">
+		<div class="top-bar-left">
+			<ul class="dropdown menu" data-dropdown-menu>
+				<li class="menu-text">DPMS
+					<li><a href="#">Admin Portal</a></li>
+					<li><a href="#">Doctor's Portal</a></li>
+					<li><a href="#">Patient's Portal</a></li>
+				</li>
+			</ul>
+		</div>
+		<div class="top-bar-right">
+			<ul class="menu">
+				<li>
+					<a class="button" href="{{ path('login') }}">Login</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+{% endblock %}
