@@ -1,20 +1,34 @@
 {% block header %}
+	{% set loginpage = app.request.get('_route') == 'login' %}
 	<div class="top-bar">
 		<div class="top-bar-left">
 			<ul class="dropdown menu" data-dropdown-menu>
-				<li class="menu-text">DPMS
-					<li><a href="#">Admin Portal</a></li>
-					<li><a href="#">Doctor's Portal</a></li>
-					<li><a href="#">Patient's Portal</a></li>
-				</li>
+				<li class="menu-text">DPMS</li>
+				{% if app.request.get('_route') != 'admin' %}
+					<li>
+						<a href="{{ path('admin') }}">Admin Portal</a>
+					</li>
+				{% endif %}
+				{% if app.request.get('_route') != 'doctor' %}
+					<li>
+						<a href="{{ path('doctor') }}">Doctor's Portal</a>
+					</li>
+				{% endif %}
+				{% if app.request.get('_route') != 'patient' %}
+					<li>
+						<a href="{{ path('patient') }}">Patient's Portal</a>
+					</li>
+				{% endif %}
 			</ul>
 		</div>
-		<div class="top-bar-right">
-			<ul class="menu">
-				<li>
-					<a class="button" href="{{ path('login') }}">Login</a>
-				</li>
-			</ul>
-		</div>
+		{% if not loginpage %}
+			<div class="top-bar-right">
+				<ul class="menu">
+					<li>
+						<a class="button" href="{{ path('login') }}">Login</a>
+					</li>
+				</ul>
+			</div>
+		{% endif %}
 	</div>
 {% endblock %}

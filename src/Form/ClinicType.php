@@ -25,11 +25,13 @@ class ClinicType extends AbstractType
             ->add('email', EmailType::class, [
                 'label' => 'Clinic Email'
             ])
-            ->add('schedStart', TimeType::class, [
-                'label' => 'Opening Time'
+            ->add('schedStart', TextType::class, [
+                'label' => 'Opening Time',
+                'attr' => ['class' => 'spinner']
             ])
-            ->add('schedEnd', TimeType::class, [
-                'label' => 'Closing Time'
+            ->add('schedEnd', TextType::class, [
+                'label' => 'Closing Time',
+                'attr' => ['class' => 'spinner']
             ]);
     }
 

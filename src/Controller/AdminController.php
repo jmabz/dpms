@@ -27,7 +27,7 @@ class AdminController extends Controller
     }
 
     /**
-     * @Route("/clinics", name="clinic_list")
+     * @Route("/admin/clinics", name="clinic_list")
      */
     public function listClinics()
     {
@@ -41,7 +41,7 @@ class AdminController extends Controller
     }
 
     /**
-     * @Route("/patients", name="patient_list")
+     * @Route("/admin/patients", name="patient_list")
      */
     public function listPatients()
     {
@@ -55,7 +55,7 @@ class AdminController extends Controller
     }
 
     /**
-     * @Route("/doctors", name="doctor_list")
+     * @Route("/admin/doctors", name="doctor_list")
      */
     public function listDoctors()
     {
@@ -69,7 +69,7 @@ class AdminController extends Controller
     }
 
     /**
-     * @Route("/diagnosiscategories", name="diagnosis_categories")
+     * @Route("/admin/diagnosiscategories", name="diagnosis_categories")
      */
     public function listDiagnosisCategories()
     {
@@ -83,7 +83,7 @@ class AdminController extends Controller
     }
 
     /**
-     * @Route("/adddoctor", name="add_doctor")
+     * @Route("/admin/adddoctor", name="add_doctor")
      */
     public function addDoctor(Request $request)
     {
@@ -113,7 +113,7 @@ class AdminController extends Controller
     }
 
     /**
-     * @Route("/addpatient", name="add_patient")
+     * @Route("/admin/addpatient", name="add_patient")
      */
     public function addPatient(Request $request)
     {
@@ -143,7 +143,7 @@ class AdminController extends Controller
     }
 
     /**
-     * @Route("/adddiagnosiscategory", name="add_diagnosis_category")
+     * @Route("/admin/adddiagnosiscategory", name="add_diagnosis_category")
      */
     public function addDiagnosisCategory(Request $request)
     {
@@ -168,7 +168,7 @@ class AdminController extends Controller
     }
 
     /**
-     * @Route("/addclinic", name="add_clinic")
+     * @Route("/admin/addclinic", name="add_clinic")
      */
     public function addClinic(Request $request)
     {

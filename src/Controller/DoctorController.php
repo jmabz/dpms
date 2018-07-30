@@ -12,6 +12,17 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class DoctorController extends Controller
 {
+
+    /**
+     * @Route("/doctor", name="doctor")
+     */
+    public function index()
+    {
+        return $this->render('doctor/index.html.twig', [
+            'controller_name' => 'DoctorController',
+        ]);
+    }
+
     /**
      * @Route("/recorddiagnosis/{patientId}", name="record_diagnosis")
      */
