@@ -2,26 +2,21 @@
 {% block title %}Patient Record{% endblock %}
 {% block body %}
 <div class="grid-container">
-	<h1>Patient Record</h1>
+	<h1 class="text-center">Patient Record</h1>
 	<table class="unstriped">
 		<tbody>
 			<tr>
+				<th>Patient:</th>
+				<td>{{ patient.fname }} {{ patient.mname }} {{ patient.lname }} {{ patient.suffix }}</td>
 				<th>Checkup Date:</th>
-				<td>{{ record.checkupDate|date('m/d/Y') }}</td>
+				<td>{{ record.checkupDate|date('M d, Y') }}</td>
+				
+			</tr>
+			<tr>
 				<th>Doctor in Charge:</th>
 				<td>{{ doctor.fname }} {{ doctor.mname }} {{ doctor.lname }} {{ doctor.suffix }}</td>
-			</tr>
-			<tr>
-				<th>Checkup Reason:</th>
-				<td colspan="3">{{ record.checkupReason }}</td>
-			</tr>
-			<tr>
 				<th>Diagnosis Category:</th>
-				<td colspan="3">{{ record.diagnosisCategory.diagnosisName }}</td>
-			</tr>
-			<tr>
-				<th>Diagnosis:</th>
-				<td colspan="3">{{ record.diagnosis }}</td>
+				<td>{{ record.diagnosisCategory.diagnosisName }}</td>
 			</tr>
 			<tr>
 				<th>Payment:</th>
@@ -29,5 +24,11 @@
 			</tr>
 		</tbody>
 	</table>
+	<dl>
+				<dt>Checkup Reason:</dt>
+				<dd colspan="3">{{ record.checkupReason }}</dd>
+				<dt>Diagnosis:</dt>
+				<dd colspan="3">{{ record.diagnosis }}</dd>
+	</dl>
 </div>
 {% endblock %}

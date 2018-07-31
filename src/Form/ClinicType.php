@@ -3,10 +3,13 @@
 namespace App\Form;
 
 use App\Entity\Clinic;
+use App\Form\DoctorType;
 use App\Form\DataTransformer\DateToStringTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -32,6 +35,12 @@ class ClinicType extends AbstractType
             ->add('schedEnd', TextType::class, [
                 'label' => 'Closing Time',
                 'attr' => ['class' => 'timepicker']
+            ])
+            ->add('doctors', CollectionType::class, [
+                'label' => 'Doctors to add',
+                'entry_type' => DoctorType::class,
+                'entry_options' =>[ 'label' => false ],
+                'allow_add' => true,
             ]);
 
         $builder

@@ -2,13 +2,12 @@
 {% block title %}Patient Records History{% endblock %}
 {% block body %}
 <div class="grid-container">
-	<h1>Patient Records History</h1>
+	<h1 class="text-center">Patient Records History</h1>
 	<table class="unstriped">
 		<thead>
 			<tr>
 				<th>Checkup Date</th>
 				<th>Doctor in Charge</th>
-				<th>Reason for Checkup</th>
 				<th>Diagnosis Category</th>
 			</tr>
 		</thead>
@@ -16,8 +15,7 @@
 		{% for record in records %}
 			<tr>
 				<td><a href="{{ path('view_record', {recordId : record.id}) }}">{{ record.checkupDate|date('m/d/Y') }}</a></td>
-				<td>{{ record.doctor.userInfo.fname }} {{ record.doctor.userInfo.mname }} {{ record.doctor.userInfo.lname }} {{ record.doctor.userInfo.suffix }}</td>
-				<td>{{ record.checkupReason }}</td>
+				<td>{{ record.doctor.fname }} {{ record.doctor.mname }} {{ record.doctor.lname }} {{ record.doctor.suffix }}</td>
 				<td>{{ record.diagnosisCategory.diagnosisName }}</td>
 			</tr>
 		{% endfor %}

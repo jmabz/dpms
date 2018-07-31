@@ -124,9 +124,9 @@ class PatientRecord
         return $this;
     }
 
-    public function getPatient(): ?User
+    public function getPatient(): ?UserInfo
     {
-        return $this->patient;
+        return $this->patient->getUserInfo();
     }
 
     public function setPatient(?User $patient): self
@@ -136,9 +136,9 @@ class PatientRecord
         return $this;
     }
 
-    public function getDoctor(): ?User
+    public function getDoctor(): ?UserInfo
     {
-        return $this->doctor;
+        return $this->doctor->getUserInfo();
     }
 
     public function setDoctor(?User $doctor): self

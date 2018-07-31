@@ -22,7 +22,7 @@
 				</tr>
 				<tr>
 					<th>Birthdate:</th>
-					<td>{{ userinfo.birthdate|date('m/d/Y') }}</td>
+					<td>{{ userinfo.birthdate|date('M d, Y') }}</td>
 				</tr>
 			</tbody>
 		</table>
@@ -37,15 +37,18 @@
 				</tr>
 				<tr>
 					<th>Date Accredited:</th>
-					<td>{{ accreditationinfo.accreditationdate|date('m/d/Y') }}</td>
+					<td>{{ accreditationinfo.accreditationdate|date('M d, Y') }}</td>
 				</tr>
 				<tr>
 					<th>Expiry Date:</th>
-					<td>{{ accreditationinfo.accreditationexpdate|date('m/d/Y') }}</td>
+					<td>{{ accreditationinfo.accreditationexpdate|date('M d, Y') }}</td>
 				</tr>
 			</tbody>
 		</table>
 	{% endif %}
-		<a href="#" class="button primary">Edit Profile</a>
+		<a href="{{ path('edit_profile') }}" class="button primary">Edit Profile</a>
+	{% if accreditationinfo %}
+		<a href="{{ path('edit_accred') }}" class="button primary">Edit Accreditation Info</a>
+	{% endif %}
 	</div>
 {% endblock %}

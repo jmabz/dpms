@@ -74,7 +74,7 @@ class User implements AdvancedUserInterface
 
     public function setUsername(string $username): self
     {
-        $this->username = $username;
+        $this->username = $username ?? $this->username;
 
         return $this;
     }
@@ -91,7 +91,7 @@ class User implements AdvancedUserInterface
 
     public function setPassword(string $password): self
     {
-        $this->password = $password;
+        $this->password = $password ?? $this->password;
 
         return $this;
     }

@@ -7,7 +7,7 @@ use App\Entity\Doctor;
 use App\Entity\Patient;
 use App\Entity\Clinic;
 use App\Form\DiagnosisCategoryType;
-use App\Form\DoctorType;
+use App\Form\DoctorAccountType;
 use App\Form\PatientType;
 use App\Form\ClinicType;
 use Symfony\Component\HttpFoundation\Request;
@@ -88,7 +88,7 @@ class AdminController extends Controller
     public function addDoctor(Request $request)
     {
         $doctor = new Doctor();
-        $form = $this->createForm(DoctorType::class, $doctor);
+        $form = $this->createForm(DoctorAccountType::class, $doctor);
         
         $form->handleRequest($request);
 

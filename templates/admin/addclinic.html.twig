@@ -5,8 +5,12 @@
 		<h1>Add Clinic</h1>
 		{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
 			{{ form_widget(form) }}
+			{{ form_row(form.doctors) }}
+			{{ form_widget(form.doctors.vars.prototype)|e }}
+			<ul class="doctors"></ul>
 			<input type="submit" class="button success" value="Add Clinic">
 			<a href="{{ path('clinic_list') }}" class="button">Cancel</a>
 		{{ form_end(form) }}
 	</div>
+
 {% endblock %}

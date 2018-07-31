@@ -2,21 +2,17 @@
 {% block title %}Edit Profile{% endblock %}
 {% block body %}
 	<div class="grid-container">
-		<h1>Edit Profile</h1>
+		<h1 class="text-center">Edit Profile</h1>
 
-		{# {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }} #}
+		{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
 			<div class="grid-x">
 				<div class="cell">
-					{{ form_row(form.userinfo) }}
+					{{ form_row(form) }}
 				</div>
-				{% if accreditationinfo %}
-					<div class="cell">
-						{{ form_row(form.accreditationinfo) }}
-					</div>
-				{% endif %}
 			</div>
 			<input type="submit" class="button success" value="Save Changes">
-			<a href="{{ path('profile', {userId : 1}) }}" class="button">Cancel</a>
-		{# {{ form_end(form) }} #}
+			<a href="{{ path('profile', {userId : 2}) }}" class="button">Cancel</a>
+			
+		{{ form_end(form) }}
 	</div>
 {% endblock %}

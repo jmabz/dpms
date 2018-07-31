@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+{% block title %}Edit Accreditation Info{% endblock %}
+{% block body %}
+<div class="grid-container">
+	<h1 class="text-center">Edit Accreditation Info</h1>
+	{{ form_start(form, {'attr': {'novalidate': 'novalidate'}})) }}
+		{{ form_widget(form) }}
+		<input type="submit" class="button success" value="Save Changes">
+		<a href="{{ path('profile', {'userId' : 1}) }}" class="button">Cancel</a>
+	{{ form_end(form) }}
+</div>
+{% endblock %}

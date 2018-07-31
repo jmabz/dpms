@@ -46,11 +46,14 @@ class PatientController extends Controller
             ->getRepository(PatientRecord::class)
             ->find($recordId);
 
-        $doctor = $record->getDoctor()->getUserInfo();
+        $doctor = $record->getDoctor();
+
+        $patient = $record->getPatient();
 
         return $this->render('patient/patientrecord.html.twig', [
             'record' => $record,
             'doctor' => $doctor,
+            'patient' => $patient,
         ]);
     }
 }

@@ -109,14 +109,14 @@ class Clinic
     }
 
     /**
-     * @return Collection|User[]
+     * @return Collection|Doctor[]
      */
     public function getDoctors(): Collection
     {
         return $this->doctors;
     }
 
-    public function addDoctor(User $doctor): self
+    public function addDoctor(Doctor $doctor): self
     {
         if (!$this->doctors->contains($doctor)) {
             $this->doctors[] = $doctor;
@@ -125,7 +125,7 @@ class Clinic
         return $this;
     }
 
-    public function removeDoctor(User $doctor): self
+    public function removeDoctor(Doctor $doctor): self
     {
         if ($this->doctors->contains($doctor)) {
             $this->doctors->removeElement($doctor);

@@ -3,9 +3,9 @@
 {% block body %}
 	<div class="grid-container">
 		<h1>{{ clinic.clinicName }}</h1>
-		<p>Schedule: {{ clinic.schedStart|date('H:i:s') }} - {{ clinic.schedEnd|date('H:i:s') }}</p>
+		<p>Schedule: {{ clinic.schedStart|date('h:i A') }} - {{ clinic.schedEnd|date('h:i A') }}</p>
 		<p>Email address: {{ clinic.email }}</p>
-
+		<a href="#" class="button primary">Add Doctors...</a>
 		{% if doctors.count != 0 %}
 			<h2>List of doctors</h2>
 			<table class="unstriped">

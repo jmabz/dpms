@@ -3,14 +3,14 @@
 {% block title %}Doctor-Patient Management System - Login{% endblock %}
 {% block body %}
 	<div class="grid-container">
-		<h1>Login</h1>
-		<form action="" method="POST">
+		<h1 class="text-center">Login</h1>
+		<form action="" method="POST" class="log-in-form">
 			<label for="u">Username:</label>
 			<input type="text" id="username" name="_username">
 			<label for="password">Password:</label>
 			<input type="password" id="password" name="_password">	
 			<input type="hidden" name="_csrf_token">
-			<button type="submit" class="button success">Login</button>	
+			<button type="submit" class="button success expanded">Login</button>	
 		</form>
 	</div>
 {% endblock %}
