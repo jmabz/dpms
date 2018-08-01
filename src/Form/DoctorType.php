@@ -16,7 +16,7 @@ class DoctorType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('doctor', EntityType::class, [
+            ->add('id', EntityType::class, [
                 'label' => 'Doctor\'s Name:',
                 'class' => Doctor::class,
                 'choice_label' => function ($doctor) {

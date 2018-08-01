@@ -41,44 +41,95 @@ class AdminController extends Controller
     }
 
     /**
-     * @Route("/admin/patients", name="patient_list")
+     * @Route("/admin/patients/{page}", name="patient_list")
      */
-    public function listPatients()
+    public function listPatients($page = 1)
     {
         $patients = $this->getDoctrine()
             ->getRepository(Patient::class)
-            ->findAll();
+            ->findAllPatientsPaged($page);
+
+        // $totalItemsReturned = $patients->getIterator()->count();
+
+        $totalItems = $patients->count();
+
+        // $iterator = $patients->getIterator();
+
+        $limit = 10;
+        $maxPages = ceil($totalItems / $limit);
+
+        $thisPage = $page;
+
+        if ($thisPage > $maxPages) {
+            $thisPage = $maxPages;
+        }
 
         return $this->render('admin/patientlist.html.twig', [
-            'patients' => $patients
+            'patients' => $patients,
+            'maxPages' => $maxPages,
+            'thisPage' => $thisPage,
         ]);
     }
 
     /**
-     * @Route("/admin/doctors", name="doctor_list")
+     * @Route("/admin/doctors/{page}", name="doctor_list")
      */
-    public function listDoctors()
+    public function listDoctors($page = 1)
     {
         $doctors = $this->getDoctrine()
             ->getRepository(Doctor::class)
-            ->findAll();
+            ->findAllDoctorsPaged($page);
+
+        // $totalItemsReturned = $doctors->getIterator()->count();
+
+        $totalItems = $doctors->count();
+
+        // $iterator = $doctors->getIterator();
+
+        $limit = 10;
+        $maxPages = ceil($totalItems / $limit);
+
+        $thisPage = $page;
+
+        if ($thisPage > $maxPages) {
+            $thisPage = $maxPages;
+        }
 
         return $this->render('admin/doctorlist.html.twig', [
                 'doctors' => $doctors,
+                'maxPages' => $maxPages,
+                'thisPage' => $thisPage,
         ]);
     }
 
     /**
-     * @Route("/admin/diagnosiscategories", name="diagnosis_categories")
+     * @Route("/admin/diagnosiscategories/{page}", name="diagnosis_categories")
      */
-    public function listDiagnosisCategories()
+    public function listDiagnosisCategories($page = 1)
     {
         $diagnosisCategories = $this->getDoctrine()
             ->getRepository(DiagnosisCategory::class)
-            ->findAll();
+            ->findAllDiagCategoriesPaged($page);
+
+        // $totalItemsReturned = $diagnosisCategories->getIterator()->count();
+
+        $totalItems = $diagnosisCategories->count();
+
+        // $iterator = $diagnosisCategories->getIterator();
+
+        $limit = 10;
+        $maxPages = ceil($totalItems / $limit);
+
+        $thisPage = $page;
+
+        if ($thisPage > $maxPages) {
+            $thisPage = $maxPages;
+        }
 
         return $this->render('admin/diagnosiscategories.html.twig', [
                 'diagnosiscategories' => $diagnosisCategories,
+                'maxPages' => $maxPages,
+                'thisPage' => $thisPage,
         ]);
     }
 

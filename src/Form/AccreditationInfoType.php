@@ -22,9 +22,15 @@ class AccreditationInfoType extends AbstractType
                 ])
             ->add('accreditationDate', TextType::class, [
                     'label' => 'Accreditation Date',
+                    'attr' => [
+                        'class' => 'datepicker'
+                    ],
                 ])
             ->add('accreditationExpDate', TextType::class, [
-                    'label' => 'Accreditation Expiry Date'
+                    'label' => 'Accreditation Expiry Date',
+                    'attr' => [
+                        'class' => 'datepicker'
+                    ],
                 ]);
 
         $builder

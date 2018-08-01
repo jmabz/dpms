@@ -20,25 +20,38 @@ class PatientController extends Controller
     }
 
     /**
-     * @Route("patient/records", name="record_history")
+     * @Route("patient/records/{page}", name="record_history")
      */
-    public function listRecordHistory()
+    public function listRecordHistory($page = 1)
     {
         // TODO: query active patient's ID
         $patientId = 2;
-        $patient = $this->getDoctrine()
-            ->getRepository(Patient::class)
-            ->find($patientId);
+        $records = $this->getDoctrine()
+            ->getRepository(PatientRecord::class)
+            ->findAllPatientRecordsPaged($patientId, $page);
 
-        $records = $patient->getPatientRecords();
+        $totalItems = $records->count();
+
+        // $iterator = $records->getIterator();
+
+        $limit = 10;
+        $maxPages = ceil($totalItems / $limit);
+
+        $thisPage = $page;
+
+        if ($thisPage > $maxPages) {
+            $thisPage = $maxPages;
+        }
 
         return $this->render('patient/recordhistory.html.twig', [
             'records' => $records,
+            'maxPages' => $maxPages,
+            'thisPage' => $thisPage,
         ]);
     }
 
     /**
-     * @Route("patient/records/{recordId}", name="view_record")
+     * @Route("patient/record/{recordId}", name="view_record")
      */
     public function viewPatientRecord($recordId)
     {

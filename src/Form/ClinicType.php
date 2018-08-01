@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Clinic;
+use App\Entity\Doctor;
 use App\Form\DoctorType;
 use App\Form\DataTransformer\DateToStringTransformer;
 use Symfony\Component\Form\AbstractType;
@@ -36,12 +37,18 @@ class ClinicType extends AbstractType
                 'label' => 'Closing Time',
                 'attr' => ['class' => 'timepicker']
             ])
-            ->add('doctors', CollectionType::class, [
-                'label' => 'Doctors to add',
-                'entry_type' => DoctorType::class,
-                'entry_options' =>[ 'label' => false ],
-                'allow_add' => true,
-            ]);
+            ->add('doctor', EntityType::class, [
+                'label' => 'Doctor\'s Name:',
+                'class' => Doctor::class,
+                'choice_label' => function ($doctor) {
+                    return $doctor->getUserInfo()->getFname() . ' ' . $doctor->getUserInfo()->getMname() . ' ' . $doctor->getUserInfo()->getLname();
+                },
+                'choice_value' => function (Doctor $doctor = null) {
+                    return $doctor ? $doctor->getId() : '';
+                },
+                'attr' => ['class' => 'chosen-select']
+            ])
+            ;
 
         $builder
             ->get('schedStart')

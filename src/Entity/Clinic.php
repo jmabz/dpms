@@ -46,13 +46,13 @@ class Clinic
     private $schedEnd;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Doctor", inversedBy="clinics")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Doctor", inversedBy="clinics")
      */
-    private $doctors;
+    private $doctor;
 
     public function __construct()
     {
-        $this->doctors = new ArrayCollection();
+        //$this->doctors = new ArrayCollection();
     }
 
     public function getId()
@@ -111,26 +111,32 @@ class Clinic
     /**
      * @return Collection|Doctor[]
      */
-    public function getDoctors(): Collection
+    public function getDoctor(): ?Doctor
     {
-        return $this->doctors;
+        return $this->doctor;
     }
 
-    public function addDoctor(Doctor $doctor): self
+    public function setDoctor(?Doctor $doctor): self
     {
-        if (!$this->doctors->contains($doctor)) {
-            $this->doctors[] = $doctor;
-        }
+        $this->doctor = $doctor;
 
         return $this;
     }
+    // public function addDoctor(Doctor $doctor): self
+    // {
+    //     if (!$this->doctors->contains($doctor)) {
+    //         $this->doctors[] = $doctor;
+    //     }
 
-    public function removeDoctor(Doctor $doctor): self
-    {
-        if ($this->doctors->contains($doctor)) {
-            $this->doctors->removeElement($doctor);
-        }
+    //     return $this;
+    // }
 
-        return $this;
-    }
+    // public function removeDoctor(Doctor $doctor): self
+    // {
+    //     if ($this->doctors->contains($doctor)) {
+    //         $this->doctors->removeElement($doctor);
+    //     }
+
+    //     return $this;
+    // }
 }

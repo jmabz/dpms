@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\DoctorRepository")
  */
 class Doctor extends User
 {
@@ -29,7 +29,7 @@ class Doctor extends User
     private $accreditationInfo;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Clinic", mappedBy="doctors")
+     * @ORM\OneToMany(targetEntity="App\Entity\Clinic", mappedBy="doctor")
      */
     private $clinics;
     

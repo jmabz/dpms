@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\PatientRecord;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -47,4 +48,30 @@ class PatientRecordRepository extends ServiceEntityRepository
         ;
     }
     */
+   
+    public function findAllPatientRecordsPaged($patientId, $curPage = 1)
+    {
+        $query = $this->createQueryBuilder('p')
+            ->andWhere('pt.id = :id')
+            ->join('p.patient', 'pt')
+            ->setParameter('id', $patientId)
+            ->getQuery();
+
+        // No need to manually get get the result ($query->getResult())
+
+        $paginator = $this->paginate($query, $curPage);
+
+        return $paginator;
+    }
+
+    public function paginate($dql, $page = 1, $limit = 10)
+    {
+        $paginator = new Paginator($dql);
+
+        $paginator->getQuery()
+        ->setFirstResult($limit * ($page - 1)) // Offset
+        ->setMaxResults($limit); // Limit
+
+    return $paginator;
+    }
 }
