@@ -2,9 +2,14 @@
 {% block title %}Edit Profile{% endblock %}
 {% block body %}
 	<div class="grid-container">
-		<h1 class="text-center">Edit Profile</h1>
-
-		{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+<hr>
+	<div class="panel-heading">
+		<ul class="menu">
+			<h4> Edit Profile </h4>
+		</ul>
+		</div>
+		<div class="callout">
+			{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
 			<div class="grid-x">
 				<div class="cell">
 					{{ form_row(form) }}
@@ -14,5 +19,6 @@
 			<a href="{{ path('profile', {userId : 2}) }}" class="button">Cancel</a>
 			
 		{{ form_end(form) }}
-	</div>
+		</div>
 {% endblock %}
+

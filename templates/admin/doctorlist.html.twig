@@ -3,20 +3,19 @@
 {% block body %}
 	<div class="grid-container">
 		<hr>
-			<div class="panel-heading">
-				<div class="sub_nav">
-		<ul>
+	<div class="panel-heading">
+		<ul class="menu">
+			<h4> Doctors </h4>
 			<li><a href="{{ path('admin') }}">Home</a></li>
 			<li><a href="{{ path('clinic_list') }}">Clinics</a></li>
 			<li><a href="{{ path('diagnosis_categories') }}">Diagnosis Categories</a></li>
-			<li class="active"><a href="{{ path('doctor_list') }}">Manage Doctors</a></li>
-			<li><a href="{{ path('patient_list') }}">Patients</a></li>
+			<li><a href="{{ path('doctor_list') }}">Manage Doctors</a></li>
+			<li><a href="{{ path('patient_list') }}">Manage Patients</a></li>
 		</ul>
 		</div>
-		</div>
 		<div class="callout">
-			<h3>Doctor List<a href="{{ path('add_doctor') }}" class="button success float-right">Add New Doctor...</a></h3>
-			<table class="table">
+			<a href="{{ path('add_doctor') }}" class="button small success">Add New Doctor</a>
+			<table class="table" width="100%">
 			<thead>
 				<tr>
 					<th>Name</th>
@@ -30,8 +29,8 @@
 					<td><a href="{{ path('profile', {userId : doctor.id}) }}">{{ doctor.userInfo.fname }}</a></td>
 					<td>{{ doctor.accreditationinfo.accreditationcode }}</td>
 					<td>
-						<a href="#" class="button primary">Edit</a>
-						<a href="#" class="button alert">Delete</a>
+						<a href="#">EDIT</a>|
+						<a href="#">DELETE</a>
 					</td>
 				</tr>
 			{% endfor %}

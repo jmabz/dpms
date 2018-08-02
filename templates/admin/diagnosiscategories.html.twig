@@ -1,23 +1,22 @@
 {% extends 'base.html.twig' %}
+
 {% block title %}Diagnosis Categories{% endblock %}
 {% block body %}
 		<div class="grid-container">
 		<hr>
 			<div class="panel-heading">
-				<div class="sub_nav">
-		<ul>
+		<ul class="menu">
+			<h4> Diagnosis Categories </h4>
 			<li><a href="{{ path('admin') }}">Home</a></li>
 			<li><a href="{{ path('clinic_list') }}">Clinics</a></li>
 			<li><a href="{{ path('diagnosis_categories') }}">Diagnosis Categories</a></li>
 			<li><a href="{{ path('doctor_list') }}">Manage Doctors</a></li>
-			<li><a href="{{ path('patient_list') }}">Patients</a></li>
+			<li><a href="{{ path('patient_list') }}">Manage Patients</a></li>
 		</ul>
 		</div>
-		</div>
 		<div class="callout">
-				<h3>Diagnosis Categories<a href="{{ path('add_diagnosis_category') }}" class="button success float-right">Add New Category...</a></h3>
-
-				<table class="table">
+			<a href="{{ path('add_diagnosis_category') }}" class="button small success">Add New Category</a>
+	<table class="table">
 			<thead>
 				<tr>
 					<th scope="col">Name</th>
@@ -29,8 +28,8 @@
 			<tr>
 				<td>{{ diagnosiscategory.diagnosisName }}</td>
 				<td>
-					<a href="#" class="button primary">Edit</a>
-					<a href="#" class="button alert">Delete</a>
+					<a href="#">EDIT</a> |
+					<a href="#">DELETE</a>
 				</td>
 			</tr>
 			{% endfor %}

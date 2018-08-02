@@ -4,18 +4,17 @@
 <div class="grid-container">
 		<hr>
 			<div class="panel-heading">
-				<div class="sub_nav">
-		<ul>
+		<ul class="menu">
+			<h4>Patients</h4>
 			<li><a href="{{ path('admin') }}">Home</a></li>
 			<li><a href="{{ path('clinic_list') }}">Clinics</a></li>
 			<li><a href="{{ path('diagnosis_categories') }}">Diagnosis Categories</a></li>
 			<li><a href="{{ path('doctor_list') }}">Manage Doctors</a></li>
-			<li><a href="{{ path('patient_list') }}">Patients</a></li>
+			<li><a href="{{ path('patient_list') }}">Manage Patients</a></li>
 		</ul>
 		</div>
-		</div>
 		<div class="callout">
-			<h3>List of Patients <a href="{{ path('add_patient') }}" class="button success float-right">Add New Patient...</a></h3>
+		<a href="{{ path('add_patient') }}" class="button small success">Add New Patient</a>
 		<table class="table">
 			<thead>
 				<tr>
@@ -32,8 +31,8 @@
 						</a>
 					</td>
 					<td>
-						<a href="#" class="button primary">Edit</a>
-						<a href="#" class="button alert">Delete</a>
+						<a href="#">EDIT</a> |
+						<a href="#">DELETE</a>
 					</td>
 				</tr>
 			{% endfor %}
