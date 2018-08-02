@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+{% block title %}Add Doctors to Clinic{% endblock %}
+{% block body %}
+	<div class="grid-container">
+		<h1>{{ clinic.clinicName }}</h1>
+		<h2>Doctors to add</h2>
+		{{ form_start(form) }}
+		{{ form_row(form.doctors) }}
+		<input type="submit" class="button success" value="Add Doctors">
+			<a href="{{ path('view_clinic', {'clinicId' : clinic.id}) }}" class="button">Cancel</a>
+		{{ form_end(form, {'render_rest': false}) }}
+	</div>
+{% endblock %}

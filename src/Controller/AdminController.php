@@ -226,7 +226,8 @@ class AdminController extends Controller
         $clinic = new Clinic();
         $form = $this->createForm(
             ClinicType::class,
-            $clinic
+            $clinic,
+            ['clinicId' => 0]
         );
 
         $form->handleRequest($request);
@@ -243,6 +244,38 @@ class AdminController extends Controller
 
         return $this->render('/admin/addclinic.html.twig', [
             'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/admin/clinic/{id}/adddoctors", name="add_doctors_to_clinic")
+     */
+    public function addDoctorsToClinic(Request $request, $id)
+    {
+        $clinic = $this->getDoctrine()
+            ->getRepository(Clinic::class)
+            ->find($id);
+        $form = $this->createForm(
+            ClinicType::class,
+            $clinic,
+            ['clinicId' => $id]
+        );
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // $clinic = $form->getData();
+
+            // $entityManager = $this->getDoctrine()->getManager();
+            // $entityManager->persist($clinic);
+            // $entityManager->flush();
+
+            return $this->redirectToRoute('clinic_list');
+        }
+
+        return $this->render('/admin/adddoctorstoclinic.html.twig', [
+            'form' => $form->createView(),
+            'clinic' => $clinic,
         ]);
     }
 }

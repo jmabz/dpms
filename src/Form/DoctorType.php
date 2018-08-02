@@ -25,7 +25,7 @@ class DoctorType extends AbstractType
                 'choice_value' => function (Doctor $doctor = null) {
                     return $doctor ? $doctor->getId() : '';
                 },
-                'attr' => ['class' => 'chosen-select']
+                // 'attr' => ['class' => 'chosen-select']
             ]);
     }
 

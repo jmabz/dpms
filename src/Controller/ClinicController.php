@@ -27,11 +27,11 @@ class ClinicController extends Controller
             ->getRepository(Clinic::class)
             ->find($clinicId);
 
-        $doctor = $clinic->getDoctor();
+        $doctors = $clinic->getDoctors();
 
         return $this->render('clinic/clinicinfo.html.twig', [
             'clinic' => $clinic,
-            'doctor' => $doctor,
+            'doctors' => $doctors,
         ]);
     }
 }

@@ -15,8 +15,17 @@ class DoctorRepository extends ServiceEntityRepository
         parent::__construct($registry, Doctor::class);
     }
 
-   public function findAllDoctorsPaged($curPage = 1)
+   public function findDoctorsNotInClinic($clinicId)
    {
+        return $this->createQueryBuilder('d')
+            ->andWhere('not (c.id = :id)')
+            ->join('d.clinics', 'c')
+            ->setParameter('id', $clinicId)
+            ;
+   }
+
+   public function findAllDoctorsPaged($curPage = 1)
+    {
         $query = $this->createQueryBuilder('d')
             ->getQuery();
 
