@@ -21,8 +21,8 @@
         {% block body %}{% endblock %}
         {% block javascripts %}
 
-			<script src="{{ asset('js/vendor/foundation.min.js') }}"></script>
 			<script src="{{ asset('js/vendor/jquery.js') }}"></script>
+            <script src="{{ asset('js/vendor/foundation.min.js') }}"></script>
 			<script src="{{ asset('js/vendor/what-input.js') }}"></script>
             <script src="{{ asset('js/vendor/chosen.jquery.min.js') }}"></script>
             <script src="{{ asset('js/vendor/chosen.proto.min.js') }}"></script>
@@ -52,8 +52,9 @@
                 $(".chosen-select").chosen();
             </script>
             <script>$(document).ready( function () {
-    $('.table').DataTable();
-} );</script>
+                    $('.table').DataTable();
+                } );
+            </script>
         {% endblock %}
     </body>
 </html>
