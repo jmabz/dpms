@@ -3,7 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\AccreditationInfoRepository")
  */
@@ -18,16 +18,19 @@ class AccreditationInfo
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $accreditationCode;
 
     /**
      * @ORM\Column(type="date")
+     * @Assert\NotBlank()
      */
     private $accreditationDate;
 
     /**
      * @ORM\Column(type="date")
+     * @Assert\NotBlank()
      */
     private $accreditationExpDate;
 
