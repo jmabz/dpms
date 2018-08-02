@@ -1,16 +1,22 @@
 {% extends 'base.html.twig' %}
 {% block title %}List of Patients{% endblock %}
 {% block body %}
-	<div class="grid-container">
-		<div class="grid-x">
-			<div class="cell medium-9">
-				<h1>List of Patients</h1>
-			</div>
-			<div class="cell medium-3">
-				<a href="{{ path('add_patient') }}" class="button success">Add New Patient...</a>
-			</div>
+<div class="grid-container">
+		<hr>
+			<div class="panel-heading">
+				<div class="sub_nav">
+		<ul>
+			<li><a href="{{ path('admin') }}">Home</a></li>
+			<li><a href="{{ path('clinic_list') }}">Clinics</a></li>
+			<li><a href="{{ path('diagnosis_categories') }}">Diagnosis Categories</a></li>
+			<li><a href="{{ path('doctor_list') }}">Manage Doctors</a></li>
+			<li><a href="{{ path('patient_list') }}">Patients</a></li>
+		</ul>
 		</div>
-		<table class="unstriped">
+		</div>
+		<div class="callout">
+			<h3>List of Patients <a href="{{ path('add_patient') }}" class="button success float-right">Add New Patient...</a></h3>
+		<table class="table">
 			<thead>
 				<tr>
 					<th>Name</th>
@@ -33,21 +39,7 @@
 			{% endfor %}
 			</tbody>
 		</table>
-		<nav aria-label="Pagination">
-			<ul class="pagination text-center">
-				<li class="pagination-previous {{ thisPage == 1 ? 'disabled' }}">Previous</li>
-				{% for i in 1 .. maxPages %}
-				<li class="{{ thisPage == i ? 'current' }}">
-					{% if thisPage == i %}
-					{{ i }}
-					{% else %}
-					<a href="{{ path('diagnosis_categories', {'page' : i}) }}">{{ i }}
-					</a>
-					{% endif %}
-				</li>
-				{% endfor %}
-				<li class="pagination-next {{ thisPage == maxPages ? 'disabled'}}">Next</li>
-			</ul>
-		</nav>
+		</div>
 	</div>
 {% endblock %}
+	

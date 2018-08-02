@@ -1,31 +1,31 @@
 {% extends 'base.html.twig' %}
 {% block title %}Add Clinic{% endblock %}
 {% block body %}
-	<div class="grid-container">
-		<h1>Add Clinic</h1>
+<div class="grid-container">
+		<hr>
+			<div class="panel-heading">
+				<div class="sub_nav">
+		<ul>
+			<li><a href="{{ path('admin') }}">Home</a></li>
+			<li><a href="{{ path('clinic_list') }}">Clinics</a></li>
+			<li><a href="{{ path('diagnosis_categories') }}">Diagnosis Categories</a></li>
+			<li><a href="{{ path('doctor_list') }}">Manage Doctors</a></li>
+			<li><a href="{{ path('patient_list') }}">Patients</a></li>
+		</ul>
+		</div>
+		</div>
+		<div class="callout">
+			<h3>Add Clinic</h3>
 		{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
 			{{ form_widget(form) }}
-
-			{# {{ form_widget(form.doctors, {'attr' : 
-			{'data-prototype' : '{{ form_widget(form.doctors.vars.prototype)|e(\'html_attr\') }}', 
-			'data-index':'{{ form.doctors|length }}',
-
-			}}) }} #}
-			{# <div class="js-clinic-doctor-wrapper" data-prototype="{{ form_widget(form.doctors.vars.prototype)|e('html_attr') }}" data-index="{{ form.doctors|length }}">
-				{% for doctor in form.doctors %}
-					<div class="js-clinic-doctor-item">
-						<a href="#" class=" js-remove-doctor pull-right">Remove</a>
-						{{ form_row(doctor.id) }}
-					</div>
-				{% endfor %}
-				<a href="#" class="js-clinic-doctor-add">Add Doctor</a>
-			
-			</div> #}
-
-			<input type="submit" class="button success" value="Add Clinic">
+			<br>
+				<input type="submit" class="button success" value="Add Clinic">
 			<a href="{{ path('clinic_list') }}" class="button">Cancel</a>
 		{{ form_end(form) }}
 	</div>
+		</div>
+	</div>
+			
 
 {% endblock %}
 {% block javascripts %}

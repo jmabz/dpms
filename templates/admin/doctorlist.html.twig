@@ -2,16 +2,21 @@
 {% block title %}List of Doctors{% endblock %}
 {% block body %}
 	<div class="grid-container">
-		<div class="grid-x">
-			<div class="cell medium-9">
-				<h1>List of Doctors</h1>
-			</div>
-			<div class="cell medium-3">
-				<a href="{{ path('add_doctor') }}" class="button success">Add New Doctor...</a>
-			</div>
+		<hr>
+			<div class="panel-heading">
+				<div class="sub_nav">
+		<ul>
+			<li><a href="{{ path('admin') }}">Home</a></li>
+			<li><a href="{{ path('clinic_list') }}">Clinics</a></li>
+			<li><a href="{{ path('diagnosis_categories') }}">Diagnosis Categories</a></li>
+			<li class="active"><a href="{{ path('doctor_list') }}">Manage Doctors</a></li>
+			<li><a href="{{ path('patient_list') }}">Patients</a></li>
+		</ul>
 		</div>
-
-		<table class="table">
+		</div>
+		<div class="callout">
+			<h3>Doctor List<a href="{{ path('add_doctor') }}" class="button success float-right">Add New Doctor...</a></h3>
+			<table class="table">
 			<thead>
 				<tr>
 					<th>Name</th>
@@ -32,5 +37,6 @@
 			{% endfor %}
 			</tbody>
 		</table>
+		</div>
 	</div>
 {% endblock %}

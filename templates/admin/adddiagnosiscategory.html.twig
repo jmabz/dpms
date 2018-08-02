@@ -1,13 +1,26 @@
 {% extends 'base.html.twig' %}
 {% block title %}Add Diagnosis Category{% endblock %}
 {% block body %}
-	<div class="grid-container">
-		<h1>Add Diagnosis Category</h1>
-		
-		{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
-			{{ form_widget(form) }}
-			<input type="submit" class="button success" value="Add Diagnosis Category">
-			<a href="{{ path('diagnosis_categories') }}" class="button">Cancel</a>
-		{{ form_end(form) }}		
+<div class="grid-container">
+	<hr>
+		<div class="panel-heading">
+			<div class="sub_nav">
+	<ul>
+		<li><a href="{{ path('admin') }}">Home</a></li>
+		<li><a href="{{ path('clinic_list') }}">Clinics</a></li>
+		<li><a href="{{ path('diagnosis_categories') }}">Diagnosis Categories</a></li>
+		<li><a href="{{ path('doctor_list') }}">Manage Doctors</a></li>
+		<li><a href="{{ path('patient_list') }}">Patients</a></li>
+	</ul>
 	</div>
+	</div>
+	<div class="callout">
+		<h3>Add Diagnosis Category</h3>
+			{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+			{{ form_widget(form) }}
+			<input type="submit" class="button success float-right" value="Add Diagnosis Category">
+			<a href="{{ path('diagnosis_categories') }}" class="button">Cancel</a>
+		{{ form_end(form) }}	
+	</div>
+</div>
 {% endblock %}

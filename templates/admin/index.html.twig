@@ -3,17 +3,21 @@
 {% block title %}Admin Portal{% endblock %}
 
 {% block body %}
-	<div class="grid-container">
-		<h1>Admin Portal</h1>
-		<hr>
-		<div class="sub_nav">
-		<ul>
-			<li><a href="{{ path('clinic_list') }}">Clinics</a></li>
-			<li><a href="{{ path('diagnosis_categories') }}">Diagnosis Categories</a></li>
-			<li><a href="{{ path('doctor_list') }}">Doctors</a></li>
-			<li><a href="{{ path('patient_list') }}">Patients</a></li>
-		</ul>
+<div class="grid-container">
+	<hr>
+		<div class="panel-heading">
+			<div class="sub_nav">
+	<ul>
+		<li><a href="{{ path('admin') }}">Home</a></li>
+		<li><a href="{{ path('clinic_list') }}">Clinics</a></li>
+		<li><a href="{{ path('diagnosis_categories') }}">Diagnosis Categories</a></li>
+		<li><a href="{{ path('doctor_list') }}">Manage Doctors</a></li>
+		<li><a href="{{ path('patient_list') }}">Patients</a></li>
+	</ul>
+	</div>
+	</div>
+	<div class="callout">
+			Admin Home Page
 	</div>
 </div>
-
 {% endblock %}
