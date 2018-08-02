@@ -10,7 +10,8 @@
 				<a href="{{ path('add_doctor') }}" class="button success">Add New Doctor...</a>
 			</div>
 		</div>
-		<table class="unstriped">
+
+		<table class="table">
 			<thead>
 				<tr>
 					<th>Name</th>
@@ -31,21 +32,5 @@
 			{% endfor %}
 			</tbody>
 		</table>
-		<nav aria-label="Pagination">
-			<ul class="pagination text-center">
-				<li class="pagination-previous {{ thisPage == 1 ? 'disabled' }}">Previous</li>
-				{% for i in 1 .. maxPages %}
-				<li class="{{ thisPage == i ? 'current' }}">
-					{% if thisPage == i %}
-					{{ i }}
-					{% else %}
-					<a href="{{ path('diagnosis_categories', {'page' : i}) }}">{{ i }}
-					</a>
-					{% endif %}
-				</li>
-				{% endfor %}
-				<li class="pagination-next {{ thisPage == maxPages ? 'disabled'}}">Next</li>
-			</ul>
-		</nav>
 	</div>
 {% endblock %}
