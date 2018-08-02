@@ -6,6 +6,7 @@ use App\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\DoctorRepository")
@@ -15,6 +16,7 @@ class Doctor extends User
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\UserInfo", cascade={"persist", "remove"})
+     * @Assert\Valid()
      */
     protected $userInfo;
 
@@ -25,6 +27,7 @@ class Doctor extends User
     
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\AccreditationInfo", inversedBy="doctor", cascade={"persist", "remove"})
+     * @Assert\Valid()
      */
     private $accreditationInfo;
 
