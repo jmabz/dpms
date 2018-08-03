@@ -1,16 +1,30 @@
 {% extends 'base.html.twig' %}
 {% block title %}Clinic List{% endblock %}
 {% block body %}
-	<div class="grid-container">
-		<div class="grid-x">
-			<div class="cell medium-9">
-				<h1>Clinic List</h1>
-			</div>
-			<div class="cell medium-3">
-				<a  href="{{ path('add_clinic') }}" class="button success">Add New Clinic...</a>
-			</div>
+<div class="grid-container">
+<div class="panel-heading">
+	<div>
+	<h4 class="text-center">
+		Clinics
+		<a  href="{{ path('add_clinic') }}" class="button small float-right">Add New Clinic</a>
+	</h4>
 		</div>
-		<table>
+	<div class="callout">
+<nav aria-label="You are here:" role="navigation">
+  <ul class="breadcrumbs">
+    <li><a href="{{ path('admin') }}">Home</a></li>
+	<li><span class="show-for-sr">Current: </span>Clinics</li>
+	<li><a href="{{ path('diagnosis_categories') }}">Diagnosis Categories</a></li>
+	<li><a href="{{ path('doctor_list') }}">Manage Doctors</a></li>
+	<li><a href="{{ path('patient_list') }}">Manage Patients</a></li>
+  </ul>
+</nav>			
+		<table class="table unstriped">
+			<thead>
+				<tr>
+					<th>Name</th>
+				</tr>
+			</thead>
 			<tbody>
 				{% for clinic in clinics %}
 				<tr>
@@ -22,5 +36,6 @@
 				{% endfor %}
 			</tbody>
 		</table>
+		</div>
 	</div>
 {% endblock %}

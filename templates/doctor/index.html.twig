@@ -5,11 +5,22 @@
 {% block body %}
 
 <div class="grid-container">
-    <h1>Doctor's Portal</h1>
-	<ul>
-		<li>
-			<a href="{{ path('patient_list_doctors') }}">Patients</a>
-		</li>
-	</ul>
+    <div class="panel-heading">
+		<div>
+			<h4 class="text-center">
+				Doctor's Portal
+			</h4>
+		</div>
+
+<div class="callout">
+<nav aria-label="You are here:" role="navigation">
+  <ul class="breadcrumbs">
+    <li><span class="show-for-sr">Current: </span>Home</li>
+	<li><a href="{{ path('patient_list_doctors') }}">Patients</a></li>
+  </ul>
+</nav>
+		Doctor's Home Page
+</div>
+</div>
 </div>
 {% endblock %}

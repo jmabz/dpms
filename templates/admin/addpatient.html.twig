@@ -1,13 +1,22 @@
 {% extends 'base.html.twig' %}
 {% block title %}Add Patient{% endblock %}
 {% block body %}
-	<div class="grid-container">
-		<h1>Add Patient</h1>
-		
-		{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+<div class="grid-container">
+	<div class="panel-heading">
+		<div>
+			<h4 class="text-center">
+				Add New Patient
+			</h4>
+	</div>
+<div class="callout">
+
+			{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
 			{{ form_widget(form) }}
 			<input type="submit" class="button success" value="Add Patient">
-			<a href="{{ path('patient_list') }}"class="button">Cancel</a>
-		{{ form_end(form) }}
+			<a href="{{ path('patient_list') }}"class="button alert float-right">Cancel</a>
+		{{ form_end(form) }}	
+
 	</div>
+</div>
+</div>
 {% endblock %}

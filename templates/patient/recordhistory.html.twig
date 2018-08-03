@@ -2,8 +2,15 @@
 {% block title %}Patient Records History{% endblock %}
 {% block body %}
 <div class="grid-container">
-	<h1 class="text-center">Patient Records History</h1>
-	<table class="unstriped">
+<div class="panel-heading">
+		<div>
+			<h4 class="text-center">
+				Patient Records History
+			</h4>
+		</div>
+
+<div class="callout">
+	<table class="table unstriped">
 		<thead>
 			<tr>
 				<th>Checkup Date</th>
@@ -37,5 +44,7 @@
 			<li class="pagination-next {{ thisPage == maxPages ? 'disabled'}}">Next</li>
 		</ul>
 	</nav>
+</div>
+</div>
 </div>
 {% endblock %}

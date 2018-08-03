@@ -1,28 +1,36 @@
 {% extends 'base.html.twig' %}
 {% block title %}List of Doctors{% endblock %}
 {% block body %}
-	<div class="grid-container">
-		<div class="grid-x">
-			<div class="cell medium-9">
-				<h1>List of Doctors</h1>
-			</div>
-			<div class="cell medium-3">
-				<a href="{{ path('add_doctor') }}" class="button success">Add New Doctor...</a>
-			</div>
+<div class="grid-container">
+	<div class="panel-heading">
+		<div>
+			<h4 class="text-center">
+				Doctors
+				<a href="{{ path('add_doctor') }}" class="button radius small float-right">Add New Doctor</a>
+			</h4>
 		</div>
-
-		<table class="table">
+<div class="callout">
+<nav aria-label="You are here:" role="navigation">
+  <ul class="breadcrumbs">
+    <li><a href="{{ path('admin') }}">Home</a></li>
+	<li><a href="{{ path('clinic_list') }}">Clinics</a></li>
+	<li><a href="{{ path('diagnosis_categories') }}">Diagnosis Categories</a></li>
+	<li><span class="show-for-sr">Current: </span>Manage Doctors</li>
+	<li><a href="{{ path('patient_list') }}">Manage Patients</a></li>
+  </ul>
+</nav>			
+			<table class="table unstriped text-center">
 			<thead>
 				<tr>
-					<th>Name</th>
-					<th>Accreditation Code</th>
-					<th>Actions</th>
+					<th class="text-center">Name</th>
+					<th class="text-center">Accreditation Code</th>
+					<th class="text-center">Action</th>
 				</tr>
 			</thead>
 			<tbody>
 			{% for doctor in doctors %}
 				<tr>
-					<td><a href="{{ path('profile', {userId : doctor.id}) }}">{{ doctor.userInfo.fname }}</a></td>
+					<td><a href="{{ path('profile', {userId : doctor.id}) }}" title="Click here to view profile.">{{ doctor.userInfo.fname }}</a></td>
 					<td>{{ doctor.accreditationinfo.accreditationcode }}</td>
 					<td>
 						<a href="{{ path('delete_user', {userId : doctor.id}) }}" class="button alert" onclick="return confirm('Are you sure you want to delete this user?')">Delete</a>
@@ -31,5 +39,6 @@
 			{% endfor %}
 			</tbody>
 		</table>
+		</div>
 	</div>
 {% endblock %}

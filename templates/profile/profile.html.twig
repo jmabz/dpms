@@ -4,10 +4,15 @@
 {% block body %}
 	<div class="grid-container">
 		{% if userinfo %}
-			<h1>{{ userinfo.fname }} {{ userinfo.mname }} {{ userinfo.lname }} {{ userinfo.suffix }}</h1>
-			<p>{{ role }}</p>
-			<h2>Profile</h2>
-			<table class="unstriped">
+<div class="panel-heading">
+		<div>
+			<h4 class="text-center">{{ userinfo.fname }} {{ userinfo.mname }} {{ userinfo.lname }} {{ userinfo.suffix }} ({{ role }})
+			<a href="{{ path('doctor_list') }}" class="button alert small float-right">CANCEL</a>
+			</h4>
+		</div>
+<div class="callout">
+			<h5>User Profile <a href="{{ path('edit_profile', { 'id': userinfo.id }) }}" class="button primary small float-right">Edit Profile</a></h5>
+			<table class="unstriped text-center">
 				<tbody>
 					<tr>
 						<th>Gender:</th>
@@ -29,7 +34,9 @@
 			</table>
 		{% endif %}
 		{% if accreditationinfo %}
-			<h2>Accreditation Info</h2>
+			<h5>Accreditation Info {% if accreditationinfo %}
+					<a href="{{ path('edit_accred',  { 'id': userinfo.id }) }}" class="button primary small float-right">Edit Accreditation Info</a>
+		{% endif %}</h5>
 			<table class="unstriped">
 				<tbody>
 					<tr>
@@ -44,6 +51,8 @@
 						<th>Expiry Date:</th>
 						<td>{{ accreditationinfo.accreditationexpdate|date('M d, Y') }}</td>
 					</tr>
+					<tr>			
+					</tr>
 				</tbody>
 			</table>
 		{% endif %}
@@ -54,4 +63,5 @@
 			<a href="{{ path('edit_accred') }}" class="button primary">Edit Accreditation Info</a>
 		{% endif %}
 	</div>
+</div>
 {% endblock %}

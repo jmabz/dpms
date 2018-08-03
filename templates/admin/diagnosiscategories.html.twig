@@ -1,20 +1,29 @@
 {% extends 'base.html.twig' %}
+
 {% block title %}Diagnosis Categories{% endblock %}
 {% block body %}
-	<div class="grid-container">
-		<div class="grid-x">
-			<div class="cell medium-9">
-				<h1>Diagnosis Categories</h1>
-			</div>
-			<div class="cell medium-3">
-				<a href="{{ path('add_diagnosis_category') }}" class="button success">Add New Category...</a>
-			</div>
-		</div>
-		<table class="unstriped">
+<div class="grid-container">
+<div class="panel-heading">
+	<div>
+		<h4 class="text-center"> Diagnosis Categories 
+			<a href="{{ path('add_diagnosis_category') }}" class="button small float-right">Add New Category</a>
+		</h4>
+	</div>
+<div class="callout">
+<nav aria-label="You are here:" role="navigation">
+  <ul class="breadcrumbs">
+    <li><a href="{{ path('admin') }}">Home</a></li>
+	<li><a href="{{ path('clinic_list') }}">Clinics</a></li>
+	<li><span class="show-for-sr">Current: </span>Diagnosis Categories</li>
+	<li><a href="{{ path('doctor_list') }}">Manage Doctors</a></li>
+	<li><a href="{{ path('patient_list') }}">Manage Patients</a></li>
+  </ul>
+</nav>
+	<table class="table unstriped text-center">
 			<thead>
 				<tr>
-					<th scope="col">Name</th>
-					<th scope="col">Actions</th>
+					<th class="text-center" scope="col">Name</th>
+					<th class="text-center" scope="col">Action</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -22,28 +31,13 @@
 			<tr>
 				<td>{{ diagnosiscategory.diagnosisName }}</td>
 				<td>
-					<a href="#" class="button primary">Edit</a>
-					<a href="#" class="button alert">Delete</a>
+					<a href="#">EDIT</a>	
 				</td>
 			</tr>
 			{% endfor %}
 			</tbody>
 		</table>
-		<nav aria-label="Pagination">
-			<ul class="pagination text-center">
-				<li class="pagination-previous {{ thisPage == 1 ? 'disabled' }}">Previous</li>
-				{% for i in 1 .. maxPages %}
-				<li class="{{ thisPage == i ? 'current' }}">
-					{% if thisPage == i %}
-					{{ i }}
-					{% else %}
-					<a href="{{ path('diagnosis_categories', {'page' : i}) }}">{{ i }}
-					</a>
-					{% endif %}
-				</li>
-				{% endfor %}
-				<li class="pagination-next {{ thisPage == maxPages ? 'disabled'}}">Next</li>
-			</ul>
-		</nav>
+		</div>
+	</div>
 	</div>
 {% endblock %}

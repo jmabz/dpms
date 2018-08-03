@@ -1,13 +1,28 @@
 {% extends 'base.html.twig' %}
 {% block title %}Record Patient Diagnosis{% endblock %}
 {% block body %}
-	<div class="grid-container">
-		<h1>Record Patient Diagnosis</h1>
+<div class="grid-container">
+    <div class="panel-heading">
+		<div>
+			<h4 class="text-center">
+				Record Patient Diagnosis
+			</h4>
+		</div>
+
+<div class="callout">
+<nav aria-label="You are here:" role="navigation">
+  <ul class="breadcrumbs">
+    <li><a href="{{ path('doctor') }}">Home</a></li>
+	<li><span class="show-for-sr">Current: </span>Patients: Record Diagnosis</li>
+  </ul>
+</nav>
 		<p><b>Patient:</b> {{patient.fname}} {{patient.mname}} {{patient.lname}} {{patient.suffix}}</p>
 		{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
 			{{ form_widget(form) }}
 			<input type="submit" class="button success" value="Submit">
-			<a href="{{ path('patient_list_doctors') }}" class="button">Cancel</a>
+			<a href="{{ path('doctor') }}" class="button  float-right">Cancel</a>
 		{{ form_end(form) }}
 	</div>
+</div>
+</div>
 {% endblock %}

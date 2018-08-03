@@ -25,7 +25,12 @@
 		</div>
 		{% if not loginpage %}
 			{% if is_granted('IS_AUTHENTICATED_FULLY') %}
-				<p>Hi, <a href="{{ path('profile', { userId: app.user.id }) }}">{{ app.user.username }}</a>! <a href="/logout">(Logout)</a></p>
+				<p>Hi, 
+					{% if is_granted('ROLE_DOCTOR') or is_granted('ROLE_PATIENT') %}
+						<a href="{{ path('profile', { userId: app.user.id }) }}">{{ app.user.username }}</a>
+					{% else %}
+						{{ app.user.username }}
+				{% endif %}! <a href="/logout">(Logout)</a></p>
 			{% else %}
 				<div class="top-bar-right">
 				<ul class="menu">

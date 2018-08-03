@@ -2,33 +2,38 @@
 {% block title %}Patient Record{% endblock %}
 {% block body %}
 <div class="grid-container">
-	<h1 class="text-center">Patient Record</h1>
-	<table class="unstriped">
-		<tbody>
-			<tr>
-				<th>Patient:</th>
-				<td>{{ patient.fname }} {{ patient.mname }} {{ patient.lname }} {{ patient.suffix }}</td>
-				<th>Checkup Date:</th>
-				<td>{{ record.checkupDate|date('M d, Y') }}</td>
-				
-			</tr>
-			<tr>
-				<th>Doctor in Charge:</th>
-				<td>{{ doctor.fname }} {{ doctor.mname }} {{ doctor.lname }} {{ doctor.suffix }}</td>
-				<th>Diagnosis Category:</th>
-				<td>{{ record.diagnosisCategory.diagnosisName }}</td>
-			</tr>
-			<tr>
-				<th>Payment:</th>
-				<td colspan="3">{{ record.payment }}</td>
-			</tr>
-		</tbody>
-	</table>
+	<div class="panel-heading">
+		<div>
+			<h4 class="text-center">
+				Patient Record
+			</h4>
+		</div>
+	</div>
+
+<div class="callout">
 	<dl>
-				<dt>Checkup Reason:</dt>
-				<dd colspan="3">{{ record.checkupReason }}</dd>
-				<dt>Diagnosis:</dt>
-				<dd colspan="3">{{ record.diagnosis }}</dd>
+		<dt>Patient:</dt>
+		<dd>{{ patient.fname }} {{ patient.mname }} {{ patient.lname }} {{ patient.suffix }}</dd>
+		<dt>Checkup Date:</dt>
+		<dd>{{ record.checkupDate|date('M d, Y') }}</dd>
 	</dl>
+	<dl>
+		<dt>Doctor in Charge:</dt>
+		<dd>{{ doctor.fname }} {{ doctor.mname }} {{ doctor.lname }} {{ doctor.suffix }}</dd>
+		<dt>Diagnosis Category:</dt>
+		<dd>{{ record.diagnosisCategory.diagnosisName }}</dd>
+	</dl>
+	<dl>
+		<dt>Payment:</dt>
+		<dd>{{ record.payment }}</dd>
+	</dl>
+
+	<dl>
+		<dt>Checkup Reason:</dt>
+		<dd colspan="3">{{ record.checkupReason }}</dd>
+		<dt>Diagnosis:</dt>
+		<dd colspan="3">{{ record.diagnosis }}</dd>
+	</dl>
+</div>
 </div>
 {% endblock %}
