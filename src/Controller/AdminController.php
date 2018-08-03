@@ -227,7 +227,8 @@ class AdminController extends Controller
         $form = $this->createForm(
             ClinicType::class,
             $clinic,
-            ['clinicId' => 0]
+            ['clinicId' => 0,
+             'addMode' => true]
         );
 
         $form->handleRequest($request);
@@ -258,17 +259,60 @@ class AdminController extends Controller
         $form = $this->createForm(
             ClinicType::class,
             $clinic,
-            ['clinicId' => $id]
+            ['clinicId' => $id,
+             'addMode' => true,
+             'editDoctors' => true,]
         );
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted()) {
             // $clinic = $form->getData();
+            $doctorsToAdd = $form->get('doctors')->getData();
+            foreach ($doctorsToAdd as $doctor) {
+                $clinic->addDoctor($doctor);
+            }
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($clinic);
+            $entityManager->flush();
 
-            // $entityManager = $this->getDoctrine()->getManager();
-            // $entityManager->persist($clinic);
-            // $entityManager->flush();
+            return $this->redirectToRoute('view_clinic');
+        }
+
+        return $this->render('/admin/adddoctorstoclinic.html.twig', [
+            'form' => $form->createView(),
+            'clinic' => $clinic,
+            'addDoctors' => true,
+        ]);
+    }
+
+    /**
+     * @Route("/admin/clinic/{id}/removedoctors", name="remove_doctors_from_clinic")
+     */
+    public function removeDoctorsFromClinic(Request $request, $id)
+    {
+        $clinic = $this->getDoctrine()
+            ->getRepository(Clinic::class)
+            ->find($id);
+        $form = $this->createForm(
+            ClinicType::class,
+            $clinic,
+            ['clinicId' => $id,
+             'addMode' => false,
+             'editDoctors' => true,]
+        );
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
+            // $clinic = $form->getData();
+            $doctorsToAdd = $form->get('doctors')->getData();
+            foreach ($doctorsToAdd as $doctor) {
+                $clinic->removeDoctor($doctor);
+            }
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($clinic);
+            $entityManager->flush();
 
             return $this->redirectToRoute('clinic_list');
         }
@@ -276,6 +320,7 @@ class AdminController extends Controller
         return $this->render('/admin/adddoctorstoclinic.html.twig', [
             'form' => $form->createView(),
             'clinic' => $clinic,
+            'addDoctors' => false,
         ]);
     }
 }

@@ -24,6 +24,7 @@ class ClinicType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $clinicId = $options['clinicId'];
+        $addMode = $options['addMode'];
         $builder
             ->add('clinicName', TextType::class, [
                 'label' => 'Clinic Name'
@@ -69,8 +70,8 @@ class ClinicType extends AbstractType
                 },
                 'multiple' => true,
                 'expanded' => false,
-                'query_builder' => function(DoctorRepository $repo) use ($clinicId){
-                    return $repo->findDoctorsNotInClinic($clinicId);
+                'query_builder' => function(DoctorRepository $repo) use ($clinicId, $addMode){
+                    return $addMode ? $repo->findDoctorsNotInClinic($clinicId) : $repo->findDoctorsInClinic($clinicId);
                 }
             ])
             ;
@@ -82,6 +83,15 @@ class ClinicType extends AbstractType
         $builder
             ->get('schedEnd')
             ->addModelTransformer(new DateToStringTransformer($builder->get('schedEnd')));
+
+        if($options['editDoctors']){
+            $builder
+                ->remove('schedEnd')
+                ->remove('schedStart')
+                ->remove('email')
+                ->remove('clinicName')
+            ;
+        }
     }
 
     /**
@@ -91,8 +101,9 @@ class ClinicType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => Clinic::class,
-
+            'editDoctors' => false,
         ));
         $resolver->setRequired('clinicId');
+        $resolver->setRequired('addMode');
     }
 }

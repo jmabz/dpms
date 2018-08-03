@@ -1,13 +1,26 @@
 {% extends 'base.html.twig' %}
-{% block title %}Add Doctors to Clinic{% endblock %}
+{%
+	set words = addDoctors ? 
+		{
+			operation : 'Add',
+			dir : 'to',
+		}
+		: 
+		{
+			operation : 'Remove',
+			dir : 'from',
+		}
+	
+%}
+{% block title %} {{words.operation}} Doctors {{words.dir}} Clinic{% endblock %}
 {% block body %}
 	<div class="grid-container">
 		<h1>{{ clinic.clinicName }}</h1>
-		<h2>Doctors to add</h2>
+		<h2>Doctors to {{words.operation}}</h2>
 		{{ form_start(form) }}
 		{{ form_row(form.doctors) }}
-		<input type="submit" class="button success" value="Add Doctors">
+		<input type="submit" class="button {{ addDoctors ? 'success' : 'alert' }}" value="{{words.operation}} Doctors">
 			<a href="{{ path('view_clinic', {'clinicId' : clinic.id}) }}" class="button">Cancel</a>
-		{{ form_end(form, {'render_rest': false}) }}
+		{{ form_end(form) }}
 	</div>
 {% endblock %}
