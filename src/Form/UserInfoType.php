@@ -32,25 +32,8 @@ class UserInfoType extends AbstractType
             ->add('suffix', TextType::class, [
                 'label' => 'Suffix',
             ])
-            ->add('gender', ChoiceType::class, [
-                'choices' => [
-                    'Male' => 'Male',
-                    'Female' => 'Female',
-                ],
-                'label' => 'Gender',
-                'expanded' => true,
-                'multiple' => false,
-            ])
-            ->add('civilStatus', ChoiceType::class, [
-                'choices' => [
-                    'Single' => 'Single',
-                    'Married' => 'Married',
-                    'Widowed' => 'Widowed',
-                ],
-                'label' => 'Civil Status',
-                'expanded' => true,
-                'multiple' => false,
-            ])
+            ->add('gender', ChoiceType::class, array('choices' => array('Select Gender' => null,'Male' => 'Male', 'Female' => 'Female'), 'label' => 'Gender:', 'attr' => ['class' => 'form-control']))
+            ->add('civil_status', ChoiceType::class, array('choices' => array('Civil Status' => null,'Single' => 'Single', 'Married' => 'Married', 'Widowed' =>'Widowed', 'Annulled' => 'Annulled'), 'attr' => ['class' => 'form-control']))
             ->add('address', TextType::class, [
                 'label' => 'Address',
             ])

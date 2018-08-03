@@ -3,26 +3,43 @@
   padding: 1rem;
   border-radius: 0;
 }
+
 .panel-heading {
-    background-color: #e6e6e6;
+    background-color: #73C2FB;
     padding-top: 2%;
 }
+
 .panel-heading h4{
-	    padding-left: 3%;
-}.panel-heading h5{
-	    padding-left: 3%;
+	    padding-left: 2%;
+	    padding-right: 2%;
+	    padding-bottom: 1%;
+	    color: white;
 }
+
+.panel-heading h5{
+	    padding-left: 2%;
+	    padding-right: 2%;
+	    padding-bottom: 1%;
+}
+
 .panel-heading .menu a:hover{
 	color: #8a8a8a;
 }
+
 .callout {
 	border: 1px solid #e6e6e6;
     border-bottom-left-radius: 15px;
     border-bottom-right-radius: 15px;
 }
+
 body {
   padding: 2rem 1rem;
 }
+
 td{
 	font-size: 11pt;
+}
+
+.grid-container{
+	padding-top: 2%;
 }

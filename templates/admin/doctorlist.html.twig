@@ -1,36 +1,39 @@
 {% extends 'base.html.twig' %}
 {% block title %}List of Doctors{% endblock %}
 {% block body %}
-	<div class="grid-container">
-		<hr>
+<div class="grid-container">
 	<div class="panel-heading">
-		<ul class="menu">
-			<h4> Doctors </h4>
-			<li><a href="{{ path('admin') }}">Home</a></li>
-			<li><a href="{{ path('clinic_list') }}">Clinics</a></li>
-			<li><a href="{{ path('diagnosis_categories') }}">Diagnosis Categories</a></li>
-			<li><a href="{{ path('doctor_list') }}">Manage Doctors</a></li>
-			<li><a href="{{ path('patient_list') }}">Manage Patients</a></li>
-		</ul>
+		<div>
+			<h4>
+				Doctors
+				<a href="{{ path('add_doctor') }}" class="button small float-right">Add New Doctor</a>
+			</h4>
 		</div>
-		<div class="callout">
-			<a href="{{ path('add_doctor') }}" class="button small success">Add New Doctor</a>
+<div class="callout">
+<nav aria-label="You are here:" role="navigation">
+  <ul class="breadcrumbs">
+    <li><a href="{{ path('admin') }}">Home</a></li>
+	<li><a href="{{ path('clinic_list') }}">Clinics</a></li>
+	<li><a href="{{ path('diagnosis_categories') }}">Diagnosis Categories</a></li>
+	<li><span class="show-for-sr">Current: </span>Manage Doctors</li>
+	<li><a href="{{ path('patient_list') }}">Manage Patients</a></li>
+  </ul>
+</nav>			
 			<table class="table" width="100%">
 			<thead>
 				<tr>
 					<th>Name</th>
 					<th>Accreditation Code</th>
-					<th>Actions</th>
+					<th>Action</th>
 				</tr>
 			</thead>
 			<tbody>
 			{% for doctor in doctors %}
 				<tr>
-					<td><a href="{{ path('profile', {userId : doctor.id}) }}">{{ doctor.userInfo.fname }}</a></td>
+					<td><a href="{{ path('profile', {userId : doctor.id}) }}" title="Click here to view profile.">{{ doctor.userInfo.fname }}</a></td>
 					<td>{{ doctor.accreditationinfo.accreditationcode }}</td>
 					<td>
-						<a href="#">EDIT</a>|
-						<a href="#">DELETE</a>
+						<a href="#">EDIT</a
 					</td>
 				</tr>
 			{% endfor %}

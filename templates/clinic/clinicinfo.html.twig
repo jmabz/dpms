@@ -2,20 +2,25 @@
 {% block title %}Clinic Info{% endblock %}
 {% block body %}
 <div class="grid-container">
-	<hr>
 		<div class="panel-heading">
-			<div class="sub_nav">
-	<ul>
-		<li><a href="{{ path('admin') }}">Home</a></li>
-		<li><a href="{{ path('clinic_list') }}">Clinics</a></li>
-		<li><a href="{{ path('diagnosis_categories') }}">Diagnosis Categories</a></li>
-		<li><a href="{{ path('doctor_list') }}">Manage Doctors</a></li>
-		<li><a href="{{ path('patient_list') }}">Patients</a></li>
-	</ul>
-	</div>
-	</div>
-	<div class="callout">
-		<h4>{{ clinic.clinicName }}</h4>
+			<div>
+			<h4>
+				Add New Clinic
+			</h4>
+		</div>
+<div class="callout">
+
+<nav aria-label="You are here:" role="navigation">
+  <ul class="breadcrumbs">
+    <li><a href="{{ path('admin') }}">Home</a></li>
+	<li><a href="{{ path('clinic_list') }}">Clinics</a></li>
+	<li><a href="{{ path('diagnosis_categories') }}">Diagnosis Categories</a></li>
+	<li><a href="{{ path('doctor_list') }}">Manage Doctors</a></li>
+	<li><a href="{{ path('patient_list') }}">Manage Patients</a></li>
+  </ul>
+</nav>
+
+		<p>Clinic Name: {{ clinic.clinicName }}</p>
 			<p>Schedule: {{ clinic.schedStart|date('h:i A') }} - {{ clinic.schedEnd|date('h:i A') }}</p>
 		<p>Email address: {{ clinic.email }}</p>
 		{% if doctor %}

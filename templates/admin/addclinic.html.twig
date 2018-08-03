@@ -2,23 +2,28 @@
 {% block title %}Add Clinic{% endblock %}
 {% block body %}
 <div class="grid-container">
-		<hr>
-			<div class="panel-heading">
-	<ul class="menu">
-		<h4> Add Clinic </h4>
-		<li><a href="{{ path('admin') }}">Home</a></li>
-		<li><a href="{{ path('clinic_list') }}">Clinics</a></li>
-		<li><a href="{{ path('diagnosis_categories') }}">Diagnosis Categories</a></li>
-		<li><a href="{{ path('doctor_list') }}">Manage Doctors</a></li>
-		<li><a href="{{ path('patient_list') }}">Manage Patients</a></li>
-	</ul>
+	<div class="panel-heading">
+		<div>
+			<h4>
+				Add New Clinic
+			</h4>
 		</div>
-		<div class="callout">
+<div class="callout">
+<nav aria-label="You are here:" role="navigation">
+  <ul class="breadcrumbs">
+    <li><a href="{{ path('admin') }}">Home</a></li>
+	<li><a href="{{ path('clinic_list') }}">Clinics</a></li>
+	<li><a href="{{ path('diagnosis_categories') }}">Diagnosis Categories</a></li>
+	<li><a href="{{ path('doctor_list') }}">Manage Doctors</a></li>
+	<li><a href="{{ path('patient_list') }}">Manage Patients</a></li>
+  </ul>
+</nav>
+
 		{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
 			{{ form_widget(form) }}
 			<br>
 				<input type="submit" class="button success" value="Add Clinic">
-			<a href="{{ path('clinic_list') }}" class="button">Cancel</a>
+			<a href="{{ path('clinic_list') }}" class="button float-right">Cancel</a>
 		{{ form_end(form) }}
 	</div>
 		</div>

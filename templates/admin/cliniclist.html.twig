@@ -2,20 +2,24 @@
 {% block title %}Clinic List{% endblock %}
 {% block body %}
 <div class="grid-container">
-		<hr>
 <div class="panel-heading">
-		<ul class="menu">
-			<h4> Clinics </h4>
-			<li><a href="{{ path('admin') }}">Home</a></li>
-			<li><a href="{{ path('clinic_list') }}">Clinics</a></li>
-			<li><a href="{{ path('diagnosis_categories') }}">Diagnosis Categories</a></li>
-			<li><a href="{{ path('doctor_list') }}">Manage Doctors</a></li>
-			<li><a href="{{ path('patient_list') }}">Manage Patients</a></li>
-		</ul>
+	<div>
+	<h4>
+		Clinics
+		<a  href="{{ path('add_clinic') }}" class="button small float-right">Add New Clinic</a>
+	</h4>
 		</div>
 	<div class="callout">
-			<a  href="{{ path('add_clinic') }}" class="button small success">Add New Clinic</a>
-		<table class="table">
+<nav aria-label="You are here:" role="navigation">
+  <ul class="breadcrumbs">
+    <li><a href="{{ path('admin') }}">Home</a></li>
+	<li><span class="show-for-sr">Current: </span>Clinics</li>
+	<li><a href="{{ path('diagnosis_categories') }}">Diagnosis Categories</a></li>
+	<li><a href="{{ path('doctor_list') }}">Manage Doctors</a></li>
+	<li><a href="{{ path('patient_list') }}">Manage Patients</a></li>
+  </ul>
+</nav>			
+		<table class="table unstriped">
 			<thead>
 				<tr>
 					<th>Name</th>
