@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Clinic;
 use App\Entity\Doctor;
 use App\Form\DoctorType;
+use App\Repository\DoctorRepository;
 use App\Form\DataTransformer\DateToStringTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -22,6 +23,8 @@ class ClinicType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $clinicId = $options['clinicId'];
+        $addMode = $options['addMode'];
         $builder
             ->add('clinicName', TextType::class, [
                 'label' => 'Clinic Name'
@@ -37,8 +40,27 @@ class ClinicType extends AbstractType
                 'label' => 'Closing Time',
                 'attr' => ['class' => 'timepicker']
             ])
-            ->add('doctor', EntityType::class, [
-                'label' => 'Doctor\'s Name:',
+            // ->add('doctors', CollectionType::class, [
+            //     'label' => 'Doctors to Add:',
+            //     'entry_type' => DoctorType::class,
+            //     'allow_add' => true,
+            //     'allow_delete' => true,
+            //     'by_reference' => false,
+            //     'prototype' => true,
+            //     // 'entry_options' => [
+            //     //     'prototype' => true,
+            //     //     'allow_add' => true,
+            //     //     'allow_delete' => true,
+            //     //     'class' => Doctor::class,
+            //     // ],
+            //     // 'attr' => [
+            //     //     ['class' => 'js-clinic-doctor-wrapper']
+            //     // ],
+            //     // 'entry_options' => [
+            //     //     'attr' => ['class' => 'chosen-select js-clinic-doctor-item']
+            //     // ],
+            // ])
+            ->add('doctors', EntityType::class, [
                 'class' => Doctor::class,
                 'choice_label' => function ($doctor) {
                     return $doctor->getUserInfo()->getFname() . ' ' . $doctor->getUserInfo()->getMname() . ' ' . $doctor->getUserInfo()->getLname();
@@ -46,7 +68,11 @@ class ClinicType extends AbstractType
                 'choice_value' => function (Doctor $doctor = null) {
                     return $doctor ? $doctor->getId() : '';
                 },
-                'attr' => ['class' => 'chosen-select']
+                'multiple' => true,
+                'expanded' => false,
+                'query_builder' => function (DoctorRepository $repo) use ($clinicId, $addMode) {
+                    return $addMode ? $repo->findDoctorsNotInClinic($clinicId) : $repo->findDoctorsInClinic($clinicId);
+                }
             ])
             ;
 
@@ -57,6 +83,18 @@ class ClinicType extends AbstractType
         $builder
             ->get('schedEnd')
             ->addModelTransformer(new DateToStringTransformer($builder->get('schedEnd')));
+
+        if ($options['editDoctors']) {
+            $builder
+                ->remove('schedEnd')
+                ->remove('schedStart')
+                ->remove('email')
+                ->remove('clinicName')
+            ;
+        } elseif ($options['editClinic']) {
+            $builder
+                ->remove('doctors');
+        }
     }
 
     /**
@@ -66,6 +104,10 @@ class ClinicType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => Clinic::class,
+            'editDoctors' => false,
+            'editClinic' => false,
         ));
+        $resolver->setRequired('clinicId');
+        $resolver->setRequired('addMode');
     }
 }

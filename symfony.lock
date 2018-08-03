@@ -95,6 +95,9 @@
     "nikic/php-parser": {
         "version": "v4.0.3"
     },
+    "ninsuo/symfony-collection": {
+        "version": "2.1.30"
+    },
     "ocramius/proxy-manager": {
         "version": "2.1.1"
     },

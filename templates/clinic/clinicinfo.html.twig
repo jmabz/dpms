@@ -5,22 +5,24 @@
 		<h1>{{ clinic.clinicName }}</h1>
 		<p>Schedule: {{ clinic.schedStart|date('h:i A') }} - {{ clinic.schedEnd|date('h:i A') }}</p>
 		<p>Email address: {{ clinic.email }}</p>
-		{# <a href="#" class="button primary">Add Doctors...</a> #}
-		{# {% if doctors.count != 0 %} #}
-			{# <h2>List of doctors</h2> #}
-			{% if doctor %}
+		<a href="{{ path('edit_clinic', {'clinicId' : clinic.id }) }}" class="button primary">Edit Clinic...</a>
+		<a href="{{ path('add_doctors_to_clinic', {'id' : clinic.id }) }}" class="button primary">Add Doctors...</a>
+		<a href="{{ path('remove_doctors_from_clinic', {'id' : clinic.id }) }}" class="button alert">Remove Doctors...</a>
+		{% if doctors.count != 0 %}
+			<h2>List of doctors</h2>
+
 				<table class="unstriped">
 					<tbody>
-						{# {% for doctor in doctors %} #}
+						{% for doctor in doctors %}
 						<tr>
 							<td>
 								{{ doctor.userInfo.fname }} {{ doctor.userInfo.mname }} {{ doctor.userInfo.lname }} {{ doctor.userInfo.suffix }}
 							</td>
 						</tr>
-						{# {% endfor %} #}
+						{% endfor %}
 					</tbody>
 				</table>
-			{% endif %}
-		{# {% endif %} #}
+
+		{% endif %}
 	</div>
 {% endblock %}

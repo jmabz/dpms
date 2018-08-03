@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\DiagnosisCategory;
+use App\Entity\User;
 use App\Entity\Doctor;
 use App\Entity\Patient;
 use App\Entity\Clinic;
@@ -194,6 +195,28 @@ class AdminController extends Controller
     }
 
     /**
+     * @Route("/admin/deleteuser/{userId}", name="delete_user")
+     */
+    public function deleteUser($userId)
+    {
+        $user = $this->getDoctrine()
+            ->getRepository(User::class)
+            ->find($userId);
+        $role = (new \ReflectionClass($user))->getShortName();
+
+        if (!$user) {
+            throw $this->createNotFoundException(
+                'No user found for ID ' . $userId
+            );
+        }
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($user);
+        $entityManager->flush();
+
+        return $role == "Doctor" ? $this->redirectToRoute('doctor_list') : $this->redirectToRoute('patient_list');
+    }
+
+    /**
      * @Route("/admin/adddiagnosiscategory", name="add_diagnosis_category")
      */
     public function addDiagnosisCategory(Request $request)
@@ -226,7 +249,9 @@ class AdminController extends Controller
         $clinic = new Clinic();
         $form = $this->createForm(
             ClinicType::class,
-            $clinic
+            $clinic,
+            ['clinicId' => 0,
+             'addMode' => true]
         );
 
         $form->handleRequest($request);
@@ -243,6 +268,124 @@ class AdminController extends Controller
 
         return $this->render('/admin/addclinic.html.twig', [
             'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/admin/editclinic/{clinicId}", name="edit_clinic")
+     */
+    public function editClinic(Request $request, $clinicId)
+    {
+        $clinic = $this->getDoctrine()
+            ->getRepository(Clinic::class)
+            ->find($clinicId);
+
+        $form = $this->createForm(
+            ClinicType::class,
+            $clinic,
+            ['clinicId' => 0,
+             'addMode' => false,
+             'editClinic' => true,]
+        );
+
+        $form->handleRequest($request);
+        if (!$clinic) {
+            throw $this->createNotFoundException(
+                'No clinic found for ID ' . $clinicId
+            );
+        } else {
+            if ($form->isSubmitted() && $form->isValid()) {
+                $clinic = $form->getData();
+
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($clinic);
+                $entityManager->flush();
+
+                return $this->redirectToRoute('view_clinic', [
+                'clinicId' => $clinicId,
+            ]);
+            }
+        }
+
+        return $this->render('/admin/editclinic.html.twig', [
+            'form' => $form->createView(),
+            'clinic' => $clinic,
+        ]);
+    }
+
+    /**
+     * @Route("/admin/clinic/{id}/adddoctors", name="add_doctors_to_clinic")
+     */
+    public function addDoctorsToClinic(Request $request, $id)
+    {
+        $clinic = $this->getDoctrine()
+            ->getRepository(Clinic::class)
+            ->find($id);
+        $form = $this->createForm(
+            ClinicType::class,
+            $clinic,
+            ['clinicId' => $id,
+             'addMode' => true,
+             'editDoctors' => true,]
+        );
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
+            // $clinic = $form->getData();
+            $doctorsToAdd = $form->get('doctors')->getData();
+            foreach ($doctorsToAdd as $doctor => $d) {
+                $clinic->addDoctor($d);
+            }
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($clinic);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('view_clinic', ['clinicId' => $id]);
+        }
+
+        return $this->render('/admin/adddoctorstoclinic.html.twig', [
+            'form' => $form->createView(),
+            'clinic' => $clinic,
+            'addDoctors' => true,
+        ]);
+    }
+
+    /**
+     * @Route("/admin/clinic/{id}/removedoctors", name="remove_doctors_from_clinic")
+     */
+    public function removeDoctorsFromClinic(Request $request, $id)
+    {
+        $clinic = $this->getDoctrine()
+            ->getRepository(Clinic::class)
+            ->find($id);
+        $form = $this->createForm(
+            ClinicType::class,
+            $clinic,
+            ['clinicId' => $id,
+             'addMode' => false,
+             'editDoctors' => true,]
+        );
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
+            // $clinic = $form->getData();
+            $doctorsToAdd = $form->get('doctors')->getData();
+            foreach ($doctorsToAdd as $doctor => $d) {
+                $clinic->removeDoctor($d);
+            }
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($clinic);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('view_clinic', ['clinicId' => $id]);
+        }
+
+        return $this->render('/admin/adddoctorstoclinic.html.twig', [
+            'form' => $form->createView(),
+            'clinic' => $clinic,
+            'addDoctors' => false,
         ]);
     }
 }

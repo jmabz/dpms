@@ -7,7 +7,7 @@
 		{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
 			{{ form_widget(form) }}
 			<input type="submit" class="button success" value="Submit">
-			<a href="{{ path('doctor') }}" class="button">Cancel</a>
+			<a href="{{ path('patient_list_doctors') }}" class="button">Cancel</a>
 		{{ form_end(form) }}
 	</div>
 {% endblock %}

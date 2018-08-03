@@ -10,6 +10,7 @@ use App\Form\AccreditationInfoType;
 use App\Form\UserInfoType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class ProfileController extends Controller
@@ -35,18 +36,15 @@ class ProfileController extends Controller
             'userinfo' => $userinfo,
             'accreditationinfo' => $accreditationinfo,
             'role' => $role,
+            'userId' => $userId,
         ]);
     }
 
     /**
      * @Route("/userprofile/edit", name="edit_profile")
      */
-    public function editProfile(Request $request)
+    public function editProfile(UserInterface $user, Request $request)
     {
-        $userId = 2;
-        $user = $this->getDoctrine()
-            ->getRepository(User::class)
-            ->find($userId);
 
         $userInfo = $user->getUserInfo();
 
@@ -61,7 +59,7 @@ class ProfileController extends Controller
             $entityManager->persist($userInfo);
             $entityManager->flush();
 
-            return $this->redirectToRoute('profile', ['userId' => $userId,]);
+            return $this->redirectToRoute('profile', ['userId' => $user->getId(),]);
         }
 
         return $this->render('profile/editprofile.html.twig', [
@@ -72,13 +70,8 @@ class ProfileController extends Controller
     /**
      * @Route("/userprofile/editaccred", name="edit_accred")
      */
-    public function editAccredInfo(Request $request)
+    public function editAccredInfo(UserInterface $user, Request $request)
     {
-        $userId = 1;
-        $user = $this->getDoctrine()
-            ->getRepository(User::class)
-            ->find($userId);
-
         $accreditationInfo = $user->getAccreditationInfo();
 
         $form = $this->createForm(AccreditationInfoType::class, $accreditationInfo);
@@ -92,7 +85,7 @@ class ProfileController extends Controller
             $entityManager->persist($accreditationInfo);
             $entityManager->flush();
 
-            return $this->redirectToRoute('profile', ['userId' => $userId,]);
+            return $this->redirectToRoute('profile', ['userId' => $user->getId(),]);
         }
 
         return $this->render('profile/editaccredinfo.html.twig', [

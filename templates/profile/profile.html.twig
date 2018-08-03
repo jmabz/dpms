@@ -1,4 +1,5 @@
 {% extends 'base.html.twig' %}
+{% set isActiveUser = userId == app.user.id %}
 {% block title %}Profile{% endblock %}
 {% block body %}
 	<div class="grid-container">
@@ -46,8 +47,10 @@
 				</tbody>
 			</table>
 		{% endif %}
+		{% if isActiveUser %}
 			<a href="{{ path('edit_profile') }}" class="button primary">Edit Profile</a>
-		{% if accreditationinfo %}
+		{% endif %}
+		{% if accreditationinfo and isActiveUser %}
 			<a href="{{ path('edit_accred') }}" class="button primary">Edit Accreditation Info</a>
 		{% endif %}
 	</div>

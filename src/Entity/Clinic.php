@@ -20,13 +20,13 @@ class Clinic
     private $id;
 
     /**
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(message="Please enter the clinic's name.")
      * @ORM\Column(type="string", length=255)
      */
     private $clinicName;
 
     /**
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(message="Please enter the clinic's email address.")
      * @ORM\Column(type="string", length=255)
      */
     private $email;
@@ -46,13 +46,13 @@ class Clinic
     private $schedEnd;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Doctor", inversedBy="clinics")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Doctor", inversedBy="clinics", cascade={"persist"})
      */
-    private $doctor;
+    private $doctors;
 
     public function __construct()
     {
-        //$this->doctors = new ArrayCollection();
+        $this->doctors = new ArrayCollection();
     }
 
     public function getId()
@@ -109,34 +109,34 @@ class Clinic
     }
 
     /**
-     * @return Collection|Doctor[]
+     * @return Collection|Doctors[]
      */
-    public function getDoctor(): ?Doctor
+    public function getDoctors(): Collection
     {
-        return $this->doctor;
+        return $this->doctors;
     }
 
-    public function setDoctor(?Doctor $doctor): self
+    // public function setDoctor(?Doctor $doctor): self
+    // {
+    //     $this->doctor = $doctor;
+
+    //     return $this;
+    // }
+    public function addDoctor(Doctor $doctor): self
     {
-        $this->doctor = $doctor;
+        if (!$this->doctors->contains($doctor)) {
+            $this->doctors[] = $doctor;
+        }
 
         return $this;
     }
-    // public function addDoctor(Doctor $doctor): self
-    // {
-    //     if (!$this->doctors->contains($doctor)) {
-    //         $this->doctors[] = $doctor;
-    //     }
 
-    //     return $this;
-    // }
+    public function removeDoctor(Doctor $doctor): self
+    {
+        if ($this->doctors->contains($doctor)) {
+            $this->doctors->removeElement($doctor);
+        }
 
-    // public function removeDoctor(Doctor $doctor): self
-    // {
-    //     if ($this->doctors->contains($doctor)) {
-    //         $this->doctors->removeElement($doctor);
-    //     }
-
-    //     return $this;
-    // }
+        return $this;
+    }
 }

@@ -19,19 +19,19 @@ class AccreditationInfo
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(message="Please enter your accreditation code.")
      */
     private $accreditationCode;
 
     /**
      * @ORM\Column(type="date")
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(message="Please enter the date the accreditation was attained.")
      */
     private $accreditationDate;
 
     /**
      * @ORM\Column(type="date")
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(message="Please enter the accreditation's expiry date.")
      */
     private $accreditationExpDate;
 

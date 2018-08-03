@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+{% block title %}Edit Clinic{% endblock %}
+{% block body %}
+	<div class="grid-container">
+		<h1>Edit Clinic</h1>
+		{% form_theme form 'jquery.collection.html.twig' %}
+		{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+			{{ form_row(form.clinicName) }}
+			{{ form_row(form.email) }}
+			{{ form_row(form.schedStart, {attr: {class: 'start timepicker'}}) }}
+			{{ form_row(form.schedEnd, {attr: {class: 'end timepicker'}}) }}
+			<input type="submit" class="button success" value="Edit Clinic">
+			<a href="{{ path('clinic_list') }}" class="button">Cancel</a>
+		{{ form_end(form) }}
+	</div>
+{% endblock %}
+{% block javascripts %}
+	{{ parent() }}
+    <script>
+    	var schedStart = '{{ clinic.schedStart|date('h:i A') }}';
+    	var schedEnd = '{{ clinic.schedEnd|date('h:i A') }}';
+        $('.start.timepicker').timepicker({
+            timeFormat: 'h:mm p',
+            interval: 60,
+            minTime: '6',
+            maxTime: '6:00pm',
+            defaultTime: schedStart,
+            startTime: '6:00',
+            dynamic: true,
+            dropdown: true,
+            scrollbar: true
+        });
+
+        $('.end.timepicker').timepicker({
+            timeFormat: 'h:mm p',
+            interval: 60,
+            minTime: '6',
+            maxTime: '6:00pm',
+            defaultTime: schedEnd,
+            startTime: '6:00',
+            dynamic: true,
+            dropdown: true,
+            scrollbar: true
+        });
+    </script>
+{% endblock %}

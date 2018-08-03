@@ -32,7 +32,7 @@ class Doctor extends User
     private $accreditationInfo;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Clinic", mappedBy="doctor")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Clinic", mappedBy="doctors")
      */
     private $clinics;
     

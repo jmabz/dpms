@@ -4,12 +4,12 @@
 {% block body %}
 	<div class="grid-container">
 		<h1 class="text-center">Login</h1>
-		<form action="" method="POST" class="log-in-form">
+		<form action="{{ path('login') }}" method="POST" class="log-in-form">
 			<label for="u">Username:</label>
-			<input type="text" id="username" name="_username">
+			<input type="text" id="username" name="_username" value="{{ last_username }}">
 			<label for="password">Password:</label>
 			<input type="password" id="password" name="_password">	
-			<input type="hidden" name="_csrf_token">
+			<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 			<button type="submit" class="button success expanded">Login</button>	
 		</form>
 	</div>
