@@ -20,13 +20,13 @@ class Clinic
     private $id;
 
     /**
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(message="Please enter the clinic's name.")
      * @ORM\Column(type="string", length=255)
      */
     private $clinicName;
 
     /**
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(message="Please enter the clinic's email address.")
      * @ORM\Column(type="string", length=255)
      */
     private $email;
