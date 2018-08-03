@@ -21,7 +21,7 @@ class Patient extends User
     protected $userInfo;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\PatientRecord", mappedBy="patient")
+     * @ORM\OneToMany(targetEntity="App\Entity\PatientRecord", cascade={"persist", "remove"}, mappedBy="patient")
      */
     private $patientRecords;
 

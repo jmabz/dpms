@@ -11,7 +11,7 @@
 				</div>
 			</div>
 			<input type="submit" class="button success" value="Save Changes">
-			<a href="{{ path('profile', {userId : 2}) }}" class="button">Cancel</a>
+			<a href="{{ path('profile', {userId : app.user.id}) }}" class="button">Cancel</a>
 			
 		{{ form_end(form) }}
 	</div>

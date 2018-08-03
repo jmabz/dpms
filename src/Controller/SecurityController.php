@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 class SecurityController extends Controller
 {
@@ -20,9 +21,17 @@ class SecurityController extends Controller
     /**
      * @Route("/login", name="login")
      */
-    public function login()
+    public function login(Request $request)
     {
-        return $this->render('security/login.html.twig');
+        $authenticationUtils = $this->get('security.authentication_utils');
+
+        $error = $authenticationUtils->getLastAuthenticationError();
+        $lastUsername = $authenticationUtils->getLastUsername();
+
+        return $this->render('security/login.html.twig', array(
+            'last_username' => $lastUsername,
+            'error' => $error,
+        ));
     }
 
     /**

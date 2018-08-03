@@ -6,17 +6,17 @@
 
 				<li class="menu-text">DPMS</li>
 
-				{% if app.request.get('_route') != 'admin' %}
+				{% if app.request.get('_route') != 'admin' and is_granted('ROLE_ADMIN') %}
 					<li>
 						<a href="{{ path('admin') }}">Admin Portal</a>
 					</li>
 				{% endif %}
-				{% if app.request.get('_route') != 'doctor' %}
+				{% if app.request.get('_route') != 'doctor' and is_granted('ROLE_DOCTOR') %}
 					<li>
 						<a href="{{ path('doctor') }}">Doctor's Portal</a>
 					</li>
 				{% endif %}
-				{% if app.request.get('_route') != 'patient' %}
+				{% if app.request.get('_route') != 'patient' and is_granted('ROLE_PATIENT') %}
 					<li>
 						<a href="{{ path('patient') }}">Patient's Portal</a>
 					</li>
@@ -24,13 +24,17 @@
 			</ul>
 		</div>
 		{% if not loginpage %}
-			<div class="top-bar-right">
+			{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+				<p>Hi, <a href="{{ path('profile', { userId: app.user.id }) }}">{{ app.user.username }}</a>! <a href="/logout">(Logout)</a></p>
+			{% else %}
+				<div class="top-bar-right">
 				<ul class="menu">
 					<li>
 						<a class="button" href="{{ path('login') }}">Login</a>
 					</li>
 				</ul>
 			</div>
+			{% endif %}
 		{% endif %}
 	</div>
 {% endblock %}

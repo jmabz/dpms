@@ -70,7 +70,7 @@ class ClinicType extends AbstractType
                 },
                 'multiple' => true,
                 'expanded' => false,
-                'query_builder' => function(DoctorRepository $repo) use ($clinicId, $addMode){
+                'query_builder' => function (DoctorRepository $repo) use ($clinicId, $addMode) {
                     return $addMode ? $repo->findDoctorsNotInClinic($clinicId) : $repo->findDoctorsInClinic($clinicId);
                 }
             ])
@@ -84,13 +84,16 @@ class ClinicType extends AbstractType
             ->get('schedEnd')
             ->addModelTransformer(new DateToStringTransformer($builder->get('schedEnd')));
 
-        if($options['editDoctors']){
+        if ($options['editDoctors']) {
             $builder
                 ->remove('schedEnd')
                 ->remove('schedStart')
                 ->remove('email')
                 ->remove('clinicName')
             ;
+        } elseif ($options['editClinic']) {
+            $builder
+                ->remove('doctors');
         }
     }
 
@@ -102,6 +105,7 @@ class ClinicType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => Clinic::class,
             'editDoctors' => false,
+            'editClinic' => false,
         ));
         $resolver->setRequired('clinicId');
         $resolver->setRequired('addMode');

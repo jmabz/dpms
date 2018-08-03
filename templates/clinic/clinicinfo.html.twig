@@ -5,6 +5,7 @@
 		<h1>{{ clinic.clinicName }}</h1>
 		<p>Schedule: {{ clinic.schedStart|date('h:i A') }} - {{ clinic.schedEnd|date('h:i A') }}</p>
 		<p>Email address: {{ clinic.email }}</p>
+		<a href="{{ path('edit_clinic', {'clinicId' : clinic.id }) }}" class="button primary">Edit Clinic...</a>
 		<a href="{{ path('add_doctors_to_clinic', {'id' : clinic.id }) }}" class="button primary">Add Doctors...</a>
 		<a href="{{ path('remove_doctors_from_clinic', {'id' : clinic.id }) }}" class="button alert">Remove Doctors...</a>
 		{% if doctors.count != 0 %}

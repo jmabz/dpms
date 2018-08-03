@@ -7,7 +7,9 @@
 				<h1>List of Patients</h1>
 			</div>
 			<div class="cell medium-3">
-				<a href="{{ path('add_patient') }}" class="button success">Add New Patient...</a>
+				{% if is_granted('ROLE_ADMIN') %}
+					<a href="{{ path('add_patient') }}" class="button success">Add New Patient...</a>
+				{% endif %}
 			</div>
 		</div>
 		<table class="unstriped">
@@ -26,8 +28,11 @@
 						</a>
 					</td>
 					<td>
-						<a href="#" class="button primary">Edit</a>
-						<a href="#" class="button alert">Delete</a>
+						{% if is_granted('ROLE_ADMIN') %}
+							<a href="{{ path('delete_user', {userId : patient.id}) }}" class="button alert" onclick="return confirm('Are you sure you want to delete this user?')">Delete</a>
+						{% elseif is_granted('ROLE_DOCTOR') %}
+							<a href="{{ path('record_diagnosis', {'patientId': patient.id}) }}" class="button">Record Diagnosis...</a>
+						{% endif %}
 					</td>
 				</tr>
 			{% endfor %}
