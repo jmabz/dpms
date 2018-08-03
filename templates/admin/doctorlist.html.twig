@@ -4,9 +4,9 @@
 <div class="grid-container">
 	<div class="panel-heading">
 		<div>
-			<h4>
+			<h4 class="text-center">
 				Doctors
-				<a href="{{ path('add_doctor') }}" class="button small float-right">Add New Doctor</a>
+				<a href="{{ path('add_doctor') }}" class="button radius small float-right">Add New Doctor</a>
 			</h4>
 		</div>
 <div class="callout">
@@ -19,12 +19,12 @@
 	<li><a href="{{ path('patient_list') }}">Manage Patients</a></li>
   </ul>
 </nav>			
-			<table class="table" width="100%">
+			<table class="table unstriped text-center">
 			<thead>
 				<tr>
-					<th>Name</th>
-					<th>Accreditation Code</th>
-					<th>Action</th>
+					<th class="text-center">Name</th>
+					<th class="text-center">Accreditation Code</th>
+					<th class="text-center">Action</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -33,7 +33,7 @@
 					<td><a href="{{ path('profile', {userId : doctor.id}) }}" title="Click here to view profile.">{{ doctor.userInfo.fname }}</a></td>
 					<td>{{ doctor.accreditationinfo.accreditationcode }}</td>
 					<td>
-						<a href="#">EDIT</a
+						<a href="{{ path('edit_profile', { 'id': doctor.id }) }}">EDIT</a>
 					</td>
 				</tr>
 			{% endfor %}

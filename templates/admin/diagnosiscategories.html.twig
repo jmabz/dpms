@@ -5,7 +5,7 @@
 <div class="grid-container">
 <div class="panel-heading">
 	<div>
-		<h4> Diagnosis Categories 
+		<h4 class="text-center"> Diagnosis Categories 
 			<a href="{{ path('add_diagnosis_category') }}" class="button small float-right">Add New Category</a>
 		</h4>
 	</div>
@@ -19,11 +19,11 @@
 	<li><a href="{{ path('patient_list') }}">Manage Patients</a></li>
   </ul>
 </nav>
-	<table class="table unstriped">
+	<table class="table unstriped text-center">
 			<thead>
 				<tr>
-					<th scope="col">Name</th>
-					<th scope="col">Actions</th>
+					<th class="text-center" scope="col">Name</th>
+					<th class="text-center" scope="col">Action</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -31,8 +31,7 @@
 			<tr>
 				<td>{{ diagnosiscategory.diagnosisName }}</td>
 				<td>
-					<a href="#">EDIT</a> |
-					<a href="#">DELETE</a>
+					<a href="{{ path('user_edit', {'id': diagnosiscategory.id }) }}">EDIT</a>	
 				</td>
 			</tr>
 			{% endfor %}

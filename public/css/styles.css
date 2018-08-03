@@ -1,3 +1,15 @@
+body {
+  padding: 2rem 1rem;
+
+}
+
+td{
+	font-size: 11pt;
+}
+
+.grid-container{
+	padding-top: 2%;
+}
 .log-in-form {
   border: 1px solid #cacaca;
   padding: 1rem;
@@ -5,8 +17,10 @@
 }
 
 .panel-heading {
-    background-color: #73C2FB;
+    background-color: #2ba6cb;
     padding-top: 2%;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
 }
 
 .panel-heading h4{
@@ -30,16 +44,4 @@
 	border: 1px solid #e6e6e6;
     border-bottom-left-radius: 15px;
     border-bottom-right-radius: 15px;
-}
-
-body {
-  padding: 2rem 1rem;
-}
-
-td{
-	font-size: 11pt;
-}
-
-.grid-container{
-	padding-top: 2%;
 }

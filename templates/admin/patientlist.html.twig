@@ -6,7 +6,7 @@
 
 <div class="panel-heading">
 	<div>
-		<h4>Patients<a href="{{ path('add_patient') }}" class="button small float-right">Add New Patient</a>
+		<h4 class="text-center">Patients<a href="{{ path('add_patient') }}" class="button small float-right">Add New Patient</a>
 		</h4>
 	</div>
 <div class="callout">
@@ -19,11 +19,11 @@
 	<li><span class="show-for-sr">Current: </span>Manage Patients</li>
   </ul>
 </nav>
-		<table class="table">
+		<table class="table unstriped text-center">
 			<thead>
 				<tr>
-					<th>Name</th>
-					<th>Action</th>
+					<th class="text-center">Name</th>
+					<th class="text-center">Action</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -35,7 +35,7 @@
 						</a>
 					</td>
 					<td>
-						<a href="#">EDIT</a>
+						<a href="{{ path('edit_profile', { 'id': patient.id }) }}">EDIT</a>
 					</td>
 				</tr>
 			{% endfor %}

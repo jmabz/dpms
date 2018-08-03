@@ -22,6 +22,19 @@ class DoctorController extends Controller
             'controller_name' => 'DoctorController',
         ]);
     }
+    /**
+     * @Route("/doctor/patients", name="doctor_patients")
+     */
+    public function listofpatients()
+    {
+        $patients = $this->getDoctrine()
+            ->getRepository(Patient::class)
+            ->findAll();
+
+        return $this->render('doctor/patientlist.html.twig', [
+            'patients' => $patients
+        ]);
+    }
 
     /**
      * @Route("/recorddiagnosis/{patientId}", name="record_diagnosis")

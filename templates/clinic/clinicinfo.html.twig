@@ -4,39 +4,39 @@
 <div class="grid-container">
 		<div class="panel-heading">
 			<div>
-			<h4>
-				Add New Clinic
+			<h4 class="text-center">
+				{{ clinic.clinicName }} Clinic Schedule
 			</h4>
 		</div>
 <div class="callout">
 
 <nav aria-label="You are here:" role="navigation">
   <ul class="breadcrumbs">
-    <li><a href="{{ path('admin') }}">Home</a></li>
-	<li><a href="{{ path('clinic_list') }}">Clinics</a></li>
-	<li><a href="{{ path('diagnosis_categories') }}">Diagnosis Categories</a></li>
-	<li><a href="{{ path('doctor_list') }}">Manage Doctors</a></li>
-	<li><a href="{{ path('patient_list') }}">Manage Patients</a></li>
+	<li><span class="show-for-sr">Current: </span>Clinic details</li>
+	<li><a href="{{ path('clinic_list') }}">Back to list</a></li>
   </ul>
 </nav>
-
-		<p>Clinic Name: {{ clinic.clinicName }}</p>
-			<p>Schedule: {{ clinic.schedStart|date('h:i A') }} - {{ clinic.schedEnd|date('h:i A') }}</p>
-		<p>Email address: {{ clinic.email }}</p>
-		{% if doctor %}
-				<table class="unstriped">
-					<tbody>
-						{# {% for doctor in doctors %} #}
-						<tr>
-							<td>
-								Dr. {{ doctor.userInfo.fname }} {{ doctor.userInfo.mname }} {{ doctor.userInfo.lname }} {{ doctor.userInfo.suffix }}
-							</td>
-						</tr>
-						{# {% endfor %} #}
-					</tbody>
-				</table>
-			{% endif %}
+{% if doctor %}
+		<table class="unstriped">
+			<tbody>
+				{# {% for doctor in doctors %} #}
+				<tr>
+					<td>Email address: {{ clinic.email }}</td>
+				</tr>
+				<tr>
+					<td>Schedule: {{ clinic.schedStart|date('h:i A') }} - {{ clinic.schedEnd|date('h:i A') }}</td>
+				</tr>
+				<tr>
+					<td>
+						Dr. {{ doctor.userInfo.fname }} {{ doctor.userInfo.mname }} {{ doctor.userInfo.lname }} {{ doctor.userInfo.suffix }}
+					</td>
+				</tr>
+				{# {% endfor %} #}
+			</tbody>
+		</table>
+	{% endif %}
 	</div>
+</div>
 </div>
 {% endblock %}
 

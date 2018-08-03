@@ -5,12 +5,12 @@
 		{% if userinfo %}
 <div class="panel-heading">
 		<div>
-			<h4>{{ userinfo.fname }} {{ userinfo.mname }} {{ userinfo.lname }} {{ userinfo.suffix }} ({{ role }})
+			<h4 class="text-center">{{ userinfo.fname }} {{ userinfo.mname }} {{ userinfo.lname }} {{ userinfo.suffix }} ({{ role }})
 			<a href="{{ path('doctor_list') }}" class="button alert small float-right">CANCEL</a>
 			</h4>
 		</div>
 <div class="callout">
-			<h5>User Profile <a href="{{ path('edit_profile',  { 'id': userinfo.id }) }}" class="button primary small float-right">Edit Profile</a></h5>
+			<h5>User Profile <a href="{{ path('edit_profile', { 'id': userinfo.id }) }}" class="button primary small float-right">Edit Profile</a></h5>
 			<table class="unstriped text-center">
 				<tbody>
 					<tr>
