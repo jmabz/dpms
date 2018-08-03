@@ -2,8 +2,14 @@
 {% block title %}Patient Record{% endblock %}
 {% block body %}
 <div class="grid-container">
-	<h1 class="text-center">Patient Record</h1>
-	<table class="unstriped">
+<div class="panel-heading">
+		<div>
+			<h4 class="text-center">
+				Patient Records
+			</h4>
+		</div>
+
+<div class="callout">
 		<tbody>
 			<tr>
 				<th>Patient:</th>
@@ -30,5 +36,7 @@
 				<dt>Diagnosis:</dt>
 				<dd colspan="3">{{ record.diagnosis }}</dd>
 	</dl>
+</div>
+</div>
 </div>
 {% endblock %}
