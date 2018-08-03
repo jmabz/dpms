@@ -17,58 +17,28 @@ class EditCategoryController extends Controller
      * @Route("/admin/edit-category/{id}", name="user_edit")
      * @Method({"GET", "POST"})
      */
-    public function editAction(Request $request, DiagnosisCategory $user)
+    public function editAction(Request $request, $id)
     {
-        $deleteForm = $this->createDeleteForm($user);
-        $editForm = $this->createForm('App\Form\DiagnosisCategoryType', $user);
-        $editForm->handleRequest($request);
-
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('user_edit', array('id' => $user->getId()));
-        }
-
-        return $this->render('admin/edit_category.html.twig', array(
-            'user' => $user,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
-    }
-
-    /**
-     * Deletes a user entity.
-     *
-     * @Route("/admin/{id}", name="user_delete")
-     * @Method("DELETE")
-     */
-    public function deleteAction(Request $request, DiagnosisCategory $user)
-    {
-        $form = $this->createDeleteForm($user);
+        $dc = $this->getDoctrine()
+            ->getRepository(DiagnosisCategory::class)
+            ->find($id);
+        $form = $this->createForm(DiagnosisCategoryType::class, $dc);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($user);
-            $em->flush();
+
+            $dc = $form->getData();
+            
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($dc);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('diagnosis_categories');
         }
 
-        return $this->redirectToRoute('diagnosis_categories');
+        return $this->render('admin/edit_category.html.twig', array(
+            'form' => $form->createView(),
+        ));
     }
 
-    /**
-     * Creates a form to delete a user entity.
-     *
-     * @param User $user The user entity
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm(DiagnosisCategory $user)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('user_delete', array('id' => $user->getId())))
-            ->setMethod('DELETE')
-            ->getForm()
-        ;
-    }
 }

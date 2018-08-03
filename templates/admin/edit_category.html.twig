@@ -14,17 +14,17 @@
   <li><a href="{{ path('diagnosis_categories') }}">back to list</a></li>
   </ul>
 </nav>
-    {{ form_start(edit_form) }}
+    {{ form_start(form) }}
     <div class="grid-x">
       <div class="medium-10 columns">
-        {{ form_widget(edit_form) }}
+        {{ form_widget(form) }}
       </div>
       <div class="medium-2 columns" style="padding-top:2%;">
         <input type="submit" value="UPDATE" class="button success float-right" />
       </div>
     </div>
     
-    {{ form_end(edit_form) }}
+    {{ form_end(form) }}
   
             </div>
         </div>

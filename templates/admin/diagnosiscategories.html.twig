@@ -31,7 +31,7 @@
 			<tr>
 				<td>{{ diagnosiscategory.diagnosisName }}</td>
 				<td>
-					<a href="#">EDIT</a>	
+					<a href=" {{ path('user_edit', {'id' : diagnosiscategory.id}) }} ">EDIT</a>	
 				</td>
 			</tr>
 			{% endfor %}
