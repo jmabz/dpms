@@ -10,12 +10,33 @@
 		<div class="callout">
 			{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
 			<div class="grid-x">
-				<div class="cell">
-					{{ form_row(form) }}
+				<div class="medium-4 columns">
+					{{ form_row(form.fname) }}
+				</div>
+				<div class="medium-2 columns">
+					{{ form_row(form.mname) }}
+				</div>
+				<div class="medium-4 columns">
+					{{ form_row(form.lname) }}
+				</div>
+				<div class="medium-2 columns">
+					{{ form_row(form.suffix) }}
+				</div>
+				<div class="medium-6 columns">
+					{{ form_row(form.gender) }}
+				</div>
+				<div class="medium-6 columns">
+					{{ form_row(form.civil_status) }}
+				</div>
+				<div class="medium-8 columns">
+					{{ form_row(form.address) }}
+				</div>
+				<div class="medium-4 columns">
+					{{ form_row(form.birthDate) }}
 				</div>
 			</div>
 			<input type="submit" class="button success" value="Save Changes">
-			<a href="{{ path('profile', {userId : app.user.id}) }}" class="button">Cancel</a>
+			<a href="{{ path('profile', {userId : app.user.id}) }}" class="button alert float-right">Cancel</a>
 			
 		{{ form_end(form) }}
 		</div>

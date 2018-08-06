@@ -19,8 +19,8 @@
 		<p><b>Patient:</b> {{patient.fname}} {{patient.mname}} {{patient.lname}} {{patient.suffix}}</p>
 		{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
 			{{ form_widget(form) }}
-			<input type="submit" class="button success" value="Submit">
-			<a href="{{ path('doctor') }}" class="button  float-right">Cancel</a>
+			<input type="submit" class="button success small" value="SAVE">
+			<a href="{{ path('doctor') }}" class="button alert small float-right">CANCEL</a>
 		{{ form_end(form) }}
 	</div>
 </div>
