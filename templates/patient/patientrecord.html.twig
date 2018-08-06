@@ -4,36 +4,50 @@
 <div class="grid-container">
 	<div class="panel-heading">
 		<div>
-			<h4 class="text-center">
-				Patient Record
+			<h4 class="text-center"> Patient Records
 			</h4>
 		</div>
-	</div>
 
-<div class="callout">
-	<dl>
-		<dt>Patient:</dt>
-		<dd>{{ patient.fname }} {{ patient.mname }} {{ patient.lname }} {{ patient.suffix }}</dd>
-		<dt>Checkup Date:</dt>
-		<dd>{{ record.checkupDate|date('M d, Y') }}</dd>
-	</dl>
-	<dl>
-		<dt>Doctor in Charge:</dt>
-		<dd>{{ doctor.fname }} {{ doctor.mname }} {{ doctor.lname }} {{ doctor.suffix }}</dd>
-		<dt>Diagnosis Category:</dt>
-		<dd>{{ record.diagnosisCategory.diagnosisName }}</dd>
-	</dl>
-	<dl>
-		<dt>Payment:</dt>
-		<dd>{{ record.payment }}</dd>
-	</dl>
+	<div class="callout">
+	<table class="table unstriped text-justify">
+		<tr>
+			<th>Patient: </th>
+			<td>{{ patient.fname }} {{ patient.mname }} {{ patient.lname }} {{ patient.suffix }}</td>
+			<th>Doctor-in-charge:</th>
+			<td>{{ doctor.fname }} {{ doctor.mname }} {{ doctor.lname }} {{ doctor.suffix }}</td>
+		</tr>
 
-	<dl>
-		<dt>Checkup Reason:</dt>
-		<dd colspan="3">{{ record.checkupReason }}</dd>
-		<dt>Diagnosis:</dt>
-		<dd colspan="3">{{ record.diagnosis }}</dd>
-	</dl>
+		<tr>
+			<th colspan="2">Checkup Date:</th>
+			<td colspan="2">{{ record.checkupDate|date('M d, Y') }}</td>
+		</tr>
+
+		<tr>
+			<th colspan="2">Check up Reason:</th>
+			<td colspan="2">{{ record.checkupReason }}</td>
+		</tr>
+
+		<tr>
+			<th colspan="2">Diagnosis:</th>
+			<td colspan="2">{{ record.diagnosis }}</td>
+		</tr>
+
+		<tr>
+			<th colspan="2">Diagnosis Category:</th>
+			<td colspan="2">{{ record.diagnosisCategory.diagnosisName }}</td>
+		</tr>
+
+		<tr>
+			<th colspan="2">Check up Reason:</th>
+			<td colspan="2">{{ record.checkupReason }}</td>
+		</tr>
+
+		<tr>
+		<th colspan="2">Payment:</th>
+		<td colspan="2">{{ record.payment }}</td>
+		</tr>
+
+	</table>
 </div>
 </div>
 {% endblock %}
