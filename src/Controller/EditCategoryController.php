@@ -10,27 +10,26 @@ use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 class EditCategoryController extends Controller
-{	
-	 /**
+{
+    /**
      * Displays a form to edit an existing user entity.
      *
      * @Route("/admin/edit-category/{id}", name="user_edit")
      * @Method({"GET", "POST"})
      */
-    public function editAction(Request $request, $id)
+    public function editAction(Request $request, $diagId)
     {
-        $dc = $this->getDoctrine()
+        $diagCtg = $this->getDoctrine()
             ->getRepository(DiagnosisCategory::class)
-            ->find($id);
-        $form = $this->createForm(DiagnosisCategoryType::class, $dc);
+            ->find($diagId);
+        $form = $this->createForm(DiagnosisCategoryType::class, $diagCtg);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $diagCtg = $form->getData();
 
-            $dc = $form->getData();
-            
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($dc);
+            $entityManager->persist($diagCtg);
             $entityManager->flush();
 
             return $this->redirectToRoute('diagnosis_categories');
@@ -40,5 +39,4 @@ class EditCategoryController extends Controller
             'form' => $form->createView(),
         ));
     }
-
 }
