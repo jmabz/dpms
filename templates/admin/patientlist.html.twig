@@ -51,9 +51,9 @@
 					{% endif %}
 					<td>
 						{% if is_granted('ROLE_ADMIN') %}
-							<a href="{{ path('delete_user', {userId : patient.id}) }}" class="button alert" onclick="return confirm('Are you sure you want to delete this user?')">Delete</a>
+							<a href="{{ path('delete_user', {userId : patient.id}) }}" class="button alert small" onclick="return confirm('Are you sure you want to delete this user?')">Delete</a>
 						{% elseif is_granted('ROLE_DOCTOR') %}
-							<a href="{{ path('record_diagnosis', {'patientId': patient.id}) }}" class="button">Record Diagnosis...</a>
+							<a href="{{ path('record_diagnosis', {'patientId': patient.id}) }}" class="button small">Record Diagnosis</a>
 						{% endif %}
 					</td>
 				</tr>
