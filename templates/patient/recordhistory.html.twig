@@ -10,6 +10,12 @@
 		</div>
 
 <div class="callout">
+		<nav aria-label="You are here:" role="navigation">
+			<ul class="breadcrumbs">
+			<li><a href="{{ path('patient') }}">Home</a></li>
+			<li><span class="show-for-sr">Current: </span>Record History:</li>
+			</ul>
+		</nav>
 	<table class="table unstriped">
 		<thead>
 			<tr>
@@ -21,7 +27,7 @@
 		<tbody>
 		{% for record in records %}
 			<tr>
-				<td><a href="{{ path('view_record', {recordId : record.id}) }}">{{ record.checkupDate|date('m/d/Y') }}</a></td>
+				<td><a href="{{ path('view_record', {recordId : record.id}) }}" title="Click here to view full details.">{{ record.checkupDate|date('m/d/Y') }}</a></td>
 				<td>{{ record.doctor.fname }} {{ record.doctor.mname }} {{ record.doctor.lname }} {{ record.doctor.suffix }}</td>
 				<td>{{ record.diagnosisCategory.diagnosisName }}</td>
 			</tr>
