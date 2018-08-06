@@ -37,7 +37,7 @@ class AdminController extends Controller
             ->findAll();
 
         return $this->render('admin/cliniclist.html.twig', [
-            'clinics' => $clinics
+            'clinics' => $clinics,
         ]);
     }
 
@@ -65,7 +65,7 @@ class AdminController extends Controller
             ->findAll();
 
         return $this->render('admin/doctorlist.html.twig', [
-                'doctors' => $doctors
+                'doctors' => $doctors,
         ]);
     }
 
@@ -90,7 +90,7 @@ class AdminController extends Controller
     {
         $doctor = new Doctor();
         $form = $this->createForm(DoctorAccountType::class, $doctor);
-        
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -155,14 +155,14 @@ class AdminController extends Controller
 
         if (!$user) {
             throw $this->createNotFoundException(
-                'No user found for ID ' . $userId
+                'No user found for ID '.$userId
             );
         }
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($user);
         $entityManager->flush();
 
-        return $role == "Doctor" ? $this->redirectToRoute('doctor_list') : $this->redirectToRoute('patient_list');
+        return 'Doctor' == $role ? $this->redirectToRoute('doctor_list') : $this->redirectToRoute('patient_list');
     }
 
     /**
@@ -200,7 +200,7 @@ class AdminController extends Controller
             ClinicType::class,
             $clinic,
             ['clinicId' => 0,
-             'addMode' => true]
+             'addMode' => true, ]
         );
 
         $form->handleRequest($request);
@@ -234,26 +234,25 @@ class AdminController extends Controller
             $clinic,
             ['clinicId' => 0,
              'addMode' => false,
-             'editClinic' => true,]
+             'editClinic' => true, ]
         );
 
         $form->handleRequest($request);
         if (!$clinic) {
             throw $this->createNotFoundException(
-                'No clinic found for ID ' . $clinicId
+                'No clinic found for ID '.$clinicId
             );
-        } 
-            if ($form->isSubmitted() && $form->isValid()) {
-                $clinic = $form->getData();
+        }
+        if ($form->isSubmitted() && $form->isValid()) {
+            $clinic = $form->getData();
 
-                $entityManager = $this->getDoctrine()->getManager();
-                $entityManager->persist($clinic);
-                $entityManager->flush();
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($clinic);
+            $entityManager->flush();
 
-                return $this->redirectToRoute('view_clinic', [
+            return $this->redirectToRoute('view_clinic', [
                 'clinicId' => $clinicId,
             ]);
-            
         }
 
         return $this->render('/admin/editclinic.html.twig', [
@@ -275,7 +274,7 @@ class AdminController extends Controller
             $clinic,
             ['clinicId' => $id,
              'addMode' => true,
-             'editDoctors' => true,]
+             'editDoctors' => true, ]
         );
 
         $form->handleRequest($request);
@@ -313,7 +312,7 @@ class AdminController extends Controller
             $clinic,
             ['clinicId' => $id,
              'addMode' => false,
-             'editDoctors' => true,]
+             'editDoctors' => true, ]
         );
 
         $form->handleRequest($request);
