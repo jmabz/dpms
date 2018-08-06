@@ -3,23 +3,24 @@
 {% block title %}Diagnosis Categories{% endblock %}
 {% block body %}
 <div class="grid-container">
-<div class="panel-heading">
-	<div>
+	<div class="panel-heading">
+		<div>
 		<h4 class="text-center"> Diagnosis Categories 
 			<a href="{{ path('add_diagnosis_category') }}" class="button small float-right">Add New Category</a>
 		</h4>
+		</div>
 	</div>
-<div class="callout">
-<nav aria-label="You are here:" role="navigation">
-	<ul class="breadcrumbs">
-		<li><a href="{{ path('admin') }}">Home</a></li>
-		<li><a href="{{ path('clinic_list') }}">Clinics</a></li>
-		<li><span class="show-for-sr">Current: </span>Diagnosis Categories</li>
-		<li><a href="{{ path('doctor_list') }}">Manage Doctors</a></li>
-		<li><a href="{{ path('patient_list') }}">Manage Patients</a></li>
-	</ul>
-</nav>
-	<table class="table unstriped text-center">
+	<div class="callout">
+		<nav aria-label="You are here:" role="navigation">
+			<ul class="breadcrumbs">
+				<li><a href="{{ path('admin') }}">Home</a></li>
+				<li><a href="{{ path('clinic_list') }}">Clinics</a></li>
+				<li><span class="show-for-sr">Current: </span>Diagnosis Categories</li>
+				<li><a href="{{ path('doctor_list') }}">Manage Doctors</a></li>
+				<li><a href="{{ path('patient_list') }}">Manage Patients</a></li>
+			</ul>
+		</nav>
+		<table class="table unstriped text-center">
 			<thead>
 				<tr>
 					<th class="text-center" scope="col">Name</th>
@@ -28,16 +29,15 @@
 			</thead>
 			<tbody>
 			{% for diagnosiscategory in diagnosiscategories %}
-			<tr>
-				<td>{{ diagnosiscategory.diagnosisName }}</td>
-				<td>
+				<tr>
+					<td>{{ diagnosiscategory.diagnosisName }}</td>
+					<td>
 					<a href=" {{ path('user_edit', {'diagId' : diagnosiscategory.id}) }} ">EDIT</a>	
-				</td>
-			</tr>
+					</td>
+				</tr>
 			{% endfor %}
 			</tbody>
 		</table>
-		</div>
 	</div>
-	</div>
+</div>
 {% endblock %}
