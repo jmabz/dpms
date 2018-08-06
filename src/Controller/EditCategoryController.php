@@ -14,7 +14,7 @@ class EditCategoryController extends Controller
     /**
      * Displays a form to edit an existing user entity.
      *
-     * @Route("/admin/edit-category/{id}", name="user_edit")
+     * @Route("/admin/edit-category/{diagId}", name="user_edit")
      * @Method({"GET", "POST"})
      */
     public function editAction(Request $request, $diagId)
