@@ -60,6 +60,8 @@ class ProfileController extends Controller
             $entityManager->persist($userInfo);
             $entityManager->flush();
 
+            $this->addFlash('success', 'Profile is up-to-date!');
+
             return $this->redirectToRoute('profile', ['userId' => $user->getId(),]);
         }
 
