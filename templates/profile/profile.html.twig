@@ -7,10 +7,22 @@
 <div class="panel-heading">
 		<div>
 			<h4 class="text-center">{{ userinfo.fname }} {{ userinfo.mname }} {{ userinfo.lname }} {{ userinfo.suffix }} ({{ role }})
-			{% if is_granted('ROLE_DOCTOR') %}<a href={% if role == "Doctor" %}"{{ path('doctor') }}"{% endif %} class="button alert small float-right">CANCEL</a>
-			{% elseif is_granted('ROLE_ADMIN') %}<a href={% if role == "Admin" %}"{{ path('doctor_list') }}"{% else %}"{{ path('patient_list') }}"{% endif %}class="button alert small float-right">CANCEL</a>
-			{% elseif is_granted('ROLE_PATIENT') %}<a href={% if role == "Patient" %}"{{ path('patient') }}"{% endif %}class="button alert small float-right">CANCEL</a>
+			
+			<a href=
+			{% if is_granted('ROLE_DOCTOR') or is_granted('ROLE_PATIENT') %}
+				{% if role == "Doctor" %}
+					"{{ path('doctor') }}"
+				{% elseif role == "Patient" %}
+					"{{ path('patient') }}"
+				{% endif %}
+			{% elseif is_granted('ROLE_ADMIN') %}
+				{% if role == "Doctor" %}
+					"{{ path('doctor_list') }}"
+				{% elseif role == "Patient" %}
+					"{{ path('patient_list') }}"
+				{% endif %}
 			{% endif %}
+			class="button alert small float-right">CANCEL</a>
 			</h4>
 		</div>
 <div class="callout">
