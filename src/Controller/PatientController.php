@@ -25,28 +25,10 @@ class PatientController extends Controller
      */
     public function listRecordHistory(UserInterface $user)
     {
-        $patientId = $user->getId();
-        $records = $this->getDoctrine()
-            ->getRepository(PatientRecord::class)
-            ->find($patientId);
-
-        // $totalItems = $records->count();
-
-        // $iterator = $records->getIterator();
-
-        // $limit = 10;
-        // $maxPages = ceil($totalItems / $limit);
-
-        // $thisPage = $page;
-
-        // if ($thisPage > $maxPages) {
-        //     $thisPage = $maxPages;
-        // }
+        $records = $user->getPatientRecords();
 
         return $this->render('patient/recordhistory.html.twig', [
             'records' => $records,
-            // 'maxPages' => $maxPages,
-            // 'thisPage' => $thisPage,
         ]);
     }
 
