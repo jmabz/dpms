@@ -4,30 +4,34 @@
 {% block body %}
 	<div class="grid-container">
 		{% if userinfo %}
-<div class="panel-heading">
-		<div>
-			<h4 class="text-center">{{ userinfo.fname }} {{ userinfo.mname }} {{ userinfo.lname }} {{ userinfo.suffix }} ({{ role }})
-			
-			<a href=
-			{% if is_granted('ROLE_DOCTOR') or is_granted('ROLE_PATIENT') %}
-				{% if role == "Doctor" %}
-					"{{ path('doctor') }}"
-				{% elseif role == "Patient" %}
-					"{{ path('patient') }}"
+		<div class="panel-heading">
+			<div>
+				<h4 class="text-center">{{ userinfo.fname }} {{ userinfo.mname }} {{ userinfo.lname }} {{ userinfo.suffix }} ({{ role }})
+				
+				<a href=
+				{% if is_granted('ROLE_DOCTOR') or is_granted('ROLE_PATIENT') %}
+					{% if role == "Doctor" %}
+						"{{ path('doctor') }}"
+					{% elseif role == "Patient" %}
+						"{{ path('patient') }}"
+					{% endif %}
+				{% elseif is_granted('ROLE_ADMIN') %}
+					{% if role == "Doctor" %}
+						"{{ path('doctor_list') }}"
+					{% elseif role == "Patient" %}
+						"{{ path('patient_list') }}"
+					{% endif %}
 				{% endif %}
-			{% elseif is_granted('ROLE_ADMIN') %}
-				{% if role == "Doctor" %}
-					"{{ path('doctor_list') }}"
-				{% elseif role == "Patient" %}
-					"{{ path('patient_list') }}"
-				{% endif %}
-			{% endif %}
-			class="button alert small float-right">RETURN</a>
-			</h4>
+				class="button alert small float-right">RETURN</a>
+				</h4>
+			</div>
 		</div>
-<div class="callout">
-			<h5>User Profile 
-			{% if isActiveUser %}<a href="{{ path('edit_profile') }}" class="button primary small float-right">Edit Profile</a>{% endif %}
+		<div class="callout">
+			<h5>
+				User Profile 
+				{% if isActiveUser %}
+					<a href="{{ path('edit_profile') }}" class="button primary small float-right">Edit Profile</a>
+				{% endif %}
 			</h5>
 			{% for msg in app.session.flashBag.get('success') %}
 					<div class="alert callout" data-closable>
@@ -60,13 +64,11 @@
 			</table>
 		{% endif %}
 		{% if accreditationinfo %}
-			<h5>Accreditation Info {% if accreditationinfo %}
-					{% if accreditationinfo and isActiveUser %}
-						<a href="{{ path('edit_accred') }}" class="button primary small float-right">Edit Accreditation Info</a>
-					{% endif %}
-
-					{% endif %}</h5>
-					
+			<h5>Accreditation Info 
+				{% if accreditationinfo and isActiveUser %}
+					<a href="{{ path('edit_accred') }}" class="button primary small float-right">Edit Accreditation Info</a>
+				{% endif %}
+			</h5>		
 			<table class="unstriped">
 				<tbody>
 					<tr>
@@ -86,6 +88,6 @@
 				</tbody>
 			</table>
 		{% endif %}
+		</div>
 	</div>
-</div>
 {% endblock %}
