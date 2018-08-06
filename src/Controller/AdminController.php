@@ -199,8 +199,10 @@ class AdminController extends Controller
         $form = $this->createForm(
             ClinicType::class,
             $clinic,
-            ['clinicId' => 0,
-             'addMode' => true, ]
+            [
+                'clinicId' => 0,
+                'addMode' => true,
+            ]
         );
 
         $form->handleRequest($request);
@@ -232,9 +234,11 @@ class AdminController extends Controller
         $form = $this->createForm(
             ClinicType::class,
             $clinic,
-            ['clinicId' => 0,
-             'addMode' => false,
-             'editClinic' => true, ]
+            [
+                'clinicId' => 0,
+                'addMode' => false,
+                'editClinic' => true,
+            ]
         );
 
         $form->handleRequest($request);
@@ -272,9 +276,11 @@ class AdminController extends Controller
         $form = $this->createForm(
             ClinicType::class,
             $clinic,
-            ['clinicId' => $id,
-             'addMode' => true,
-             'editDoctors' => true, ]
+            [
+                'clinicId' => $id,
+                'addMode' => true,
+                'editDoctors' => true,
+            ]
         );
 
         $form->handleRequest($request);
@@ -310,9 +316,11 @@ class AdminController extends Controller
         $form = $this->createForm(
             ClinicType::class,
             $clinic,
-            ['clinicId' => $id,
-             'addMode' => false,
-             'editDoctors' => true, ]
+            [
+                'clinicId' => $id,
+                'addMode' => false,
+                'editDoctors' => true,
+            ]
         );
 
         $form->handleRequest($request);
