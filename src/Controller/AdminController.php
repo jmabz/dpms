@@ -285,7 +285,7 @@ class AdminController extends Controller
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()) {
+        if ($form->isValid() && $form->isSubmitted()) {
             // $clinic = $form->getData();
             $doctorsToAdd = $form->get('doctors')->getData();
             foreach ($doctorsToAdd as $doctor => $d) {
