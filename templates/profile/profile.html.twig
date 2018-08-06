@@ -30,10 +30,10 @@
 			{% if isActiveUser %}<a href="{{ path('edit_profile') }}" class="button primary small float-right">Edit Profile</a>{% endif %}
 			</h5>
 			{% for msg in app.session.flashBag.get('success') %}
-					<div class="callout alert" data-closable>
+					<div class="alert callout" data-closable>
 						{{ msg }}
 					<button class="close-button" aria-label="Dismiss alert" type="button" data-close>
-					 <span aria-hidden="true">&times;</span>
+					<span aria-hidden="true">&times;</span>
 					</button>
 					</div>
 					 {% endfor %}
