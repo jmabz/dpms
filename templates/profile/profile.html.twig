@@ -7,9 +7,7 @@
 <div class="panel-heading">
 		<div>
 			<h4 class="text-center">{{ userinfo.fname }} {{ userinfo.mname }} {{ userinfo.lname }} {{ userinfo.suffix }} ({{ role }})
-			{% if is_granted('ROLE_ADMIN') %}<a href="{{ path('doctor_list') }}" class="button alert small float-right">CANCEL</a>
-			{% elseif is_granted('ROLE_DOCTOR') %}<a href="{{ path('doctor') }}" class="button alert small float-right">CANCEL</a>
-			{% endif %}
+			<a href={% if role == "Doctor" %}"{{ path('doctor_list') }}"{% else %}"{{ path('patient_list') }}"{% endif %} class="button alert small float-right">CANCEL</a>
 			</h4>
 		</div>
 <div class="callout">
