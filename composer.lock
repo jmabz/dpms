@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "8196b358bfc141371532f1ac9cf52df4",
-    "content-hash": "f6aa188d26b9c85f284888ecdc24a1c0",
+    "hash": "1662ee6f49d14093130cb512d6c7829e",
+    "content-hash": "6de10d2f91dc69b6b3dc2bc7bd5e16e8",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -5206,6 +5206,53 @@
     ],
     "packages-dev": [
         {
+            "name": "allocine/twigcs",
+            "version": "v3.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/allocine/twigcs.git",
+                "reference": "c777cbdd6bd9eb77730354ec53025b32cd20ca1c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/allocine/twigcs/zipball/c777cbdd6bd9eb77730354ec53025b32cd20ca1c",
+                "reference": "c777cbdd6bd9eb77730354ec53025b32cd20ca1c",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.0",
+                "pimple/pimple": "^3.0",
+                "symfony/console": "^2.7 || ^3.0 || ^4.0",
+                "symfony/finder": "^2.7 || ^3.0 || ^4.0",
+                "twig/twig": "^1.0 || ^2.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^7.2 || ^6.5"
+            },
+            "bin": [
+                "bin/twigcs"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Allocine\\Twigcs\\": "src/",
+                    "Allocine\\Twigcs\\Tests\\": "tests/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "OwlyCode",
+                    "email": "tmaindron@gmail.com"
+                }
+            ],
+            "description": "Checkstyle automation for Twig",
+            "time": "2018-07-16 10:42:41"
+        },
+        {
             "name": "easycorp/easy-log-handler",
             "version": "v1.0.5",
             "source": {
@@ -5355,6 +5402,56 @@
                 "php"
             ],
             "time": "2018-07-15 17:25:16"
+        },
+        {
+            "name": "pimple/pimple",
+            "version": "v3.2.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/silexphp/Pimple.git",
+                "reference": "9e403941ef9d65d20cba7d54e29fe906db42cf32"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/silexphp/Pimple/zipball/9e403941ef9d65d20cba7d54e29fe906db42cf32",
+                "reference": "9e403941ef9d65d20cba7d54e29fe906db42cf32",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0",
+                "psr/container": "^1.0"
+            },
+            "require-dev": {
+                "symfony/phpunit-bridge": "^3.2"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.2.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Pimple": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                }
+            ],
+            "description": "Pimple, a simple Dependency Injection Container",
+            "homepage": "http://pimple.sensiolabs.org",
+            "keywords": [
+                "container",
+                "dependency injection"
+            ],
+            "time": "2018-01-21 07:42:36"
         },
         {
             "name": "symfony/browser-kit",
