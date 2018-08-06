@@ -242,7 +242,7 @@ class AdminController extends Controller
             throw $this->createNotFoundException(
                 'No clinic found for ID ' . $clinicId
             );
-        } else {
+        } 
             if ($form->isSubmitted() && $form->isValid()) {
                 $clinic = $form->getData();
 
@@ -253,7 +253,7 @@ class AdminController extends Controller
                 return $this->redirectToRoute('view_clinic', [
                 'clinicId' => $clinicId,
             ]);
-            }
+            
         }
 
         return $this->render('/admin/editclinic.html.twig', [
