@@ -30,7 +30,7 @@
 			<tbody>
 			{% for doctor in doctors %}
 				<tr>
-					<td><a href="{{ path('profile', {userId : doctor.id}) }}" title="Click here to view profile.">{{ doctor.userInfo.fname }}</a></td>
+					<td><a href="{{ path('profile', {userId : doctor.id}) }}" title="Click here to view profile.">{{ doctor.userInfo.fname }} {{ doctor.userInfo.mname }} {{ doctor.userInfo.lname }} {{ doctor.userInfo.suffix }}</a></td>
 					<td>{{ doctor.accreditationinfo.accreditationcode }}</td>
 					<td>
 						<a href="{{ path('delete_user', {userId : doctor.id}) }}" class="button alert" onclick="return confirm('Are you sure you want to delete this user?')">Delete</a>
