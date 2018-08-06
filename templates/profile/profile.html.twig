@@ -14,7 +14,6 @@
 		</div>
 <div class="callout">
 			<h5>User Profile 
-			{% if is_granted('ROLE_ADMIN') %}<a href="{{ path('edit_profile', { 'id': userinfo.id }) }}" class="button primary small float-right">Edit Profile</a>{% endif %}
 			{% if isActiveUser %}<a href="{{ path('edit_profile') }}" class="button primary small float-right">Edit Profile</a>{% endif %}
 			</h5>
 			<table class="unstriped text-center">
@@ -40,7 +39,6 @@
 		{% endif %}
 		{% if accreditationinfo %}
 			<h5>Accreditation Info {% if accreditationinfo %}
-					{% if is_granted('ROLE_ADMIN') %}<a href="{{ path('edit_accred',  { 'id': userinfo.id }) }}" class="button primary small float-right">Edit Accreditation Info</a>{% endif %}
 					{% if accreditationinfo and isActiveUser %}
 						<a href="{{ path('edit_accred') }}" class="button primary small float-right">Edit Accreditation Info</a>
 					{% endif %}
