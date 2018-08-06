@@ -43,9 +43,9 @@ class PatientRecordType extends AbstractType
                 'choice_label' => function ($diagnosiscategory) {
                     return $diagnosiscategory->getDiagnosisName();
                 },
-                'choice_value' => function (DiagnosisCategory $diagnosiscategory = null) {
-                    return $diagnosiscategory ? $diagnosiscategory->getId() : '';
-                },
+                // 'choice_value' => function (DiagnosisCategory $diagnosiscategory = null) {
+                //     return $diagnosiscategory ? $diagnosiscategory->getId() : '';
+                // },
                 'attr' => ['class' => 'chosen-select']
             ])
             ->add('payment', MoneyType::class, [
