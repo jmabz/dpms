@@ -35,12 +35,18 @@ class Doctor extends User
      * @ORM\ManyToMany(targetEntity="App\Entity\Clinic", mappedBy="doctors")
      */
     private $clinics;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Appointment", mappedBy="doctor")
+     */
+    private $appointments;
     
     public function __construct()
     {
         $this->patientRecords = new ArrayCollection();
         $this->clinics = new ArrayCollection();
         parent::setRoles(['ROLE_DOCTOR']);
+        $this->appointments = new ArrayCollection();
     }
 
     public function getUserInfo(): ?UserInfo
@@ -114,6 +120,37 @@ class Doctor extends User
         if ($this->clinics->contains($clinic)) {
             $this->clinics->removeElement($clinic);
             $clinic->removeDoctor($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Appointment[]
+     */
+    public function getAppointments(): Collection
+    {
+        return $this->appointments;
+    }
+
+    public function addAppointment(Appointment $appointment): self
+    {
+        if (!$this->appointments->contains($appointment)) {
+            $this->appointments[] = $appointment;
+            $appointment->setDoctor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAppointment(Appointment $appointment): self
+    {
+        if ($this->appointments->contains($appointment)) {
+            $this->appointments->removeElement($appointment);
+            // set the owning side to null (unless already changed)
+            if ($appointment->getDoctor() === $this) {
+                $appointment->setDoctor(null);
+            }
         }
 
         return $this;
