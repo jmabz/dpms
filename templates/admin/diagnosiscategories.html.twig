@@ -11,13 +11,13 @@
 	</div>
 <div class="callout">
 <nav aria-label="You are here:" role="navigation">
-  <ul class="breadcrumbs">
-    <li><a href="{{ path('admin') }}">Home</a></li>
-	<li><a href="{{ path('clinic_list') }}">Clinics</a></li>
-	<li><span class="show-for-sr">Current: </span>Diagnosis Categories</li>
-	<li><a href="{{ path('doctor_list') }}">Manage Doctors</a></li>
-	<li><a href="{{ path('patient_list') }}">Manage Patients</a></li>
-  </ul>
+	<ul class="breadcrumbs">
+		<li><a href="{{ path('admin') }}">Home</a></li>
+		<li><a href="{{ path('clinic_list') }}">Clinics</a></li>
+		<li><span class="show-for-sr">Current: </span>Diagnosis Categories</li>
+		<li><a href="{{ path('doctor_list') }}">Manage Doctors</a></li>
+		<li><a href="{{ path('patient_list') }}">Manage Patients</a></li>
+	</ul>
 </nav>
 	<table class="table unstriped text-center">
 			<thead>
@@ -31,7 +31,7 @@
 			<tr>
 				<td>{{ diagnosiscategory.diagnosisName }}</td>
 				<td>
-					<a href=" {{ path('user_edit', {'id' : diagnosiscategory.id}) }} ">EDIT</a>	
+					<a href=" {{ path('user_edit', {'diagId' : diagnosiscategory.id}) }} ">EDIT</a>	
 				</td>
 			</tr>
 			{% endfor %}
