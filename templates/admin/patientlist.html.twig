@@ -3,32 +3,30 @@
 {% block body %}
 
 <div class="grid-container">
+	<div class="panel-heading">
+		<div>
+			<h4 class="text-center">Patients{% if is_granted('ROLE_ADMIN') %}<a href="{{ path('add_patient') }}" class="button small float-right">Add New Patient</a>{% endif %}
+			</h4>
+		</div>
 
-<div class="panel-heading">
-
-	<div>
-		<h4 class="text-center">Patients{% if is_granted('ROLE_ADMIN') %}<a href="{{ path('add_patient') }}" class="button small float-right">Add New Patient</a>{% endif %}
-		</h4>
-	</div>
-
-<div class="callout">
-<nav aria-label="You are here:" role="navigation">
-	{% if is_granted('ROLE_ADMIN') %}
-		<ul class="breadcrumbs">
-			<li><a href="{{ path('admin') }}">Home</a></li>
-			<li><a href="{{ path('clinic_list') }}">Clinics</a></li>
-			<li><a href="{{ path('diagnosis_categories') }}">Diagnosis Categories</a></li>
-			<li><a href="{{ path('doctor_list') }}">Manage Doctors</a></li>
-			<li><span class="show-for-sr">Current: </span>Manage Patients</li>
-		</ul>
-	{% elseif is_granted('ROLE_DOCTOR') %}
-		<ul class="breadcrumbs">
-			<li><a href="{{ path('admin') }}">Home</a></li>
-			<li><span class="show-for-sr">Current: </span>Manage Patients</li>
-		</ul>
-	{% endif %}
-	
-</nav>
+	<div class="callout">
+	<nav aria-label="You are here:" role="navigation">
+		{% if is_granted('ROLE_ADMIN') %}
+			<ul class="breadcrumbs">
+				<li><a href="{{ path('admin') }}">Home</a></li>
+				<li><a href="{{ path('clinic_list') }}">Clinics</a></li>
+				<li><a href="{{ path('diagnosis_categories') }}">Diagnosis Categories</a></li>
+				<li><a href="{{ path('doctor_list') }}">Manage Doctors</a></li>
+				<li><span class="show-for-sr">Current: </span>Manage Patients</li>
+			</ul>
+		{% elseif is_granted('ROLE_DOCTOR') %}
+			<ul class="breadcrumbs">
+				<li><a href="{{ path('doctor') }}">Home</a></li>
+				<li><span class="show-for-sr">Current: </span>Patients</li>
+			</ul>
+		{% endif %}
+		
+	</nav>
 		<table class="table unstriped text-center">
 			<thead>
 				<tr>
@@ -41,7 +39,7 @@
 				<tr>
 					<td>
 						<a href="{{ path('profile', {userId: patient.id}) }}">
-							 {{ patient.userInfo.fname }} {{ patient.userInfo.mname }} {{ patient.userInfo.lname }} {{ patient.userInfo.suffix }}
+								{{ patient.userInfo.fname }} {{ patient.userInfo.mname }} {{ patient.userInfo.lname }} {{ patient.userInfo.suffix }}
 						</a>
 					</td>
 					<td>
@@ -55,8 +53,8 @@
 			{% endfor %}
 			</tbody>
 		</table>
-		</div>
 	</div>
+</div>
 
 {% endblock %}
 	
