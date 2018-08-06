@@ -31,6 +31,10 @@
 			<thead>
 				<tr>
 					<th class="text-center">Name</th>
+					<th class="text-center">Gender</th>
+					<th class="text-center">Civil Status</th>
+					<th class="text-center">Address</th>
+					<th class="text-center">Birthday</th>
 					<th class="text-center">Action</th>
 				</tr>
 			</thead>
@@ -43,9 +47,41 @@
 								{{ patient.userInfo.fname }} {{ patient.userInfo.mname }} {{ patient.userInfo.lname }} {{ patient.userInfo.suffix }}
 						</a>
 					</td>
+					<td>
+								{{ patient.userInfo.gender }}
+						</a>
+					</td>
+					<td>
+								{{ patient.userInfo.civilstatus }}
+						</a>
+					</td>
+					<td>
+								{{ patient.userInfo.address }}
+						</a>
+					</td>
+					<td>
+								{{ patient.userInfo.birthdate| date ('M d, Y') }}
+						</a>
+					</td>
 					{% elseif is_granted('ROLE_DOCTOR') %}
 					<td>
 								{{ patient.userInfo.fname }} {{ patient.userInfo.mname }} {{ patient.userInfo.lname }} {{ patient.userInfo.suffix }}
+						</a>
+					</td>
+					<td>
+								{{ patient.userInfo.gender }}
+						</a>
+					</td>
+					<td>
+								{{ patient.userInfo.civilstatus }}
+						</a>
+					</td>
+					<td>
+								{{ patient.userInfo.address }}
+						</a>
+					</td>
+					<td>
+								{{ patient.userInfo.birthdate| date ('M d, Y') }}
 						</a>
 					</td>
 					{% endif %}
