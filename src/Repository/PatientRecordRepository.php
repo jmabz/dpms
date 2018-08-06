@@ -48,7 +48,7 @@ class PatientRecordRepository extends ServiceEntityRepository
         ;
     }
     */
-   
+
     public function findAllPatientRecordsPaged($patientId, $curPage = 1)
     {
         $query = $this->createQueryBuilder('p')
@@ -72,6 +72,6 @@ class PatientRecordRepository extends ServiceEntityRepository
         ->setFirstResult($limit * ($page - 1)) // Offset
         ->setMaxResults($limit); // Limit
 
-    return $paginator;
+        return $paginator;
     }
 }
