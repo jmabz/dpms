@@ -13,15 +13,17 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class DoctorController extends Controller
 {
-
     /**
      * @Route("/doctor", name="doctor")
      */
     public function index()
     {
-        return $this->render('doctor/index.html.twig', [
+        return $this->render(
+            'doctor/index.html.twig',
+            [
             'controller_name' => 'DoctorController',
-        ]);
+            ]
+        );
     }
 
     /**
@@ -33,7 +35,7 @@ class DoctorController extends Controller
             ->getRepository(Patient::class)
             ->findAllPatientsPaged($page);
 
-       // $totalItemsReturned = $patients->getIterator()->count();
+        // $totalItemsReturned = $patients->getIterator()->count();
 
         $totalItems = $patients->count();
 
@@ -48,11 +50,14 @@ class DoctorController extends Controller
             $thisPage = $maxPages;
         }
 
-        return $this->render('admin/patientlist.html.twig', [
+        return $this->render(
+            'admin/patientlist.html.twig',
+            [
             'patients' => $patients,
             'maxPages' => $maxPages,
             'thisPage' => $thisPage,
-        ]);
+            ]
+        );
     }
 
     /**
@@ -64,7 +69,7 @@ class DoctorController extends Controller
         $form = $this->createForm(PatientRecordType::class, $patientRecord);
 
         $form->handleRequest($request);
-        
+
         $doctor = $this->getDoctrine()
             ->getRepository(Doctor::class)
             ->find($user->getId());
@@ -83,12 +88,16 @@ class DoctorController extends Controller
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($patientRecord);
             $entityManager->flush();
+
             return $this->redirectToRoute('patient_list_doctors');
         }
 
-        return $this->render('doctor/recorddiagnosis.html.twig', [
+        return $this->render(
+            'doctor/recorddiagnosis.html.twig',
+            [
             'form' => $form->createView(),
             'patient' => $patientUserInfo,
-        ]);
+            ]
+        );
     }
 }
