@@ -7,47 +7,47 @@
 			<h4 class="text-center"> Patient Records
 			</h4>
 		</div>
-
+	</div>
 	<div class="callout">
-	<table class="table unstriped text-justify">
-		<tr>
-			<th>Patient: </th>
-			<td>{{ patient.fname }} {{ patient.mname }} {{ patient.lname }} {{ patient.suffix }}</td>
-			<th>Doctor-in-charge:</th>
-			<td>{{ doctor.fname }} {{ doctor.mname }} {{ doctor.lname }} {{ doctor.suffix }}</td>
-		</tr>
+		<table class="table unstriped text-justify">
+			<tr>
+				<th>Patient: </th>
+				<td>{{ patient.fname }} {{ patient.mname }} {{ patient.lname }} {{ patient.suffix }}</td>
+				<th>Doctor-in-charge:</th>
+				<td>{{ doctor.fname }} {{ doctor.mname }} {{ doctor.lname }} {{ doctor.suffix }}</td>
+			</tr>
 
-		<tr>
-			<th colspan="2">Checkup Date:</th>
-			<td colspan="2">{{ record.checkupDate|date('M d, Y') }}</td>
-		</tr>
+			<tr>
+				<th colspan="2">Checkup Date:</th>
+				<td colspan="2">{{ record.checkupDate|date('M d, Y') }}</td>
+			</tr>
 
-		<tr>
-			<th colspan="2">Check up Reason:</th>
-			<td colspan="2">{{ record.checkupReason }}</td>
-		</tr>
+			<tr>
+				<th colspan="2">Check up Reason:</th>
+				<td colspan="2">{{ record.checkupReason }}</td>
+			</tr>
 
-		<tr>
-			<th colspan="2">Diagnosis:</th>
-			<td colspan="2">{{ record.diagnosis }}</td>
-		</tr>
+			<tr>
+				<th colspan="2">Diagnosis:</th>
+				<td colspan="2">{{ record.diagnosis }}</td>
+			</tr>
 
-		<tr>
-			<th colspan="2">Diagnosis Category:</th>
-			<td colspan="2">{{ record.diagnosisCategory.diagnosisName }}</td>
-		</tr>
+			<tr>
+				<th colspan="2">Diagnosis Category:</th>
+				<td colspan="2">{{ record.diagnosisCategory.diagnosisName }}</td>
+			</tr>
 
-		<tr>
-			<th colspan="2">Check up Reason:</th>
-			<td colspan="2">{{ record.checkupReason }}</td>
-		</tr>
+			<tr>
+				<th colspan="2">Check up Reason:</th>
+				<td colspan="2">{{ record.checkupReason }}</td>
+			</tr>
 
-		<tr>
-		<th colspan="2">Payment:</th>
-		<td colspan="2">{{ record.payment }}</td>
-		</tr>
+			<tr>
+			<th colspan="2">Payment:</th>
+			<td colspan="2">{{ record.payment }}</td>
+			</tr>
 
-	</table>
-</div>
+		</table>
+	</div>
 </div>
 {% endblock %}
