@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Patient;
 use App\Entity\PatientRecord;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class PatientController extends Controller
@@ -20,33 +21,32 @@ class PatientController extends Controller
     }
 
     /**
-     * @Route("patient/records/{page}", name="record_history")
+     * @Route("patient/records/", name="record_history")
      */
-    public function listRecordHistory($page = 1)
+    public function listRecordHistory(UserInterface $user)
     {
-        // TODO: query active patient's ID
-        $patientId = 2;
+        $patientId = $user->getId();
         $records = $this->getDoctrine()
             ->getRepository(PatientRecord::class)
-            ->findAllPatientRecordsPaged($patientId, $page);
+            ->find($patientId);
 
-        $totalItems = $records->count();
+        // $totalItems = $records->count();
 
         // $iterator = $records->getIterator();
 
-        $limit = 10;
-        $maxPages = ceil($totalItems / $limit);
+        // $limit = 10;
+        // $maxPages = ceil($totalItems / $limit);
 
-        $thisPage = $page;
+        // $thisPage = $page;
 
-        if ($thisPage > $maxPages) {
-            $thisPage = $maxPages;
-        }
+        // if ($thisPage > $maxPages) {
+        //     $thisPage = $maxPages;
+        // }
 
         return $this->render('patient/recordhistory.html.twig', [
             'records' => $records,
-            'maxPages' => $maxPages,
-            'thisPage' => $thisPage,
+            // 'maxPages' => $maxPages,
+            // 'thisPage' => $thisPage,
         ]);
     }
 
