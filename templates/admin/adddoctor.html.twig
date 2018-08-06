@@ -9,49 +9,38 @@
 			</h4>
 	</div>
 <div class="callout">
-
-<nav aria-label="You are here:" role="navigation">
-  <ul class="breadcrumbs">
-    <li><a href="{{ path('admin') }}">Home</a></li>
-	<li><a href="{{ path('clinic_list') }}">Clinics</a></li>
-	<li><a href="{{ path('diagnosis_categories') }}">Diagnosis Categories</a></li>
-	<li><a href="{{ path('doctor_list') }}">Manage Doctors</a></li>
-	<li><a href="{{ path('patient_list') }}">Manage Patients</a></li>
-  </ul>
-</nav>
-
 			{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
 			<div class="grid-x">
 				<div class="cell medium-12">
 					{{ form_row(form.username) }}
 					{{ form_row(form.plainPassword) }}
 				</div>
-				<div class="medium-12"><h3>User Information</h3></div>
-				<div class="medium-4 columns">
-					{# {{ form_errors(form.userinfo) }} #}
-					{{ form_row(form.userinfo.fname) }}
-				</div>
-				<div class="medium-2 columns">
-					{{ form_row(form.userinfo.mname) }}
-				</div>
-				<div class="medium-4 columns">
-					{{ form_row(form.userinfo.lname) }}
-				</div>
-				<div class="medium-2 columns">
-					{{ form_row(form.userinfo.suffix) }}
-				</div>
-				<div class="medium-6 columns">
-					{{ form_row(form.userinfo.gender) }}
-				</div>
-				<div class="medium-6 columns">
-					{{ form_row(form.userinfo.civil_status) }}
-				</div>
-				<div class="medium-6 columns">
-					{{ form_row(form.userinfo.address) }}
-				</div>
-				<div class="medium-6 columns">
-					{{ form_row(form.userinfo.birthDate) }}
-				</div>
+				<div class="small-12 medium-12"><h3>User Information</h3></div>
+					<div class="small-12 medium-3 columns">
+						{# {{ form_errors(form.userinfo) }} #}
+						{{ form_row(form.userinfo.fname) }}
+					</div>
+					<div class="small-12 medium-3 columns">
+						{{ form_row(form.userinfo.mname) }}
+					</div>
+					<div class="small-12 medium-3 columns">
+						{{ form_row(form.userinfo.lname) }}
+					</div>
+					<div class="small-12 medium-3 columns">
+						{{ form_row(form.userinfo.suffix) }}
+					</div>
+					<div class="small-12 medium-6 columns">
+						{{ form_row(form.userinfo.gender) }}
+					</div>
+					<div class="small-12 medium-6 columns">
+						{{ form_row(form.userinfo.civil_status) }}
+					</div>
+					<div class="small-12 medium-6 columns">
+						{{ form_row(form.userinfo.address) }}
+					</div>
+					<div class="small-12 medium-6 columns">
+						{{ form_row(form.userinfo.birthDate) }}
+					</div>
 
 				<div class="medium-12"><h3>Accreditation Information</h3></div>
 				<div class="cell medium-4">
