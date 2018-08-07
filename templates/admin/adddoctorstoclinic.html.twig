@@ -1,16 +1,16 @@
 {% extends 'base.html.twig' %}
 {%
-	set words = addDoctors ? 
+	set words = addDoctors ?
 		{
 			operation : 'Add',
 			dir : 'to',
 		}
-		: 
+		:
 		{
 			operation : 'Remove',
 			dir : 'from',
 		}
-	
+
 %}
 {% block title %} {{words.operation}} Doctors {{words.dir}} Clinic{% endblock %}
 {% block body %}
