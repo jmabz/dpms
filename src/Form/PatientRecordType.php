@@ -48,9 +48,8 @@ class PatientRecordType extends AbstractType
                 // },
                 'attr' => ['class' => 'chosen-select']
             ])
-            ->add('payment', MoneyType::class, [
-                'label' => 'Payment'
-            ]);
+            ->add('payment', MoneyType::class, array('currency'=>'₱',
+            'attr' => ['label' => 'Payment', 'placeholder' => '000.00', 'divisor' => 100]));
 
         $builder
             ->get('checkupDate')
