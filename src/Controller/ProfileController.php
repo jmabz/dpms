@@ -42,10 +42,13 @@ class ProfileController extends Controller
     }
 
     /**
-     * @Route("/userprofile/edit", name="edit_profile")
+     * @Route("/userprofile/edit/{userId}", name="edit_profile")
      */
-    public function editProfile(UserInterface $user, Request $request)
+    public function editProfile($userId, Request $request)
     {
+        $user = $this->getDoctrine()
+            ->getRepository(User::class)
+            ->find($userId);
 
         $userInfo = $user->getUserInfo();
 
@@ -71,10 +74,13 @@ class ProfileController extends Controller
     }
 
     /**
-     * @Route("/userprofile/editaccred", name="edit_accred")
+     * @Route("/userprofile/editaccred/{userId}", name="edit_accred")
      */
-    public function editAccredInfo(UserInterface $user, Request $request)
+    public function editAccredInfo($userId, Request $request)
     {
+        $user = $this->getDoctrine()
+            ->getRepository(User::class)
+            ->find($userId);
         $accreditationInfo = $user->getAccreditationInfo();
 
         $form = $this->createForm(AccreditationInfoType::class, $accreditationInfo);
@@ -93,6 +99,7 @@ class ProfileController extends Controller
 
         return $this->render('profile/editaccredinfo.html.twig', [
             'form' => $form->createView(),
+            'userId' => $userId,
         ]);
     }
 }

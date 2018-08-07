@@ -43,6 +43,11 @@ class Appointment
      */
     private $patient;
 
+    public function __construct()
+    {
+        $this->appointmentStatus = "Undecided";
+    }
+
     public function getId()
     {
         return $this->id;

@@ -8,6 +8,7 @@ security:
         ROLE_ADMIN:     [ROLE_USER, ROLE_CLINIC_SETUP, ROLE_ACCOUNT_SETUP, ROLE_ENTITY_ADD]
         ROLE_DOCTOR:    [ROLE_USER, ROLE_RECORD_CREATE]
         ROLE_PATIENT:   [ROLE_USER, ROLE_RECORD_VIEW, ROLE_HISTORY_VIEW]
+        ROLE_USER:      [ROLE_PROFILE_VIEW]
     providers:
         our_db_provider:
             entity:

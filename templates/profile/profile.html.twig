@@ -36,8 +36,8 @@
 					{% endfor %}
 			<h5>
 				User Profile 
-				{% if isActiveUser %}
-					<a href="{{ path('edit_profile') }}" class="button primary small float-right">Edit Profile</a>
+				{% if is_granted('ROLE_ACCOUNT_SETUP') %}
+					<a href="{{ path('edit_profile', {'userId': userId}) }}" class="button primary small float-right">Edit Profile</a>
 				{% endif %}
 			</h5>
 			<table class="unstriped text-center">
@@ -63,8 +63,8 @@
 		{% endif %}
 		{% if accreditationinfo %}
 			<h5>Accreditation Info 
-				{% if accreditationinfo and isActiveUser %}
-					<a href="{{ path('edit_accred') }}" class="button primary small float-right">Edit Accreditation Info</a>
+				{% if accreditationinfo and is_granted('ROLE_ACCOUNT_SETUP') %}
+					<a href="{{ path('edit_accred', {'userId': userId}) }}" class="button primary small float-right">Edit Accreditation Info</a>
 				{% endif %}
 			</h5>		
 			<table class="unstriped">

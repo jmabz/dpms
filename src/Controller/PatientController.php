@@ -51,12 +51,4 @@ class PatientController extends Controller
             'patient' => $patient,
         ]);
     }
-
-    /**
-     * @Route("/patient/set-appointment", name="set_appointment")
-     */
-    public function setAppointment()
-    {
-        return $this->render('patient/set_appointment.html.twig');
-    }
 }
