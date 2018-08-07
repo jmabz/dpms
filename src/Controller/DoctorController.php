@@ -7,6 +7,7 @@ use App\Entity\Patient;
 use App\Entity\PatientRecord;
 use App\Form\PatientRecordType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -14,22 +15,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class DoctorController extends Controller
 {
     /**
-     * @Route("/doctor", name="doctor")
-     */
-    public function index()
-    {
-        return $this->render(
-            'doctor/index.html.twig',
-            [
-            'controller_name' => 'DoctorController',
-            ]
-        );
-    }
-
-    /**
+     * Displays all patients for diagnosis
+     *
+     * @param integer $page
+     * @return Response
+     *
      * @Route("/doctor/patients", name="patient_list_doctors")
      */
-    public function listPatientsForDiagnosis($page = 1)
+    public function listPatientsForDiagnosis($page = 1) : Response
     {
         $patients = $this->getDoctrine()
             ->getRepository(Patient::class)
@@ -61,18 +54,21 @@ class DoctorController extends Controller
     }
 
     /**
+     * Records a patient's diagnosis
+     *
+     * @param UserInterface $user
+     * @param Request $request
+     * @param [type] $patientId
+     * @return Response
+     *
      * @Route("/doctor/recorddiagnosis/{patientId}", name="record_diagnosis")
      */
-    public function recordDiagnosis(UserInterface $user, Request $request, $patientId)
+    public function recordDiagnosis(UserInterface $user, Request $request, $patientId) : Response
     {
         $patientRecord = new PatientRecord();
         $form = $this->createForm(PatientRecordType::class, $patientRecord);
 
         $form->handleRequest($request);
-
-        $doctor = $this->getDoctrine()
-            ->getRepository(Doctor::class)
-            ->find($user->getId());
 
         $patient = $this->getDoctrine()
             ->getRepository(Patient::class)
@@ -83,7 +79,7 @@ class DoctorController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $patientRecord = $form->getData();
             $patientRecord->setPatient($patient);
-            $patientRecord->setDoctor($doctor);
+            $patientRecord->setDoctor($user);
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($patientRecord);

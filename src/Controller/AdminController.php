@@ -17,15 +17,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class AdminController extends Controller
 {
-    /**
-     * @Route("/admin", name="admin")
-     */
-    public function index()
-    {
-        return $this->render('admin/index.html.twig', [
-            'controller_name' => 'AdminController',
-        ]);
-    }
 
     /**
      * @Route("/admin/clinics", name="clinic_list")
@@ -65,7 +56,7 @@ class AdminController extends Controller
             ->findAll();
 
         return $this->render('admin/doctorlist.html.twig', [
-                'doctors' => $doctors,
+            'doctors' => $doctors,
         ]);
     }
 
@@ -266,18 +257,18 @@ class AdminController extends Controller
     }
 
     /**
-     * @Route("/admin/clinic/{id}/adddoctors", name="add_doctors_to_clinic")
+     * @Route("/admin/clinic/{clinicId}/adddoctors", name="add_doctors_to_clinic")
      */
-    public function addDoctorsToClinic(Request $request, $id)
+    public function addDoctorsToClinic(Request $request, $clinicId)
     {
         $clinic = $this->getDoctrine()
             ->getRepository(Clinic::class)
-            ->find($id);
+            ->find($clinicId);
         $form = $this->createForm(
             ClinicType::class,
             $clinic,
             [
-                'clinicId' => $id,
+                'clinicId' => $clinicId,
                 'addMode' => true,
                 'editDoctors' => true,
             ]
@@ -295,7 +286,7 @@ class AdminController extends Controller
             $entityManager->persist($clinic);
             $entityManager->flush();
 
-            return $this->redirectToRoute('view_clinic', ['clinicId' => $id]);
+            return $this->redirectToRoute('view_clinic', ['clinicId' => $clinicId]);
         }
 
         return $this->render('/admin/adddoctorstoclinic.html.twig', [
@@ -306,18 +297,18 @@ class AdminController extends Controller
     }
 
     /**
-     * @Route("/admin/clinic/{id}/removedoctors", name="remove_doctors_from_clinic")
+     * @Route("/admin/clinic/{clinicId}/removedoctors", name="remove_doctors_from_clinic")
      */
-    public function removeDoctorsFromClinic(Request $request, $id)
+    public function removeDoctorsFromClinic(Request $request, $clinicId)
     {
         $clinic = $this->getDoctrine()
             ->getRepository(Clinic::class)
-            ->find($id);
+            ->find($clinicId);
         $form = $this->createForm(
             ClinicType::class,
             $clinic,
             [
-                'clinicId' => $id,
+                'clinicId' => $clinicId,
                 'addMode' => false,
                 'editDoctors' => true,
             ]
@@ -335,7 +326,7 @@ class AdminController extends Controller
             $entityManager->persist($clinic);
             $entityManager->flush();
 
-            return $this->redirectToRoute('view_clinic', ['clinicId' => $id]);
+            return $this->redirectToRoute('view_clinic', ['clinicId' => $clinicId]);
         }
 
         return $this->render('/admin/adddoctorstoclinic.html.twig', [

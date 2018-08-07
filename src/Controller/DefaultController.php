@@ -12,8 +12,30 @@ class DefaultController extends Controller
      */
     public function index()
     {
-        return $this->render('default/index.html.twig', [
-            'controller_name' => 'DefaultController',
-        ]);
+        return $this->render('default/index.html.twig');
+    }
+
+    /**
+     * @Route("/admin", name="admin")
+     */
+    public function adminIndex()
+    {
+        return $this->render('admin/index.html.twig');
+    }
+
+    /**
+     * @Route("/doctor", name="doctor")
+     */
+    public function doctorIndex()
+    {
+        return $this->render('doctor/index.html.twig');
+    }
+
+    /**
+     * @Route("/patient", name="patient")
+     */
+    public function patientIndex()
+    {
+        return $this->render('patient/index.html.twig');
     }
 }

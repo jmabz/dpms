@@ -15,26 +15,42 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class AppointmentController extends Controller
 {
     /**
+     * Lists all appointments
+     *
+     * @param AppointmentRepository $apptRepsitory
+     * @return Response
+     *
      * @Route("admin/appointments", name="appointment_index", methods="GET")
      */
     public function listAppointments(AppointmentRepository $apptRepsitory): Response
     {
         return $this->render('admin/appointmentlist.html.twig', [
             'appointments' => $apptRepsitory->findAll()
-            ]);
+        ]);
     }
 
     /**
+     * Lists all appointments from the doctor's side
+     *
+     * @param UserInterface $user
+     * @return Response
+     *
      * @Route("doctor/appointments", name="appointment_doctor", methods="GET")
      */
     public function listAssignedAppointments(UserInterface $user): Response
     {
         return $this->render('admin/appointmentlist.html.twig', [
             'appointments' => $user->getAppointments()
-            ]);
+        ]);
     }
-            
+
     /**
+     * Set an appointment
+     *
+     * @param UserInterface $user
+     * @param Request $request
+     * @return Response
+     *
      * @Route("patient/setappointment", name="add_appointment", methods="GET|POST")
      */
     public function setAppointment(UserInterface $user, Request $request): Response
@@ -57,8 +73,15 @@ class AppointmentController extends Controller
             'form' => $form->createView(),
         ]);
     }
-    
+
     /**
+     * Accept or decline an appointment
+     *
+     * @param Request $request
+     * @param AppointmentRepository $apptRepsitory
+     * @param [type] $appointmentId
+     * @return Response
+     *
      * @Route("doctor/checkappointment/{appointmentId}", name="check_appointment", methods="GET|POST")
      */
     public function checkAppointment(Request $request, AppointmentRepository $apptRepsitory, $appointmentId): Response
@@ -80,17 +103,30 @@ class AppointmentController extends Controller
             'form' => $form->createView(),
         ]);
     }
-    
+
     /**
+     * Display a single appointment by its ID
+     *
+     * @param AppointmentRepository $apptRepsitory
+     * @param [type] $appointmentId
+     * @return Response
+     *
      * @Route("/doctor/appointments/{appointmentId}", name="appointment_show", methods="GET")
      */
     public function show(AppointmentRepository $apptRepsitory, $appointmentId): Response
     {
-
-        return $this->render('doctor/appointment.html.twig', ['appointment' => $apptRepsitory->find($appointmentId)]);
+        return $this->render('doctor/appointment.html.twig', [
+            'appointment' => $apptRepsitory->find($appointmentId)
+        ]);
     }
 
     /**
+     * Edit an appointment
+     *
+     * @param Request $request
+     * @param Appointment $appointment
+     * @return Response
+     *
      * @Route("/patient/appointments/{appointmentId}/edit", name="appointment_edit", methods="GET|POST")
      */
     public function edit(Request $request, Appointment $appointment): Response
@@ -113,6 +149,12 @@ class AppointmentController extends Controller
     }
 
     /**
+     * Delete an appointment
+     *
+     * @param Request $request
+     * @param Appointment $appointment
+     * @return Response
+     *
      * @Route("/patient/appointments/{appointmentId}", name="appointment_delete", methods="DELETE")
      */
     public function delete(Request $request, Appointment $appointment): Response
