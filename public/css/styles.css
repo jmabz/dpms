@@ -1,6 +1,5 @@
 body {
-  padding: 2rem 1rem;
-
+	padding: 2rem 1rem;
 }
 
 td{
@@ -11,9 +10,9 @@ td{
 	padding-top: 2%;
 }
 .log-in-form {
-  border: 1px solid #cacaca;
-  padding: 1rem;
-  border-radius: 0;
+	border: 1px solid #cacaca;
+	padding: 1rem;
+	border-radius: 0;
 }
 
 .panel-heading {
@@ -24,16 +23,16 @@ td{
 }
 
 .panel-heading h4{
-	    padding-left: 2%;
-	    padding-right: 2%;
-	    padding-bottom: 1%;
-	    color: white;
+	padding-left: 2%;
+	padding-right: 2%;
+	padding-bottom: 1%;
+	color: white;
 }
 
 .panel-heading h5{
-	    padding-left: 2%;
-	    padding-right: 2%;
-	    padding-bottom: 1%;
+	padding-left: 2%;
+	padding-right: 2%;
+	padding-bottom: 1%;
 }
 
 .panel-heading .menu a:hover{
@@ -44,4 +43,60 @@ td{
 	border: 1px solid #e6e6e6;
     border-bottom-left-radius: 15px;
     border-bottom-right-radius: 15px;
+}
+
+.menu-hover-lines {
+	text-transform: uppercase;
+	font-weight: 500;
+	letter-spacing: 1px;
+	transition: all 0.35s ease;
+	text-align: center;
+}
+
+.menu-hover-lines li a {
+	color: rgba(10, 10, 10, 0.5);
+	position: relative;
+	margin-left: 1rem;
+	padding: 0.75rem 0;
+}
+
+.menu-hover-lines li:first-child a {
+	margin-left: 0;
+}
+
+.menu-hover-lines li.active > a {
+	background-color: transparent;
+}
+
+.menu-hover-lines a:before,
+.menu-hover-lines a::after {
+	position: absolute;
+	content: '';
+	transition: all 0.35s ease;
+	background-color: #1779ba;
+	width: 0;
+	height: 3px;
+}
+
+.menu-hover-lines a::before {
+	top: 0;
+	left: 0;
+}
+
+.menu-hover-lines a::after {
+	bottom: 0;
+	right: 0;
+}
+
+.menu-hover-lines a:hover,
+.menu-hover-lines li.active > a {
+	color: #0a0a0a;
+	transition: all 0.35s ease;
+}
+
+.menu-hover-lines a:hover::before,
+.menu-hover-lines .active a::before,
+.menu-hover-lines a:hover::after,
+.menu-hover-lines .active a::after {
+	width: 100%;
 }

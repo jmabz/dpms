@@ -3,39 +3,37 @@
 {% block body %}
 <div class="grid-container">
 <div class="panel-heading">
-	<div>
-	<h4 class="text-center">
-		Clinics
-		<a  href="{{ path('add_clinic') }}" class="button small float-right">Add New Clinic</a>
-	</h4>
+		<div>
+			<h4 class="text-center">Clinics
+				<a href="{{ path('add_clinic') }}" class="button small float-right">Add New Clinic</a>
+			</h4>
 		</div>
-	<div class="callout">
-<nav aria-label="You are here:" role="navigation">
-  <ul class="breadcrumbs">
-    <li><a href="{{ path('admin') }}">Home</a></li>
-	<li><span class="show-for-sr">Current: </span>Clinics</li>
-	<li><a href="{{ path('diagnosis_categories') }}">Diagnosis Categories</a></li>
-	<li><a href="{{ path('doctor_list') }}">Manage Doctors</a></li>
-	<li><a href="{{ path('patient_list') }}">Manage Patients</a></li>
-  </ul>
-</nav>			
-		<table class="table unstriped">
-			<thead>
-				<tr>
-					<th>Name</th>
-				</tr>
-			</thead>
-			<tbody>
-				{% for clinic in clinics %}
-				<tr>
-					<td>
-						<a href="{{ path('view_clinic', {clinicId : clinic.id}) }}">{{ clinic.clinicName }}
-						</a>
-					</td>
-				</tr>
-				{% endfor %}
-			</tbody>
-		</table>
+		<div class="callout">
+			<nav aria-label="You are here:" role="navigation">
+				<ul class="breadcrumbs">
+					<li><a href="{{ path('admin') }}">Home</a></li>
+					<li><span class="show-for-sr">Current: </span>Clinics</li>
+					<li><a href="{{ path('diagnosis_categories') }}">Diagnosis Categories</a></li>
+					<li><a href="{{ path('doctor_list') }}">Manage Doctors</a></li>
+					<li><a href="{{ path('patient_list') }}">Manage Patients</a></li>
+				</ul>
+			</nav>
+			<table class="table unstriped">
+				<thead>
+					<tr>
+						<th>Name</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for clinic in clinics %}
+						<tr>
+							<td>
+								<a href="{{ path('view_clinic', {clinicId : clinic.id}) }}">{{ clinic.clinicName }}</a>
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
 		</div>
 	</div>
 {% endblock %}

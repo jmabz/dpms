@@ -10,15 +10,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class PatientController extends Controller
 {
-    /**
-     * @Route("/patient", name="patient")
-     */
-    public function index()
-    {
-        return $this->render('patient/index.html.twig', [
-            'controller_name' => 'PatientController',
-        ]);
-    }
 
     /**
      * @Route("patient/records/", name="record_history")

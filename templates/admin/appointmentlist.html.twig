@@ -3,43 +3,67 @@
 {% block title %}Appointment index{% endblock %}
 
 {% block body %}
-    <h1>Appointment index</h1>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Appointment Date</th>
-                <th>Patient</th>
-                <th>Appointment Status</th>
-                <th>Reason for Appointment</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for appointment in appointments %}
-            <tr>
-                <td><a href="{{ path('appointment_show', {'appointmentId': appointment.id}) }}">{{ appointment.id }}</a></td>
-                <td>{{ appointment.appointmentDate ? appointment.appointmentDate|date('Y-m-d') : '' }}</td>
-                <td>{{ appointment.patient.userInfo.getCompleteName() }}</td>
-                <td>{{ appointment.appointmentStatus }}</td>
-                <td>{{ appointment.reason }}</td>
-                <td>
-                {% if is_granted('ROLE_ADMIN') %}
-                    <a href="{{ path('appointment_edit', {'appointmentId': appointment.id}) }}" class="button primary">Edit</a>
-                    <a href="{{ path('appointment_delete', {'appointmentId': appointment.id}) }}" 
-                        onsubmit="return confirm('Are you sure you want to delete this appointment?');" class="button alert">Delete</a>
-                {% elseif is_granted('ROLE_DOCTOR') %}
-                    <a href="{{ path('check_appointment', {'appointmentId': appointment.id}) }}" class="button primary">Check Appointment</a>
-                {% endif %}
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="6">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
+    <div class="grid-container">
+        <div class="panel-heading">
+            <h4 class="text-center">Scheduled Appointments</h4>
+        </div>
+        <div class="callout">
+            <nav aria-label="You are here:" role="navigation">
+                <ul class="breadcrumbs">
+                    <li>
+                    <a href=
+                        {% if is_granted('ROLE_ADMIN') %}
+                            "{{ path('admin') }}"
+                        {% elseif is_granted('ROLE_DOCTOR') %}
+                            "{{ path('doctor') }}"
+                        {% endif %}>
+                        Home
+                    </a>
+                    </li>
+                    <li><span class="show-for-sr">Current: </span>Appointments</li>
+                </ul>
+            </nav>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Appointment Date</th>
+                        <th>Patient</th>
+                        <th>Appointment Status</th>
+                        <th>Reason for Appointment</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for appointment in appointments %}
+                        <tr>
+                            <td><a href="{{ path('appointment_show', {'appointmentId': appointment.id}) }}">{{ appointment.id }}</a></td>
+                            <td>{{ appointment.appointmentDate ? appointment.appointmentDate|date('Y-m-d') : '' }}</td>
+                            <td>{{ appointment.patient.userInfo.getCompleteName() }}</td>
+                            <td>{{ appointment.appointmentStatus }}</td>
+                            <td>{{ appointment.reason }}</td>
+                            <td>
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <a href="{{ path('appointment_edit', {'appointmentId': appointment.id}) }}" class="button primary">Edit</a>
+                                <a href="{{ path('appointment_delete', {'appointmentId': appointment.id}) }}"
+                                    onsubmit="return confirm('Are you sure you want to delete this appointment?');" class="button alert">Delete</a>
+                            {% elseif is_granted('ROLE_DOCTOR') %}
+                                {% if appointment.appointmentStatus == "Undecided" %}
+                                    <a href="{{ path('accept_appointment', {'appointmentId': appointment.id}) }}" class="button success">Accept</a>
+                                    <a href="{{ path('decline_appointment', {'appointmentId': appointment.id}) }}" class="button alert">Decline</a>
+                                {% elseif appointment.appointmentStatus == "Accepted" %}
+                                    <a href="{{ path('record_diagnosis', {'patientId': appointment.patient.id}) }}" class="button primary">Record Diagnosis</a>
+                                {% endif %}
+                            {% endif %}
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="6">no records found</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 {% endblock %}

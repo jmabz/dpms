@@ -23,9 +23,10 @@
 				<ul class="breadcrumbs">
 					<li><a href="{{ path('doctor') }}">Home</a></li>
 					<li><span class="show-for-sr">Current: </span>Patients</li>
+					<li><a href="{{ path('appointment_doctor') }}">Appointments</a></li>
 				</ul>
 			{% endif %}
-			
+
 		</nav>
 		<table class="table unstriped text-center">
 			<thead>
@@ -41,48 +42,21 @@
 			<tbody>
 			{% for patient in patients %}
 				<tr>
-					{% if is_granted('ROLE_ADMIN') %}
 					<td>
-								{{ patient.userInfo.fname }} {{ patient.userInfo.mname }} {{ patient.userInfo.lname }} {{ patient.userInfo.suffix }}
+						{{ patient.userInfo.fname }} {{ patient.userInfo.mname }} {{ patient.userInfo.lname }} {{ patient.userInfo.suffix }}
 					</td>
 					<td>
-								{{ patient.userInfo.gender }}
-						</a>
+						{{ patient.userInfo.gender }}
 					</td>
 					<td>
-								{{ patient.userInfo.civilstatus }}
-						</a>
+						{{ patient.userInfo.civilstatus }}
 					</td>
 					<td>
-								{{ patient.userInfo.address }}
-						</a>
+						{{ patient.userInfo.address }}
 					</td>
 					<td>
-								{{ patient.userInfo.birthdate| date ('M d, Y') }}
-						</a>
+						{{ patient.userInfo.birthdate| date ('M d, Y') }}
 					</td>
-					{% elseif is_granted('ROLE_DOCTOR') %}
-					<td>
-								{{ patient.userInfo.fname }} {{ patient.userInfo.mname }} {{ patient.userInfo.lname }} {{ patient.userInfo.suffix }}
-						</a>
-					</td>
-					<td>
-								{{ patient.userInfo.gender }}
-						</a>
-					</td>
-					<td>
-								{{ patient.userInfo.civilstatus }}
-						</a>
-					</td>
-					<td>
-								{{ patient.userInfo.address }}
-						</a>
-					</td>
-					<td>
-								{{ patient.userInfo.birthdate| date ('M d, Y') }}
-						</a>
-					</td>
-					{% endif %}
 					<td>
 						{% if is_granted('ROLE_ADMIN') %}
 							<a href="{{ path('delete_user', {userId : patient.id}) }}" class="button alert small" onclick="return confirm('Are you sure you want to delete this user?')">Delete</a>
@@ -98,4 +72,3 @@
 </div>
 
 {% endblock %}
-	

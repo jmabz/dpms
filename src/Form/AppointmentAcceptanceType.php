@@ -28,7 +28,6 @@ class AppointmentAcceptanceType extends AbstractType
                 ]
             ])
             ;
-        
     }
 
     public function configureOptions(OptionsResolver $resolver)

@@ -45,7 +45,7 @@ class Appointment
 
     public function __construct()
     {
-        $this->appointmentStatus = "Undecided";
+        $this->appointmentStatus = "Pending";
     }
 
     public function getId()
