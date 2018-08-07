@@ -7,7 +7,6 @@
 		<div class="panel-heading">
 			<div>
 				<h4 class="text-center">{{ userinfo.fname }} {{ userinfo.mname }} {{ userinfo.lname }} {{ userinfo.suffix }} ({{ role }})
-				
 				<a href=
 				{% if is_granted('ROLE_DOCTOR') or is_granted('ROLE_PATIENT') %}
 					{% if role == "Doctor" %}
@@ -35,7 +34,7 @@
 					</div>
 					{% endfor %}
 			<h5>
-				User Profile 
+				User Profile
 				{% if is_granted('ROLE_ACCOUNT_SETUP') %}
 					<a href="{{ path('edit_profile', {'userId': userId}) }}" class="button primary small float-right">Edit Profile</a>
 				{% endif %}
@@ -62,11 +61,11 @@
 			</table>
 		{% endif %}
 		{% if accreditationinfo %}
-			<h5>Accreditation Info 
+			<h5>Accreditation Info
 				{% if accreditationinfo and is_granted('ROLE_ACCOUNT_SETUP') %}
 					<a href="{{ path('edit_accred', {'userId': userId}) }}" class="button primary small float-right">Edit Accreditation Info</a>
 				{% endif %}
-			</h5>		
+			</h5>
 			<table class="unstriped">
 				<tbody>
 					<tr>
@@ -81,7 +80,7 @@
 						<th>Expiry Date:</th>
 						<td>{{ accreditationinfo.accreditationexpdate|date('M d, Y') }}</td>
 					</tr>
-					<tr>			
+					<tr>
 					</tr>
 				</tbody>
 			</table>
