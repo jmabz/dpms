@@ -3,8 +3,22 @@
 {% block title %}Appointment index{% endblock %}
 
 {% block body %}
-    <h1>Appointment index</h1>
+<div class="grid-container">
+    <div class="panel-heading">
+		<div>
+			<h4 class="text-center">
+				Scheduled Appointments
+			</h4>
+		</div>
 
+<div class="callout">
+<nav aria-label="You are here:" role="navigation">
+<ul class="breadcrumbs">
+					<li><a href="{{ path('doctor') }}">Home</a></li>
+					<li><a href="{{ path('patient_list_doctors') }}">Patients</a></li>
+                    <li><span class="show-for-sr">Current: </span>Appointments</li>
+				</ul>
+</nav>
     <table class="table">
         <thead>
             <tr>
