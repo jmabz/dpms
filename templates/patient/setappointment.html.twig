@@ -21,20 +21,22 @@
 		</nav>
     {{ form_start(form) }}
 
-<div class="grid-x" style="margin-left:10px;">
-				<div class="small-12 medium-3">	
-                {{ form_row(form.appointmentDate) }}
+<div class="grid-x">
+				<div class="small-12 medium-4 input-group">
+                <p>Date prefer: <p>
+                {{ form_widget(form.appointmentDate) }}
                 </div>
-                <div class="small-12 medium-8" style="margin-left:5%;">
+                <div class="small-12 medium-7 input-group" style="margin-left:8%;">
+                <p>Doctor-in-charge:<p>
+                {{ form_widget(form.doctor) }}
+                </div>
+                <div class="small-12 medium-12" style="margin-top:-3%;">
                 {{ form_row(form.reason) }}
                 </div>
-                <div class="small-12 medium-8">
-                {{ form_row(form.doctor) }}
+                <div class="small-12 medium-12">
+                <a href="{{path('patient')}}" class="small button alert float-right" style="margin-left:.5%;">Cancel</a>
+                <a href="{{path('add_appointment')}}" class="small button success float-right">Set appointment</a>
                 </div>
-                <div class="small-12 medium-3" style="margin-left:5%;margin-top:1.5%;">
-                <a href="" class="button success small float-right">Set appointment</a>
-                </div>
-    
     {{ form_end(form) }}
 </div>
 </div>
