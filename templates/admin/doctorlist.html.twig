@@ -6,7 +6,10 @@
 		<div>
 			<h4 class="text-center">
 				Doctors
-				<a href="{{ path('add_doctor') }}" class="button radius small float-right">Add New Doctor</a>
+				<div class="button-group small float-right">
+					<a href="{{ path('add_doctor') }}" class="button">Add New Doctor</a>
+					<a href="{{ path('view_appointment') }}" class="button">View All Appoinments</a>
+				</div>
 			</h4>
 		</div>
 <div class="callout">

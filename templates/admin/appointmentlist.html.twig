@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+{% block title %}List of Doctors Appointments{% endblock %}
+{% block body %}
+<div class="grid-container">
+	<div class="panel-heading">
+		<div>
+			<h4 class="text-center">
+				Appointment Schedules
+					<a href="{{ path('doctor_list') }}" class="small button alert float-right">RETURN</a>
+				
+			</h4>
+		</div>
+<div class="callout">
+		
+			<table class="table unstriped text-center">
+			<thead>
+				<tr>
+					<th class="text-center">Patient Name</th>
+					<th class="text-center">Doctor Name</th>
+					<th class="text-center">Appointment Schedule</th>
+				</tr>
+			</thead>
+			<tbody>
+			
+				<tr>
+					<td></td>
+                    <td></td>
+                    <td></td>
+				</tr>
+	
+			</tbody>
+		</table>
+		</div>
+	</div>
+</div>
+{% endblock %}
