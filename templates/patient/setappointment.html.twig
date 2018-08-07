@@ -3,9 +3,40 @@
 {% block title %}New Appointment{% endblock %}
 
 {% block body %}
-    <h1>Create new Appointment</h1>
+<div class="grid-container">
+<div class="panel-heading">
+		<div>
+			<h4 class="text-center">
+				Schedule an Appoinment
+			</h4>
+		</div>
 
-    {{ include('appointment/_form.html.twig') }}
+<div class="callout">
+		<nav aria-label="You are here:" role="navigation">
+			<ul class="breadcrumbs">
+			<li><a href="{{ path('patient') }}">Home</a></li>
+			<li><a href="{{ path('record_history') }}">Record History</a></li>
+            <li><span class="show-for-sr">Current: </span>Set an appointment</li>
+			</ul>
+		</nav>
+    {{ form_start(form) }}
 
-    <a href="{{ path('appointment_index') }}">back to list</a>
+<div class="grid-x" style="margin-left:10px;">
+				<div class="small-12 medium-3">	
+                {{ form_row(form.appointmentDate) }}
+                </div>
+                <div class="small-12 medium-8" style="margin-left:5%;">
+                {{ form_row(form.reason) }}
+                </div>
+                <div class="small-12 medium-8">
+                {{ form_row(form.doctor) }}
+                </div>
+                <div class="small-12 medium-3" style="margin-left:5%;margin-top:1.5%;">
+                <a href="" class="button success small float-right">Set appointment</a>
+                </div>
+    
+    {{ form_end(form) }}
+</div>
+</div>
+</div>
 {% endblock %}
