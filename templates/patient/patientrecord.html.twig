@@ -2,12 +2,12 @@
 {% block title %}Patient Record{% endblock %}
 {% block body %}
 <div class="grid-container">
-	<div class="panel-heading">
+    <div class="panel-heading">
 		<div>
-			<h4 class="text-center"> Patient Records
+			<h4 class="text-center">
+					Patient Records
 			</h4>
 		</div>
-	</div>
 	<div class="callout">
 		<nav aria-label="You are here:" role="navigation">
 			<ul class="breadcrumbs">
@@ -50,10 +50,11 @@
 
 		<tr>
 		<th colspan="2">Payment:</th>
-		<td colspan="2">{{ record.payment }}</td>
+		<td colspan="2">₱{{ record.payment| number_format(2, '.', ',') }}</td>
 		</tr>
 
 	</table>
+</div>
 </div>
 </div>
 {% endblock %}

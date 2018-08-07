@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Appointment{% endblock %}
+
+{% block body %}
+<div class="grid-container">
+<div class="panel-heading">
+		<div>
+			<h4 class="text-center">
+				Schedule an Appoinment
+			</h4>
+		</div>
+
+<div class="callout">
+		<nav aria-label="You are here:" role="navigation">
+			<ul class="breadcrumbs">
+			<li><a href="{{ path('patient') }}">Home</a></li>
+			<li><a href="{{ path('record_history') }}">Record History</a></li>
+            <li><span class="show-for-sr">Current: </span>Set an appointment</li>
+			</ul>
+		</nav>
+    {{ form_start(form) }}
+
+<div class="grid-x">
+				<div class="small-12 medium-4 input-group">
+                <p>Date prefer: <p>
+                {{ form_widget(form.appointmentDate) }}
+                </div>
+                <div class="small-12 medium-7 input-group" style="margin-left:8%;">
+                <p>Doctor-in-charge:<p>
+                {{ form_widget(form.doctor) }}
+                </div>
+                <div class="small-12 medium-12" style="margin-top:-3%;">
+                {{ form_row(form.reason) }}
+                </div>
+                <div class="small-12 medium-12">
+                <a href="{{path('patient')}}" class="small button alert float-right" style="margin-left:.5%;">CANCEL</a>
+                <input type="SUBMIT" value="SAVE APPOINTMENT" class="small button secondary float-right">
+                </div>
+    {{ form_end(form) }}
+</div>
+</div>
+</div>
+{% endblock %}
