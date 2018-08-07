@@ -19,16 +19,15 @@ class AppointmentType extends AbstractType
     {
         $builder
             ->add('appointmentDate', TextType::class, [
-                'label' => 'Appointment Date',
+                'label' => 'Preferred Appointment Date',
                 'attr' => [
                     'class' => 'datepicker'
                 ]])
-            // ->add('appointmentStatus')
             ->add('reason', TextareaType::class, [
                 'label' => 'Reason for Appointment',
             ])
             ->add('doctor', EntityType::class, [
-                'label' => 'Doctor in Charge',
+                'label' => 'Doctor to Contact',
                 'class' => Doctor::class,
                 'choice_label' => function ($doctor) {
                     return $doctor->getUserInfo()->getFname() . ' ' . $doctor->getUserInfo()->getMname() . ' ' . $doctor->getUserInfo()->getLname();
@@ -47,7 +46,6 @@ class AppointmentType extends AbstractType
             $builder
             ->get('appointmentDate')
             ->addModelTransformer(new DateToStringTransformer($builder->get('appointmentDate')));
-        
     }
 
     public function configureOptions(OptionsResolver $resolver)

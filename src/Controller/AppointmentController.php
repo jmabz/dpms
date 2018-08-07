@@ -20,7 +20,7 @@ class AppointmentController extends Controller
      * @param AppointmentRepository $apptRepsitory
      * @return Response
      *
-     * @Route("admin/appointments", name="appointment_index", methods="GET")
+     * @Route("admin/appointments", name="appointment_list", methods="GET")
      */
     public function listAppointments(AppointmentRepository $apptRepsitory): Response
     {
@@ -75,33 +75,43 @@ class AppointmentController extends Controller
     }
 
     /**
-     * Accept or decline an appointment
+     * Accept an appointment
      *
      * @param Request $request
      * @param AppointmentRepository $apptRepsitory
      * @param [type] $appointmentId
      * @return Response
      *
-     * @Route("doctor/checkappointment/{appointmentId}", name="check_appointment", methods="GET|POST")
+     * @Route("doctor/acceptappointment/{appointmentId}", name="accept_appointment", methods="GET|POST")
      */
-    public function checkAppointment(Request $request, AppointmentRepository $apptRepsitory, $appointmentId): Response
+    public function acceptAppointment(AppointmentRepository $apptRepsitory, $appointmentId): Response
     {
         $appointment = $apptRepsitory->find($appointmentId);
-        $form = $this->createForm(AppointmentAcceptanceType::class, $appointment);
-        $form->handleRequest($request);
+        $appointment->setAppointmentStatus("Accepted");
+        $this->getDoctrine()
+            ->getManager()
+            ->flush();
+        return $this->redirectToRoute('appointment_doctor');
+    }
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()
-                ->getManager()
-                ->flush();
-
-            return $this->redirectToRoute('appointment_doctor');
-        }
-
-        return $this->render('appointment/edit.html.twig', [
-            'appointment' => $appointment,
-            'form' => $form->createView(),
-        ]);
+    /**
+     * Decline an appointment
+     *
+     * @param Request $request
+     * @param AppointmentRepository $apptRepsitory
+     * @param [type] $appointmentId
+     * @return Response
+     *
+     * @Route("doctor/declineappointment/{appointmentId}", name="decline_appointment", methods="GET|POST")
+     */
+    public function declineAppointment(AppointmentRepository $apptRepsitory, $appointmentId): Response
+    {
+        $appointment = $apptRepsitory->find($appointmentId);
+        $appointment->setAppointmentStatus("Declined");
+        $this->getDoctrine()
+            ->getManager()
+            ->flush();
+        return $this->redirectToRoute('appointment_doctor');
     }
 
     /**
@@ -127,10 +137,11 @@ class AppointmentController extends Controller
      * @param Appointment $appointment
      * @return Response
      *
-     * @Route("/patient/appointments/{appointmentId}/edit", name="appointment_edit", methods="GET|POST")
+     * @Route("/admin/appointments/{appointmentId}/edit", name="appointment_edit", methods="GET|POST")
      */
-    public function edit(Request $request, Appointment $appointment): Response
+    public function edit(Request $request, AppointmentRepository $apptRepository, $appointmentId): Response
     {
+        $appointment = $apptRepository->find($appointmentId);
         $form = $this->createForm(AppointmentType::class, $appointment);
         $form->handleRequest($request);
 
@@ -139,7 +150,7 @@ class AppointmentController extends Controller
                 ->getManager()
                 ->flush();
 
-            return $this->redirectToRoute('appointment_edit', ['appointmentId' => $appointment->getId()]);
+            return $this->redirectToRoute('appointment_index');
         }
 
         return $this->render('appointment/edit.html.twig', [
@@ -151,19 +162,24 @@ class AppointmentController extends Controller
     /**
      * Delete an appointment
      *
-     * @param Request $request
-     * @param Appointment $appointment
+     * @param AppointmentRepository $apptRepsitory
+     * @param [type] $appointmentId
      * @return Response
      *
-     * @Route("/patient/appointments/{appointmentId}", name="appointment_delete", methods="DELETE")
+     * @Route("/admin/appointments/{appointmentId}", name="appointment_delete", methods="DELETE")
      */
-    public function delete(Request $request, Appointment $appointment): Response
+    public function delete(AppointmentRepository $apptRepository, $appointmentId): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$appointment->getId(), $request->request->get('_token'))) {
+        $appointment = $apptRepository->find($appointmentId);
+
+        if (!$appointment) {
+            throw $this->createNotFoundException(
+                'No appointment found for ID '.$appointmentId
+            );
+        }
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($appointment);
             $entityManager->flush();
-        }
 
         return $this->redirectToRoute('appointment_index');
     }

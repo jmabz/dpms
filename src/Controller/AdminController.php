@@ -335,11 +335,4 @@ class AdminController extends Controller
             'addDoctors' => false,
         ]);
     }
-    /**
-     * @Route("/admin/view-appointments", name="view_appointment")
-     */
-    public function appointmentView()
-    {
-        return $this->render('admin/appointmentlist.html.twig');
-    }
 }

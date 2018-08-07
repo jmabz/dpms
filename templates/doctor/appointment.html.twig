@@ -3,45 +3,40 @@
 {% block title %}Appointment{% endblock %}
 
 {% block body %}
-<div class="grid-container">
-    <div class="panel-heading">
-		<div>
-			<h4 class="text-center">
-				Scheduled Appointments
-			</h4>
-		</div>
+    <div class="grid-container">
+        <div class="panel-heading">
+            <div>
+                <h4 class="text-center">Scheduled Appointments</h4>
+            </div>
+        </div>
+        <div class="callout">
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <th>Id</th>
+                        <td>{{ appointment.id }}</td>
+                    </tr>
+                    <tr>
+                        <th>AppointmentDate</th>
+                        <td>{{ appointment.appointmentDate ? appointment.appointmentDate|date('Y-m-d') : '' }}</td>
+                    </tr>
+                    <tr>
+                        <th>AppointmentStatus</th>
+                        <td>{{ appointment.appointmentStatus }}</td>
+                    </tr>
+                    <tr>
+                        <th>Reason</th>
+                        <td>{{ appointment.reason }}</td>
+                    </tr>
+                </tbody>
+            </table>
 
-<div class="callout">
-
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ appointment.id }}</td>
-            </tr>
-            <tr>
-                <th>AppointmentDate</th>
-                <td>{{ appointment.appointmentDate ? appointment.appointmentDate|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>AppointmentStatus</th>
-                <td>{{ appointment.appointmentStatus }}</td>
-            </tr>
-            <tr>
-                <th>Reason</th>
-                <td>{{ appointment.reason }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <a href={% if is_granted('ROLE_ADMIN') %}
-                {{ path('appointment_index') }}
-            {% elseif is_granted('ROLE_DOCTOR') %}
-                {{ path('appointment_doctor') }}
-            {% endif %} 
-        class="button primary">Back to List</a>
-</div>
-</div>
-</div>
-    {# {{ include('appointment/_delete_form.html.twig') }} #}
+            <a href={% if is_granted('ROLE_ADMIN') %}
+                        {{ path('appointment_index') }}
+                    {% elseif is_granted('ROLE_DOCTOR') %}
+                        {{ path('appointment_doctor') }}
+                    {% endif %}
+                class="button primary">Back to List</a>
+        </div>
+    </div>
 {% endblock %}
