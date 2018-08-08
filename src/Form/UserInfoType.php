@@ -3,9 +3,7 @@
 namespace App\Form;
 
 use App\Entity\UserInfo;
-
 use App\Form\DataTransformer\DateToStringTransformer;
-
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -32,16 +30,33 @@ class UserInfoType extends AbstractType
             ->add('suffix', TextType::class, [
                 'label' => 'Suffix',
             ])
-            ->add('gender', ChoiceType::class, array('choices' => array('Select Gender' => null,'Male' => 'Male', 'Female' => 'Female'), 'label' => 'Gender:', 'attr' => ['class' => 'form-control']))
-            ->add('civil_status', ChoiceType::class, array('choices' => array('Civil Status' => null,'Single' => 'Single', 'Married' => 'Married', 'Widowed' =>'Widowed', 'Annulled' => 'Annulled'), 'attr' => ['class' => 'form-control']))
+            ->add('gender', ChoiceType::class, [
+                    'choices' => [
+                        'Select Gender' => null,
+                        'Male' => 'Male',
+                        'Female' => 'Female'
+                    ],
+                    'label' => 'Gender:',
+                    'attr' => ['class' => 'form-control']
+                    ])
+            ->add('civil_status', ChoiceType::class, [
+                    'choices' => [
+                        'Civil Status' => null,
+                        'Single' => 'Single',
+                        'Married' => 'Married',
+                        'Widowed' => 'Widowed',
+                        'Annulled' => 'Annulled'
+                    ],
+                    'attr' => ['class' => 'form-control']
+                    ])
             ->add('address', TextType::class, [
                 'label' => 'Address',
             ])
             ->add('birthDate', TextType::class, [
                 'label' => 'Birth Date',
                 'attr' => [
-                    'class' => 'datepicker'
-                ]
+                    'class' => 'datepicker',
+                ],
             ]);
 
         $builder
