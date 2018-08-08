@@ -2,6 +2,16 @@
 {% set isActiveUser = userId == app.user.id %}
 {% block title %}Profile{% endblock %}
 {% block body %}
+<div class="notification">
+{% for msg in app.session.flashBag.get('success') %}
+	<div class="callout alert-callout-border success radius" data-closable="fade-out" autoClose="5000">
+		<strong>Success!</strong> {{ msg }}
+		<button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+		<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+{% endfor %}
+</div>
 	<div class="grid-container">
 		{% if userinfo %}
 		<div class="panel-heading">
@@ -25,14 +35,6 @@
 				</h4>
 			</div>
 		<div class="callout">
-		{% for msg in app.session.flashBag.get('success') %}
-					<div class="success callout" data-closable>
-						{{ msg }}
-					<button class="close-button" aria-label="Dismiss alert" type="button" data-close>
-					<span aria-hidden="true">&times;</span>
-					</button>
-					</div>
-					{% endfor %}
 			<h5>
 				User Profile
 				{% if is_granted('ROLE_ACCOUNT_SETUP') %}
