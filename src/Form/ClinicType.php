@@ -70,6 +70,7 @@ class ClinicType extends AbstractType
                 },
                 'multiple' => true,
                 'expanded' => false,
+                'attr' => ['class' => 'chosen-select'],
                 'query_builder' => function (DoctorRepository $repo) use ($clinicId, $addMode) {
                     return $addMode ? $repo->findDoctorsNotInClinic($clinicId) : $repo->findDoctorsInClinic($clinicId);
                 }
