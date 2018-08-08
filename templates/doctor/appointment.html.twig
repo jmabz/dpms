@@ -6,37 +6,38 @@
     <div class="grid-container">
         <div class="panel-heading">
             <div>
-                <h4 class="text-center">Scheduled Appointments</h4>
-            </div>
-        </div>
-        <div class="callout">
-            <table class="table">
-                <tbody>
-                    <tr>
-                        <th>Id</th>
-                        <td>{{ appointment.id }}</td>
-                    </tr>
-                    <tr>
-                        <th>AppointmentDate</th>
-                        <td>{{ appointment.appointmentDate ? appointment.appointmentDate|date('Y-m-d') : '' }}</td>
-                    </tr>
-                    <tr>
-                        <th>AppointmentStatus</th>
-                        <td>{{ appointment.appointmentStatus }}</td>
-                    </tr>
-                    <tr>
-                        <th>Reason</th>
-                        <td>{{ appointment.reason }}</td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <a href={% if is_granted('ROLE_ADMIN') %}
+                <h4 class="text-center">Scheduled Appointments
+                <a href={% if is_granted('ROLE_ADMIN') %}
                         {{ path('appointment_index') }}
                     {% elseif is_granted('ROLE_DOCTOR') %}
                         {{ path('appointment_doctor') }}
                     {% endif %}
-                class="button primary">Back to List</a>
+                class="small button primary float-right">Back to List</a>
+                </h4>
+            </div>
+        <div class="callout">
+            <table class="table unstriped text-center">
+            <label>Patient Name: </label>
+                <tbody>
+                    <tr>
+                        <th>ID:</th>
+                        <td>{{ appointment.id }}</td>
+                    </tr>
+                    <tr>
+                        <th>Appointment Date:</th>
+                        <td>{{ appointment.appointmentDate ? appointment.appointmentDate|date('Y-m-d') : '' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Appointment Status:</th>
+                        <td>{{ appointment.appointmentStatus }}</td>
+                    </tr>
+                    <tr>
+                        <th>Reason:</th>
+                        <td>{{ appointment.reason }}</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
+</div>
 {% endblock %}
