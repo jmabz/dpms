@@ -16,9 +16,9 @@
 	<table class="table unstriped text-justify">
 		<tr>
 			<th>Patient: </th>
-			<td>{{ patient.fname }} {{ patient.mname }} {{ patient.lname }} {{ patient.suffix }}</td>
+			<td>{{ patient.getCompleteName() }}</td>
 			<th>Doctor-in-charge:</th>
-			<td>{{ doctor.fname }} {{ doctor.mname }} {{ doctor.lname }} {{ doctor.suffix }}</td>
+			<td>{{ doctor.getCompleteName() }}</td>
 		</tr>
 
 		<tr>
