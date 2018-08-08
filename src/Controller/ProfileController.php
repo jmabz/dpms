@@ -70,6 +70,7 @@ class ProfileController extends Controller
 
         return $this->render('profile/editprofile.html.twig', [
             'form' => $form->createView(),
+            'userId' => $userId,
         ]);
     }
 
