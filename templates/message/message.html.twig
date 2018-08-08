@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Doctor's Portal{% endblock %}
+
+{% block body %}
+
+<div class="grid-container">
+    <div class="panel-heading">
+		<div>
+			<h4 class="text-center">
+				Doctor's Portal
+			</h4>
+		</div>
+
+<div class="callout">
+<nav aria-label="You are here:" role="navigation">
+    <ul class="breadcrumbs">
+        <li><a href="{{ path('doctor') }}">Home</a></li>
+        <li><a href="{{ path('appointment_doctor') }}">Appointments</a></li>
+        <li><span class="show-for-sr">Current: </span>Messages</li>
+	</ul>
+</nav>
+<div class="grid-x">
+<div class="callout secondary small-12 medium-5 columns text-center">
+<strong>INBOX</strong>
+<table class="table unstriped">
+<thead>
+<tr>
+<th>Sender</th>
+<th>Message</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>dasfas</td>
+<td>dsfsdf</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="medium-7 columns" style="padding-left:2%;">
+<strong>SEND MESSAGE</strong>
+
+
+</div>
+</div>
+
+</div>
+</div>
+</div>
+{% endblock %}
