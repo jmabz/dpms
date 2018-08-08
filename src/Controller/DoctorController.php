@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Appointment;
 use App\Entity\Doctor;
 use App\Entity\Patient;
 use App\Entity\PatientRecord;
@@ -58,21 +59,25 @@ class DoctorController extends Controller
      *
      * @param UserInterface $user
      * @param Request $request
-     * @param [type] $patientId
+     * @param [type] $appointmentId
      * @return Response
      *
-     * @Route("/doctor/recorddiagnosis/{patientId}", name="record_diagnosis")
+     * @Route("/doctor/recorddiagnosis/{appointmentId}", name="record_diagnosis")
      */
-    public function recordDiagnosis(UserInterface $user, Request $request, $patientId) : Response
+    public function recordDiagnosis(UserInterface $user, Request $request, $appointmentId) : Response
     {
         $patientRecord = new PatientRecord();
+        $appointment = $this->getDoctrine()
+            ->getRepository(Appointment::class)
+            ->find($appointmentId);
+
+        $patientRecord->setCheckupReason($appointment->getReason());
+        $patientRecord->setCheckupDate($appointment->getAppointmentDate());
         $form = $this->createForm(PatientRecordType::class, $patientRecord);
 
         $form->handleRequest($request);
 
-        $patient = $this->getDoctrine()
-            ->getRepository(Patient::class)
-            ->find($patientId);
+        $patient = $appointment->getPatient();
 
         $patientUserInfo = $patient->getUserInfo();
 
@@ -81,11 +86,17 @@ class DoctorController extends Controller
             $patientRecord->setPatient($patient);
             $patientRecord->setDoctor($user);
 
+            $appointment->setAppointmentStatus("Completed");
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($appointment);
+            $entityManager->flush();
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($patientRecord);
             $entityManager->flush();
 
-            return $this->redirectToRoute('patient_list_doctors');
+            return $this->redirectToRoute('appointment_doctor');
         }
 
         return $this->render(

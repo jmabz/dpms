@@ -30,7 +30,7 @@ class AppointmentType extends AbstractType
                 'label' => 'Doctor to Contact',
                 'class' => Doctor::class,
                 'choice_label' => function ($doctor) {
-                    return $doctor->getUserInfo()->getFname() . ' ' . $doctor->getUserInfo()->getMname() . ' ' . $doctor->getUserInfo()->getLname();
+                    return $doctor->getUserInfo()->getCompleteName();
                 },
                 'choice_value' => function (Doctor $doctor = null) {
                     return $doctor ? $doctor->getId() : '';

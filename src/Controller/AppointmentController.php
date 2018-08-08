@@ -30,12 +30,13 @@ class AppointmentController extends Controller
     }
 
     /**
-     * Lists all appointments from the doctor's side
+     * Lists all appointments from the doctor or patient's side
      *
      * @param UserInterface $user
      * @return Response
      *
      * @Route("doctor/appointments", name="appointment_doctor", methods="GET")
+     * @Route("patient/appointments", name="appointment_patient", methods="GET")
      */
     public function listAssignedAppointments(UserInterface $user): Response
     {
