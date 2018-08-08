@@ -30,15 +30,22 @@
 						<a href="{{ path('profile', { userId: app.user.id }) }}">{{ app.user.username }}</a>!
 					{% else %}
 						{{ app.user.username }}!
-					{% endif %} <a href="/logout">(Logout)</a></p>
+					{% endif %}
+					<a href="/logout">(Logout)</a></p>
+					{# {% if not is_granted('ROLE_ADMIN') %}
+						<a href="#" class="button-badge">
+							<i class="fas fa-stethoscope"></i>
+							<span class="badge alert">1</span>
+						</a>
+					{% endif %} #}
 			{% else %}
 				<div class="top-bar-right">
-				<ul class="menu">
-					<li>
-						<a class="button" href="{{ path('login') }}">Login</a>
-					</li>
-				</ul>
-			</div>
+					<ul class="menu">
+						<li>
+							<a class="button" href="{{ path('login') }}">Login</a>
+						</li>
+					</ul>
+				</div>
 			{% endif %}
 		{% endif %}
 	</div>
