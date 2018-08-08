@@ -32,7 +32,7 @@ class ProfileController extends Controller
         if ($user instanceof Doctor) {
             $accreditationinfo = $user->getAccreditationInfo();
         }
-        
+
         return $this->render('profile/profile.html.twig', [
             'userinfo' => $userinfo,
             'accreditationinfo' => $accreditationinfo,
@@ -53,12 +53,12 @@ class ProfileController extends Controller
         $userInfo = $user->getUserInfo();
 
         $form = $this->createForm(UserInfoType::class, $userInfo);
-        
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $userInfo = $form->getData();
-            
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($userInfo);
             $entityManager->flush();
