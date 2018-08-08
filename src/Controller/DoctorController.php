@@ -96,4 +96,12 @@ class DoctorController extends Controller
             ]
         );
     }
+    /**
+     * @Route("/doctor/messages", name="send_message")
+     */
+    public function message()
+    {
+
+        return $this->render('message/message.html.twig');
+    }
 }
