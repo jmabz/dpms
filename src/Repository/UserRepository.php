@@ -47,4 +47,18 @@ class UserRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findNonAdminUsers(int $userId)
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u NOT INSTANCE OF :discr')
+            ->andWhere('u.id != :id')
+            ->setParameters(
+                [
+                    ":discr" => "Admin",
+                    ":id"    => $userId,
+                ]
+            )
+        ;
+    }
 }

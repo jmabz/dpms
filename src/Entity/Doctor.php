@@ -24,7 +24,7 @@ class Doctor extends User
      * @ORM\OneToMany(targetEntity="App\Entity\PatientRecord", mappedBy="doctor")
      */
     private $patientRecords;
-    
+
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\AccreditationInfo", inversedBy="doctor", cascade={"persist", "remove"})
      * @Assert\Valid()
@@ -40,7 +40,7 @@ class Doctor extends User
      * @ORM\OneToMany(targetEntity="App\Entity\Appointment", mappedBy="doctor")
      */
     private $appointments;
-    
+
     public function __construct()
     {
         $this->patientRecords = new ArrayCollection();
