@@ -3,12 +3,11 @@
 {% block title %}Messages{% endblock %}
 
 {% block body %}
-
-<div class="grid-container">
-    <div class="panel-heading">
-		<div>
-			<h4 class="text-center">Messages</h4>
-		</div>
+    <div class="grid-container">
+        <div class="panel-heading">
+            <div>
+                <h4 class="text-center">Messages</h4>
+            </div>
             <div class="callout">
                 <nav aria-label="You are here:" role="navigation">
                     {% if is_granted('ROLE_DOCTOR') %}
@@ -27,35 +26,34 @@
                     {% endif %}
                 </nav>
 
-    <div class="grid-x">
-        <div class="callout small-12 medium-4 columns">
-            <input type="search" id="myInput" onkeyup="myFunction()" placeholder="Search conversation" title="Type in a name">
-                <div class="tab">
-                    <label class="tablinks" onclick="openCity(event, 'Inbox')">Inbox</label>
-                    <label class="tablinks" onclick="openCity(event, 'Sent')">Sent Items</label>
-                </div>
-                    <div id="Inbox" class="tabcontent">
-                    <ul id="myUL">
-                    {% for message in messages %}
-                        <li><a href="#" class="openmodal myBtn"><strong>{{ message.sender.userInfo.fname() }}:</strong> {{ message.subject }}</a></li>
-                        {% endfor %}
-                    </ul>
+                <div class="grid-x">
+                    <div class="callout small-12 medium-4 columns">
+                        <input type="search" id="myInput" onkeyup="myFunction()" placeholder="Search conversation" title="Type in a name">
+                        <div class="tab">
+                            <label class="tablinks" onclick="openCity(event, 'Inbox')">Inbox</label>
+                            <label class="tablinks" onclick="openCity(event, 'Sent')">Sent Items</label>
+                        </div>
+                        <div id="Inbox" class="tabcontent">
+                            <ul id="myUL">
+                            {% for message in messages %}
+                                <li><a href="#" class="openmodal myBtn"><strong>{{ message.sender.userInfo.fname() }}:</strong> {{ message.subject }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div id="Sent" class="tabcontent">
+                            <ul id="myUL">
+                            {% for sent in sent %}
+                                <li><a href="#" class="openmodal myBtn"><strong>{{ sent.sender.userInfo.fname() }}:</strong> {{ sent.message }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </div> 
                     </div>
-                    <div id="Sent" class="tabcontent">
-                    <ul id="myUL">
-                    {% for sent in sent %}
-                        <li><a href="#" class="openmodal myBtn"><strong>{{ sent.sender.userInfo.fname() }}:</strong> {{ sent.message }}</a></li>
-                        {% endfor %}
-                    </ul>
-                    </div> 
-                </div>
                     <div class="callout small-12 medium-8 columns">
                             <strong>SEND MESSAGE</strong>
                             {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
                         <div class="receiver">
                                 {{ form_row(form.recepient) }}
                         </div>
-
                         <div class="subject">
                                 {{ form_row(form.subject) }}
                         </div>
@@ -69,84 +67,85 @@
             </div>
         </div>
     </div>
-</div>
 
-{% for message in messages %}
-    <div class="modal myModal" role="dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <span class="close">&times;</span>
-                <p>Subject: {{ message.subject }} </p>
-            </div>
-                <div class="modal-body text-center">
-                    <p>{{message.message}}</p>
+
+    {% for message in messages %}
+        <div class="modal myModal" role="dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="close">&times;</span>
+                    <p>Subject: {{ message.subject }} </p>
                 </div>
-                        <div class="modal-footer">
-                            <p class="text-left">{{ message.Datesent| date }}
-                            {% if is_granted('ROLE_DOCTOR') %}
-                            <a href="{{ path('message_reply', {'messageId': message.id}) }}" class="button float-right">Reply</a>
-                            </p>
-                            {% elseif is_granted('ROLE_PATIENT') %}
-                            <a href="{{ path('message_reply', {'messageId': message.id}) }}" class="button float-right">Reply</a>
-                            </p>
-                            {% endif %}
-                            {% endfor %}
-                        </div>
+                <div class="modal-body text-center">
+                    <p>{{ message.message }}</p>
+                </div>
+                <div class="modal-footer">
+                    <p class="text-left">{{ message.Datesent| date }}
+                    {% if is_granted('ROLE_DOCTOR') %}
+                    <a href="{{ path('message_reply', {'messageId': message.id}) }}" class="button float-right">Reply</a>
+                    </p>
+                    {% elseif is_granted('ROLE_PATIENT') %}
+                    <a href="{{ path('message_reply', {'messageId': message.id}) }}" class="button float-right">Reply</a>
+                    </p>
+                    {% endif %}
+                </div>
             </div>
         </div>
+    {% endfor %}
 {% endblock %}
 
 {% block javascripts %}
-{# Search #}
-<script>
-function myFunction() {
-    var input, filter, ul, li, a, i;
-    input = document.getElementById("myInput");
-    filter = input.value.toUpperCase();
-    ul = document.getElementById("myUL");
-    li = ul.getElementsByTagName("li");
-    for (i = 0; i < li.length; i++) {
-        a = li[i].getElementsByTagName("a")[0];
-        if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
-            li[i].style.display = "";
-        } else {
-            li[i].style.display = "none";
+    {# Search #}
+    <script>
+        function myFunction() {
+            var input, filter, ul, li, a, i;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            ul = document.getElementById("myUL");
+            li = ul.getElementsByTagName("li");
+            for (i = 0; i < li.length; i++) {
+                a = li[i].getElementsByTagName("a")[0];
+                if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                    li[i].style.display = "";
+                } else {
+                    li[i].style.display = "none";
+                }
+            }
         }
-    }
-}
-</script>
+    </script>
 
-{# Modal #}
-<script>
-var modals = document.getElementsByClassName('modal');
-var btns = document.getElementsByClassName("openmodal");
-var spans=document.getElementsByClassName("close");
+    {# Modal #}
+    <script>
+        var modals = document.getElementsByClassName('modal');
+        var btns = document.getElementsByClassName("openmodal");
+        var spans = document.getElementsByClassName("close");
 
-    for(let i=0;i<btns.length;i++){
-        btns[i].onclick = function() {
-        modals[i].style.display = "block";
-    }
-}
-    for(let i=0;i<spans.length;i++){
-        spans[i].onclick = function() {
-        modals[i].style.display = "none";
-    }
-}
-</script>
+            for(let i=0;i<btns.length;i++){
+                btns[i].onclick = function() {
+                modals[i].style.display = "block";
+            }
+        }
+            for(let i=0;i<spans.length;i++){
+                spans[i].onclick = function() {
+                modals[i].style.display = "none";
+            }
+        }
+    </script>
 
-<script>
-function openCity(evt, cityName) {
-    var i, tabcontent, tablinks;
-    tabcontent = document.getElementsByClassName("tabcontent");
-    for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
-    }
-    tablinks = document.getElementsByClassName("tablinks");
-    for (i = 0; i < tablinks.length; i++) {
-        tablinks[i].className = tablinks[i].className.replace(" active", "");
-    }
-    document.getElementById(cityName).style.display = "block";
-    evt.currentTarget.className += " active";
-}
-</script>
+    {# Tab #}
+    <script>
+        function openCity(evt, cityName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(cityName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+    </script>
 {% endblock %}
