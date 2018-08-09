@@ -140,10 +140,6 @@ td{
 	padding-right:25px;
 }
 
-.message{
-	overflow-y: scroll;
-	height: 300px;
-}
 ::-webkit-scrollbar {
     width: 10px;
 }
@@ -175,17 +171,17 @@ td{
 	list-style-type: none;
 	padding: 0;
 	margin: 0;
+	width:100%;
 } 
 
 #myUL li a {
 	border: 1px solid #ddd;
-	margin-top: -1px; /* Prevent double borders */
-	/* background-color: #f6f6f6d5; */
+	margin-top: -1px;
 	padding: 12px;
 	text-decoration: none;
 	font-size: 16px;
 	color: black;
-	display: block
+	display: block;
 }
 
 #myUL li a:hover:not(.header) {
@@ -207,19 +203,30 @@ td{
 	background-color: rgba(0,0,0,0.4);
 }
 .modal-header{
-
+	border-bottom: 1px solid rgba(0, 0, 0, 0.1); 
+	width: 100%; 
+	padding:5px;
 }
-
+.modal-body{
+	padding-top:5%;
+	height:100px;
+}
 .modal-footer{
-	
+	border-radius: 0 0 2px 2px;
+	border-top: 1px solid rgba(0, 0, 0, 0.1);
+	background-color: #fafafa;
+	padding: 4px 6px;
+	height: 56px;
+	width: 100%;
 }
 
 .modal-content {
     background-color: #fefefe;
     margin: auto;
-    padding: 20px;
+	padding: 20px;
+	padding-top:5px;
     border: 1px solid #888;
-	width: 50%;
+	width: 35%;
 	border-radius: 10px;
 }
 
@@ -260,4 +267,54 @@ td{
 
 .fa, .fas {
 	color: white;
+}
+
+.receiver{
+	width:40%;
+}
+
+.subject{
+	margin-top:-11%;
+	float:right;
+	width:40%;
+}
+.messages{
+	width:100%;
+}
+
+/* tab */
+.tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+	background-color: #2ba6cb;
+}
+
+.tab label {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+	font-size: 17px;
+	color:white;
+}
+
+.tab label:hover {
+    background-color: #ddd;
+}
+
+.tab label.active {
+    background-color: #ccc;
+}
+
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+	border-top: none;
+	overflow-y: scroll;
+	height: 400px;
+
 }

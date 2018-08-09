@@ -7,69 +7,93 @@
 <div class="grid-container">
     <div class="panel-heading">
 		<div>
-			<h4 class="text-center">
-				Doctor's Portal
-			</h4>
+			<h4 class="text-center">Messages</h4>
 		</div>
+            <div class="callout">
+                <nav aria-label="You are here:" role="navigation">
+                    {% if is_granted('ROLE_DOCTOR') %}
+                        <ul class="breadcrumbs">
+                            <li><a href="{{ path('doctor') }}">Home</a></li>
+                            <li><a href="{{ path('appointment_doctor') }}">Appointments</a></li>
+                            <li><span class="show-for-sr">Current: </span>Messages</li>
+                        </ul>
+                    {% elseif is_granted('ROLE_PATIENT') %}
+                        <ul class="breadcrumbs">
+                            <li><a href="{{ path('patient') }}">Home</a></li>
+                            <li><a href="{{ path('record_history') }}">Record History</a></li>
+                            <li><a href="{{ path('add_appointment') }}">Set an appointment</a></li>
+                            <li><span class="show-for-sr">Current: </span>Messages</li>
+                        </ul>
+                    {% endif %}
+                </nav>
 
-<div class="callout">
-<nav aria-label="You are here:" role="navigation">
-{% if is_granted('ROLE_DOCTOR') %}
-    <ul class="breadcrumbs">
-        <li><a href="{{ path('doctor') }}">Home</a></li>
-        <li><a href="{{ path('appointment_doctor') }}">Appointments</a></li>
-        <li><span class="show-for-sr">Current: </span>Messages</li>
-	</ul>
-</nav>
-{% elseif is_granted('ROLE_PATIENT') %}
-    <ul class="breadcrumbs">
-			<li><a href="{{ path('patient') }}">Home</a></li>
-			<li><a href="{{ path('record_history') }}">Record History</a></li>
-			<li><a href="{{ path('add_appointment') }}">Set an appointment</a></li>
-            <li><span class="show-for-sr">Current: </span>Messages</li>
-        </ul>
-{% endif %}
-<div class="grid-x">
-<div class="callout small-12 medium-4 columns">
-<input type="search" id="myInput" onkeyup="myFunction()" placeholder="Search conversation" title="Type in a name">
-<div class="message">
-<strong>Message Received</strong>
-    <ul id="myUL">
-        <li><a href="#" id="myBtn"><strong>Adele:</strong> Message</a></li>
-    </ul>
+    <div class="grid-x">
+        <div class="callout small-12 medium-4 columns">
+            <input type="search" id="myInput" onkeyup="myFunction()" placeholder="Search conversation" title="Type in a name">
+                <div class="tab">
+                    <label class="tablinks" onclick="openCity(event, 'Inbox')">Inbox</label>
+                    <label class="tablinks" onclick="openCity(event, 'Sent')">Sent Items</label>
+                </div>
+                    <div id="Inbox" class="tabcontent">
+                    <ul id="myUL">
+                    {% for message in messages %}
+                        <li><a href="#" class="openmodal myBtn"><strong>{{ message.sender.userInfo.fname() }}:</strong> {{ message.subject }}</a></li>
+                        {% endfor %}
+                    </ul>
+                    </div>
+                    <div id="Sent" class="tabcontent">
+                    <ul id="myUL">
+                    {% for sent in sent %}
+                        <li><a href="#" class="openmodal myBtn"><strong>{{ sent.sender.userInfo.fname() }}:</strong> {{ sent.message }}</a></li>
+                        {% endfor %}
+                    </ul>
+                    </div> 
+                </div>
+                    <div class="callout small-12 medium-8 columns">
+                            <strong>SEND MESSAGE</strong>
+                            {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+                        <div class="receiver">
+                                {{ form_row(form.recepient) }}
+                        </div>
 
-<div id="myModal" class="modal" role="dialog">
-<div class="modal-content">
-    <div class="modal-header">
-    <span class="close">&times;</span>
-    <p>Message From:</p>
+                        <div class="subject">
+                                {{ form_row(form.subject) }}
+                        </div>
+                        <div class="messages">
+                                {{ form_row(form.message) }}
+                                <input type="submit" value="SEND" class="button float-right">
+                                {{ form_end(form) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="modal-body text-center">
-    <p>This is the message</p>
-    <p>Some message here too.</p>
-    <p class="text-left">Date | Time Sent</p>
-    </div>
-    <div class="modal-footer text-right">
-    {% if is_granted('ROLE_DOCTOR') %}
-    <a href="" class="small button">REPLY</a>
-    {% elseif is_granted('ROLE_PATIENT') %}
-    <a href="" class="small button">Reply</a>
-    {% endif %}
-    </div>
 </div>
 
-</div>
-</div>
-</div>
-
-<div class=" small-12 medium-8 columns" style="padding-left:2%;">
-<strong>SEND MESSAGE</strong>
-
-</div>
-</div
-</div>
-</div>
-</div>
+{% for message in messages %}
+    <div class="modal myModal" role="dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close">&times;</span>
+                <p>Subject: {{ message.subject }} </p>
+            </div>
+                <div class="modal-body text-center">
+                    <p>{{message.message}}</p>
+                </div>
+                        <div class="modal-footer">
+                            <p class="text-left">{{ message.Datesent| date }}
+                            {% if is_granted('ROLE_DOCTOR') %}
+                            <a href="{{ path('message_reply', {'messageId': message.id}) }}" class="button float-right">Reply</a>
+                            </p>
+                            {% elseif is_granted('ROLE_PATIENT') %}
+                            <a href="{{ path('message_reply', {'messageId': message.id}) }}" class="button float-right">Reply</a>
+                            </p>
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+            </div>
+        </div>
 {% endblock %}
 
 {% block javascripts %}
@@ -94,19 +118,35 @@ function myFunction() {
 
 {# Modal #}
 <script>
-var modal = document.getElementById('myModal');
-var btn = document.getElementById("myBtn")
-var span = document.getElementsByClassName("close")[0];
-btn.onclick = function() {
-    modal.style.display = "block";
-}
-span.onclick = function() {
-    modal.style.display = "none";
-}
-window.onclick = function(event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
+var modals = document.getElementsByClassName('modal');
+var btns = document.getElementsByClassName("openmodal");
+var spans=document.getElementsByClassName("close");
+
+    for(let i=0;i<btns.length;i++){
+        btns[i].onclick = function() {
+        modals[i].style.display = "block";
     }
+}
+    for(let i=0;i<spans.length;i++){
+        spans[i].onclick = function() {
+        modals[i].style.display = "none";
+    }
+}
+</script>
+
+<script>
+function openCity(evt, cityName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(cityName).style.display = "block";
+    evt.currentTarget.className += " active";
 }
 </script>
 {% endblock %}
