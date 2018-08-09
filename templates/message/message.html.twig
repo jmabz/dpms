@@ -38,7 +38,7 @@
         <li><a href="#" id="myBtn"><strong>Adele:</strong> Message</a></li>
     </ul>
 
-<div id="myModal" class="modal">
+<div id="myModal" class="modal" role="dialog">
 <div class="modal-content">
     <div class="modal-header">
     <span class="close">&times;</span>
@@ -51,9 +51,9 @@
     </div>
     <div class="modal-footer text-right">
     {% if is_granted('ROLE_DOCTOR') %}
-    <a href="" class="button radius">Reply</a>
+    <a href="" class="small button">REPLY</a>
     {% elseif is_granted('ROLE_PATIENT') %}
-    <a href="" class="button radius">Reply</a>
+    <a href="" class="small button">Reply</a>
     {% endif %}
     </div>
 </div>
@@ -73,6 +73,7 @@
 {% endblock %}
 
 {% block javascripts %}
+{# Search #}
 <script>
 function myFunction() {
     var input, filter, ul, li, a, i;
@@ -91,6 +92,7 @@ function myFunction() {
 }
 </script>
 
+{# Modal #}
 <script>
 var modal = document.getElementById('myModal');
 var btn = document.getElementById("myBtn")

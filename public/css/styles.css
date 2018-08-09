@@ -206,8 +206,14 @@ td{
     background-color: rgb(0,0,0);
 	background-color: rgba(0,0,0,0.4);
 }
+.modal-header{
 
-/* Modal Content */
+}
+
+.modal-footer{
+	
+}
+
 .modal-content {
     background-color: #fefefe;
     margin: auto;
@@ -217,7 +223,6 @@ td{
 	border-radius: 10px;
 }
 
-/* The Close Button */
 .close {
     color: #aaaaaa;
     float: right;
@@ -229,5 +234,5 @@ td{
 .close:focus {
     color: #000;
     text-decoration: none;
-    cursor: pointer;
+	cursor: pointer;
 }
