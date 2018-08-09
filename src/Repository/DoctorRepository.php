@@ -15,8 +15,8 @@ class DoctorRepository extends ServiceEntityRepository
         parent::__construct($registry, Doctor::class);
     }
 
-   public function findDoctorsInClinic($clinicId)
-   {
+    public function findDoctorsInClinic($clinicId)
+    {
         $qb = $this->createQueryBuilder('d');
 
         $nots = $this->createQueryBuilder('d')
@@ -30,10 +30,10 @@ class DoctorRepository extends ServiceEntityRepository
             ->where($qb->expr()->in('x.id', $nots->getDQL()))
             ->setParameter('id', $clinicId)
             ;
-   }
+    }
 
-   public function findDoctorsNotInClinic($clinicId)
-   {
+    public function findDoctorsNotInClinic($clinicId)
+    {
         $qb = $this->createQueryBuilder('d');
 
         $nots = $this->createQueryBuilder('d')
@@ -47,9 +47,9 @@ class DoctorRepository extends ServiceEntityRepository
             ->where($qb->expr()->notIn('x.id', $nots->getDQL()))
             ->setParameter('id', $clinicId)
             ;
-   }
+    }
 
-   public function findAllDoctorsPaged($curPage = 1)
+    public function findAllDoctorsPaged($curPage = 1)
     {
         $query = $this->createQueryBuilder('d')
             ->getQuery();
@@ -69,6 +69,6 @@ class DoctorRepository extends ServiceEntityRepository
         ->setFirstResult($limit * ($page - 1)) // Offset
         ->setMaxResults($limit); // Limit
 
-    return $paginator;
+        return $paginator;
     }
 }

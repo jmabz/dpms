@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Message index{% endblock %}
+
+{% block body %}
+    <h1>Message index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Subject</th>
+                <th>Sender</th>
+                <th>Message</th>
+                <th>Date Sent</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for message in messages %}
+            <tr>
+                <td>
+                    <a href="{{ path('message_show', {'messageId': message.id}) }}">
+                        {{ message.subject }}
+                    </a>
+                </td>
+                <td>{{ message.sender.userInfo.getCompleteName() }}</td>
+                <td>{{ message.message }}</td>
+                <td>{{ message.dateSent ? message.dateSent|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('message_reply', {'messageId': message.id}) }}" class="button primary">Reply</a>
+                    <a href="{{ path('message_delete', {'messageId': message.id}) }}" class="button alert" onclick="return confirm('Are you sure you want to delete this message?')">Delete</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('message_new') }}" class="button success">Compose New Message...</a>
+{% endblock %}

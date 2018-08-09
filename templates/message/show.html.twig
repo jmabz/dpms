@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Message{% endblock %}
+
+{% block body %}
+    <h1>Message</h1>
+    {% if message %}
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>From</th>
+                    <td>{{ message.sender.userInfo.getCompleteName() }}</td>
+                </tr>
+                <tr>
+                    <th>To</th>
+                    <td>{{ message.receiver.userInfo.getCompleteName() }}</td>
+                </tr>
+                <tr>
+                    <th>Subject</th>
+                    <td>{{ message.subject }}</td>
+                </tr>
+                <tr>
+                    <th>Message</th>
+                    <td>{{ message.message }}</td>
+                </tr>
+                <tr>
+                    <th>Date Sent</th>
+                    <td>{{ message.dateSent ? message.dateSent|date('Y-m-d H:i:s') : '' }}</td>
+                </tr>
+            </tbody>
+        </table>
+    {% endif %}
+    <a href="{{ path('message_index') }}">Back to List</a>
+{% endblock %}

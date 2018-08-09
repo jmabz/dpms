@@ -17,6 +17,7 @@
 		<div class="panel-heading">
 			<div>
 				<h4 class="text-center">{{ userinfo.fname }} {{ userinfo.mname }} {{ userinfo.lname }} {{ userinfo.suffix }} ({{ role }})
+				{% if is_granted('ROLE_DOCTOR') or is_granted('ROLE_PATIENT') %}<a href="{{ path('change_password') }}" class="button primary small float-left">Change Password...</a>{% endif %}
 				<a href=
 				{% if is_granted('ROLE_DOCTOR') or is_granted('ROLE_PATIENT') %}
 					{% if role == "Doctor" %}
