@@ -44,10 +44,15 @@ class Message
     private $recepient;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\User", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="messages")
      * @ORM\JoinColumn(nullable=false)
      */
     private $sender;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isRead;
 
     public function getId()
     {
@@ -117,5 +122,17 @@ class Message
     public function getSenderName(): ?string
     {
         return $this->sender->getUserInfo()->getCompleteName();
+    }
+
+    public function getIsRead(): ?bool
+    {
+        return $this->isRead;
+    }
+
+    public function setIsRead(bool $isRead): self
+    {
+        $this->isRead = $isRead;
+
+        return $this;
     }
 }

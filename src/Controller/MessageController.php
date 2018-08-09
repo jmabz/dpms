@@ -11,16 +11,36 @@ use App\Repository\MessageRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class MessageController extends Controller
 {
     /**
-     * @Route("/messages", name="message_index", methods="GET")
+     * @Route("/messages", name="message_index", methods="GET|POST")
      */
-    public function displayInbox(UserInterface $user): Response
+    public function displayInbox(UserInterface $user, Request $request): Response
     {
+        $messages = $user->getMessages();
+
+        if($request->isXmlHttpRequest() || $request->query->get('showJson') == 1) {
+            $jsonData = array();
+
+            foreach($messages as $message) {
+                $temp = [
+                    'id' => $message->getId(),
+                    'sender' => $message->getSenderName(),
+                    'subject' => $message->getSubject(),
+                    'message' => $message->getMessage(),
+                    'datesent' => $message->getDateSent()->format('m/d/Y h:i:s A'),
+                    'isread' => $message->getIsRead(),
+                ];
+                $jsonData[] = $temp;
+            }
+            return new JsonResponse($jsonData);
+
+        }
         return $this->render('message/index.html.twig', ['messages' => $user->getMessages()]);
     }
 
@@ -71,11 +91,8 @@ class MessageController extends Controller
 
         $message = new Message();
         $message->setSender($user);
-        $message->setSubject("RE: " . $messageToReply->getSubject());
+        $message->setSubject($messageToReply->getSubject());
         $message->setRecepient($messageToReply->getRecepient());
-        // $message->setMessage("\n\n----------------------------" . "\n\n" .
-        //     $messageToReply->getSenderName() .
-        //     "said:\n\n" . $messageToReply->getMessage());
         $message->setDateSent(new \DateTime('now'));
         $form = $this->createForm(MessageType::class, $message, [
             'userId' => $user->getId()
@@ -105,6 +122,12 @@ class MessageController extends Controller
             ->getRepository(Message::class)
             ->find($messageId);
 
+        $message->setIsRead(true);
+
+        $entityManager = $this->getDoctrine()->getManager();
+                    $entityManager->persist($message);
+                    $entityManager->flush();
+
         return $this->render('message/show.html.twig', ['message' => $message]);
     }
 
@@ -129,7 +152,7 @@ class MessageController extends Controller
     }
 
     /**
-     * @Route("/delete/{messageId}", name="message_delete", methods="DELETE")
+     * @Route("/message/delete/{messageId}", name="message_delete", methods="DELETE")
      */
     public function delete(MessageRepository $msgRepository, $messageId): Response
     {

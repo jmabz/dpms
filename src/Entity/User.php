@@ -56,6 +56,7 @@ class User implements AdvancedUserInterface
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Message", mappedBy="recepient", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Message", mappedBy="sender", orphanRemoval=true)
      */
     private $messages;
 
