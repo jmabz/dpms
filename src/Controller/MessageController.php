@@ -14,13 +14,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-/**
- * @Route("/message")
- */
 class MessageController extends Controller
 {
     /**
-     * @Route("/", name="message_index", methods="GET")
+     * @Route("/messages", name="message_index", methods="GET")
      */
     public function displayInbox(UserInterface $user): Response
     {
@@ -28,7 +25,16 @@ class MessageController extends Controller
     }
 
     /**
-     * @Route("/new", name="message_new", methods="GET|POST")
+     * @Route("/messages/sent", name="sent", methods="GET")
+     */
+    public function displaySentItems(UserInterface $user, MessageRepository $msgRepository): Response
+    {
+        $messages = $msgRepository->findBy(['sender' => $user->getId()]);
+        return $this->render('message/index.html.twig', ['messages' => $messages]);
+    }
+
+    /**
+     * @Route("/message/compose", name="message_new", methods="GET|POST")
      */
     public function composeMessage(UserInterface $user, Request $request): Response
     {
@@ -55,7 +61,7 @@ class MessageController extends Controller
     }
 
     /**
-     * @Route("/{messageId}/reply", name="message_reply", methods="GET|POST")
+     * @Route("/message/reply/{messageId}", name="message_reply", methods="GET|POST")
      */
     public function replyToMessage(UserInterface $user, Request $request, $messageId): Response
     {
@@ -91,7 +97,7 @@ class MessageController extends Controller
     }
 
     /**
-     * @Route("/{messageId}", name="message_show", methods="GET")
+     * @Route("/message/show/{messageId}", name="message_show", methods="GET")
      */
     public function show($messageId): Response
     {
@@ -103,7 +109,7 @@ class MessageController extends Controller
     }
 
     /**
-     * @Route("/{messageId}/edit", name="message_edit", methods="GET|POST")
+     * @Route("/message/edit/{messageId}", name="message_edit", methods="GET|POST")
      */
     public function edit(Request $request, Message $message): Response
     {
@@ -123,7 +129,7 @@ class MessageController extends Controller
     }
 
     /**
-     * @Route("/{messageId}", name="message_delete", methods="DELETE")
+     * @Route("/delete/{messageId}", name="message_delete", methods="DELETE")
      */
     public function delete(MessageRepository $msgRepository, $messageId): Response
     {
