@@ -17,26 +17,9 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class MessageController extends Controller
 {
     /**
-     * @Route("/messages", name="message_index", methods="GET")
+     * @Route("/messages", name="send_message", methods="GET|POST")
      */
-    public function displayInbox(UserInterface $user): Response
-    {
-        return $this->render('message/index.html.twig', ['messages' => $user->getMessages()]);
-    }
-
-    /**
-     * @Route("/messages/sent", name="sent", methods="GET")
-     */
-    public function displaySentItems(UserInterface $user, MessageRepository $msgRepository): Response
-    {
-        $messages = $msgRepository->findBy(['sender' => $user->getId()]);
-        return $this->render('message/index.html.twig', ['messages' => $messages]);
-    }
-
-    /**
-     * @Route("/message/compose", name="message_new", methods="GET|POST")
-     */
-    public function composeMessage(UserInterface $user, Request $request): Response
+    public function displayInbox(UserInterface $user, Request $request, MessageRepository $msgRepository): Response
     {
         $message = new Message();
         $message->setSender($user);
@@ -51,14 +34,54 @@ class MessageController extends Controller
             $entityManager->persist($message);
             $entityManager->flush();
 
-            return $this->redirectToRoute('message_index');
+            return $this->redirectToRoute('send_message');
         }
 
-        return $this->render('message/composemessage.html.twig', [
+        $sent = $msgRepository->findBy(['sender' => $user->getId()]);
+
+        return $this->render('message/message.html.twig', [
+            'messages' => $user->getMessages(),
             'message' => $message,
             'form' => $form->createView(),
+            'sent' => $sent,
         ]);
     }
+
+    /**
+     * @Route("/messages/sent", name="sent", methods="GET")
+     */
+    public function displaySentItems(UserInterface $user, MessageRepository $msgRepository): Response
+    {
+        $messages = $msgRepository->findBy(['sender' => $user->getId()]);
+        return $this->render('message/index.html.twig', ['messages' => $messages]);
+    }
+
+    // /**
+    //  * @Route("/message/compose", name="message_new", methods="GET|POST")
+    //  */
+    // public function composeMessage(UserInterface $user, Request $request): Response
+    // {
+    //     $message = new Message();
+    //     $message->setSender($user);
+    //     $message->setDateSent(new \DateTime('now'));
+    //     $form = $this->createForm(MessageType::class, $message, [
+    //         'userId' => $user->getId()
+    //         ]);
+    //     $form->handleRequest($request);
+
+    //     if ($form->isSubmitted() && $form->isValid()) {
+    //         $entityManager = $this->getDoctrine()->getManager();
+    //         $entityManager->persist($message);
+    //         $entityManager->flush();
+
+    //         return $this->redirectToRoute('message_index');
+    //     }
+
+    //     return $this->render('message/message.html.twig', [
+    //         'message' => $message,
+    //         'form' => $form->createView(),
+    //     ]);
+    // }
 
     /**
      * @Route("/message/reply/{messageId}", name="message_reply", methods="GET|POST")
@@ -87,7 +110,7 @@ class MessageController extends Controller
             $entityManager->persist($message);
             $entityManager->flush();
 
-            return $this->redirectToRoute('message_index');
+            return $this->redirectToRoute('send_message');
         }
 
         return $this->render('message/composemessage.html.twig', [
