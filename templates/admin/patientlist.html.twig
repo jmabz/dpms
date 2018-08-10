@@ -43,7 +43,7 @@
 			{% for patient in patients %}
 				<tr>
 					<td>
-						{{ patient.userInfo.fname }} {{ patient.userInfo.mname }} {{ patient.userInfo.lname }} {{ patient.userInfo.suffix }}
+						<a href="{{ path('profile', {userId : patient.id}) }}" title="Click here to view profile.">{{ patient.userInfo.fname }} {{ patient.userInfo.mname }} {{ patient.userInfo.lname }} {{ patient.userInfo.suffix }}</a>
 					</td>
 					<td>
 						{{ patient.userInfo.gender }}

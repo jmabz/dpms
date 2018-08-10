@@ -1,0 +1,112 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Messages{% endblock %}
+
+{% block body %}
+
+<div class="grid-container">
+    <div class="panel-heading">
+		<div>
+			<h4 class="text-center">
+				Doctor's Portal
+			</h4>
+		</div>
+
+<div class="callout">
+<nav aria-label="You are here:" role="navigation">
+{% if is_granted('ROLE_DOCTOR') %}
+    <ul class="breadcrumbs">
+        <li><a href="{{ path('doctor') }}">Home</a></li>
+        <li><a href="{{ path('appointment_doctor') }}">Appointments</a></li>
+        <li><span class="show-for-sr">Current: </span>Messages</li>
+	</ul>
+</nav>
+{% elseif is_granted('ROLE_PATIENT') %}
+    <ul class="breadcrumbs">
+			<li><a href="{{ path('patient') }}">Home</a></li>
+			<li><a href="{{ path('record_history') }}">Record History</a></li>
+			<li><a href="{{ path('add_appointment') }}">Set an appointment</a></li>
+            <li><span class="show-for-sr">Current: </span>Messages</li>
+        </ul>
+{% endif %}
+<div class="grid-x">
+<div class="callout small-12 medium-4 columns">
+<input type="search" id="myInput" onkeyup="myFunction()" placeholder="Search conversation" title="Type in a name">
+<div class="message">
+<strong>Message Received</strong>
+    <ul id="myUL">
+        <li><a href="#" id="myBtn"><strong>Adele:</strong> Message</a></li>
+    </ul>
+
+<div id="myModal" class="modal" role="dialog">
+<div class="modal-content">
+    <div class="modal-header">
+    <span class="close">&times;</span>
+    <p>Message From:</p>
+    </div>
+    <div class="modal-body text-center">
+    <p>This is the message</p>
+    <p>Some message here too.</p>
+    <p class="text-left">Date | Time Sent</p>
+    </div>
+    <div class="modal-footer text-right">
+    {% if is_granted('ROLE_DOCTOR') %}
+    <a href="" class="small button">REPLY</a>
+    {% elseif is_granted('ROLE_PATIENT') %}
+    <a href="" class="small button">Reply</a>
+    {% endif %}
+    </div>
+</div>
+
+</div>
+</div>
+</div>
+
+<div class=" small-12 medium-8 columns" style="padding-left:2%;">
+<strong>SEND MESSAGE</strong>
+
+</div>
+</div
+</div>
+</div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+{# Search #}
+<script>
+function myFunction() {
+    var input, filter, ul, li, a, i;
+    input = document.getElementById("myInput");
+    filter = input.value.toUpperCase();
+    ul = document.getElementById("myUL");
+    li = ul.getElementsByTagName("li");
+    for (i = 0; i < li.length; i++) {
+        a = li[i].getElementsByTagName("a")[0];
+        if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+            li[i].style.display = "";
+        } else {
+            li[i].style.display = "none";
+        }
+    }
+}
+</script>
+
+{# Modal #}
+<script>
+var modal = document.getElementById('myModal');
+var btn = document.getElementById("myBtn")
+var span = document.getElementsByClassName("close")[0];
+btn.onclick = function() {
+    modal.style.display = "block";
+}
+span.onclick = function() {
+    modal.style.display = "none";
+}
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+</script>
+{% endblock %}

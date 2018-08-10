@@ -101,27 +101,131 @@ td{
 	width: 100%;
 }
 
-.button-badge {
-	background-color: #1779ba;
-	text-decoration: none;
-	padding: 1rem 1.5rem;
-	position: relative;
-	display: inline-block;
-	border-radius: .2rem;
-	transition: all ease 0.4s;
+.alert-callout-border {
+	width: 100%;
+	padding: 1.3rem;
+	border-left-width: 0.3125rem;
+	border-left-color: #cacaca;
 }
 
-.button-badge:hover {
-	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+.alert-callout-border strong {
+	color: #0a0a0a;
 }
 
-.badge {
+.alert-callout-border .close-button {
 	position: absolute;
-	top: -10px;
-	right: -10px;
-	font-size: .8em;
+	top: 50%;
+	-webkit-transform: translateY(-50%);
+		-ms-transform: translateY(-50%);
+			transform: translateY(-50%);
 }
 
-.fa, .fas {
-	color: white;
+.alert-callout-border.radius {
+	border-radius: 0.6rem;
+}
+
+
+.alert-callout-border.success {
+	border-left-color: #3adb76;
+}
+
+.alert-callout-border.success strong {
+	color: #3adb76;
+}
+
+.notification{
+	float:right;
+	width:300px;
+	padding-top:2%;
+	padding-right:25px;
+}
+
+.message{
+	overflow-y: scroll;
+	height: 300px;
+}
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+#myInput {
+	background-position: 10px 12px;
+	background-repeat: no-repeat;
+	width: 100%;
+	font-size: 16px;
+	padding: 12px 20px 12px 40px;
+	border: 1px solid #ddd;
+}
+
+#myUL {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+}
+
+#myUL li a {
+	border: 1px solid #ddd;
+	margin-top: -1px; /* Prevent double borders */
+	/* background-color: #f6f6f6d5; */
+	padding: 12px;
+	text-decoration: none;
+	font-size: 16px;
+	color: black;
+	display: block
+}
+
+#myUL li a:hover:not(.header) {
+	background-color: #eee;
+}
+
+/* modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+	background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+	width: 50%;
+	border-radius: 10px;
+}
+
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+	cursor: pointer;
 }

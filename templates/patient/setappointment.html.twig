@@ -3,35 +3,36 @@
 {% block title %}New Appointment{% endblock %}
 
 {% block body %}
-    <div class="grid-container">
-        <div class="panel-heading">
-            <h4 class="text-center">Schedule an Appoinment</h4>
-        </div>
-        <div class="callout">
-            <nav aria-label="You are here:" role="navigation">
-                <ul class="breadcrumbs">
-                <li><a href="{{ path('patient') }}">Home</a></li>
-                <li><a href="{{ path('record_history') }}">Record History</a></li>
-                <li><span class="show-for-sr">Current: </span>Set an appointment</li>
-                </ul>
-            </nav>
-            {{ form_start(form) }}
-                <div class="grid-x">
-                    <div class="cell small-12 medium-4 input-group">
-                        {{ form_row(form.appointmentDate) }}
-                    </div>
-                    <div class="cell small-12 medium-8 input-group">
-                        {{ form_row(form.doctor) }}
-                    </div>
-                    <div class="cell small-12 medium-12">
-                        {{ form_row(form.reason) }}
-                    </div>
-                    <div class="cell small-12 medium-12">
-                        <a href="{{path('patient')}}" class="small button alert float-right">CANCEL</a>
-                        <input type="SUBMIT" value="SAVE APPOINTMENT" class="small button secondary float-right">
-                    </div>
+<div class="grid-container">
+	<div class="panel-heading">
+			<div>
+				<h4 class="text-center">
+					Set an Appointment
+				</h4>
+			</div>
+
+<div class="callout">
+	<nav aria-label="You are here:" role="navigation">
+		<ul class="breadcrumbs">
+			<li><a href="{{ path('patient') }}">Home</a></li>
+			<li><a href="{{ path('record_history') }}">Record History</a></li>
+            <li><span class="show-for-sr">Current: </span>Set an appointment</li>
+            <li><a href="{{ path('send_message') }}">Messages</a></li>
+        </ul>
+	</nav>		
+<div class="grid-x" style="margin-left:10px;">
+                <div class="small-12 medium-3 columns">
+                    
+                    {{ form_row(form.appointmentDate) }}
                 </div>
-            {{ form_end(form) }}
-        </div>
-    </div>
+                <div class="small-12 medium-8 columns" style="margin-left:50px;">
+                    {{ form_row(form.reason) }}
+                </div>
+                <div class="small-12 medium-6 columns">
+                    {{ form_row(form.doctor) }}
+                </div>
+                <div class="small-12 medium-6">
+                    <a href="{{ path('add_appointment') }}" class="small button success float-right" style="margin-top:3%; margin-right:50px;">Set Appointment</a>
+                </div>
+</div>
 {% endblock %}

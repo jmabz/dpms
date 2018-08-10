@@ -3,21 +3,22 @@
 {% block title %}Patient's Portal{% endblock %}
 
 {% block body %}
-	<div class="grid-container">
-<div class="panel-heading">
-		<div>
-			<h4 class="text-center">
-				Patient's Portal
-			</h4>
-		</div>
+<div class="grid-container">
+	<div class="panel-heading">
+			<div>
+				<h4 class="text-center">
+					Patient's Portal
+				</h4>
+			</div>
 
 <div class="callout">
 	<nav aria-label="You are here:" role="navigation">
-			<ul class="breadcrumbs">
-				<li><span class="show-for-sr">Current: </span>Home</li>
-				<li><a href="{{ path('record_history') }}">Record History</a></li>
-				<li><a href="{{ path('add_appointment') }}">Set an appointment</a></li>
-			</ul>
+		<ul class="breadcrumbs">
+			<li><span class="show-for-sr">Current: </span>Home</li>
+			<li><a href="{{ path('record_history') }}">Record History</a></li>
+			<li><a href="{{ path('add_appointment') }}">Set an appointment</a></li>
+			<li><a href="{{ path('send_message') }}">Messages</a></li>
+		</ul>
 	</nav>		
 		Patient's Home Page
 	</div>
