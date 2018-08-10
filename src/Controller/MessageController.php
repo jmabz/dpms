@@ -15,6 +15,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+use Faker\Provider\Lorem;
+
 class MessageController extends Controller
 {
     /**
@@ -61,6 +63,8 @@ class MessageController extends Controller
         $message = new Message();
         $message->setSender($user);
         $message->setDateSent(new \DateTime('now'));
+        $message->setSubject(Lorem::words($nb = 2, $asText = true));
+        $message->setMessage(Lorem::paragraph($nbSentences = 3, $variableNbSentences = true));
         $form = $this->createForm(MessageType::class, $message, [
             'userId' => $user->getId()
             ]);
@@ -152,21 +156,21 @@ class MessageController extends Controller
     }
 
     /**
-     * @Route("/message/delete/{messageId}", name="message_delete", methods="DELETE")
+     * @Route("/message/delete/{messageId}", name="message_delete", methods="GET|DELETE")
      */
-    public function delete(MessageRepository $msgRepository, $messageId): Response
+    public function delete(MessageRepository $msgRepository, Request $request, $messageId): Response
     {
         $message =  $msgRepository->find($messageId);
+        if($request->isXmlHttpRequest() || $request->query->get('showJson') == 1) {
+            if (!$message) {
+                return new JsonResponse(['failure' => 'No message found for ID ' . $messageId]);
+            }
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->remove($message);
+                $entityManager->flush();
 
-        if (!$message) {
-            throw $this->createNotFoundException(
-                'No appointment found for ID '. $messageId
-            );
+                return new JsonResponse(['success' => 'Deleted message ' . $messageId]);
         }
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($message);
-            $entityManager->flush();
-
-        return $this->redirectToRoute('message_index');
+        //return $this->redirectToRoute('message_index');
     }
 }

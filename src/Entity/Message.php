@@ -52,7 +52,7 @@ class Message
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isRead;
+    private $isRead = false;
 
     public function getId()
     {
