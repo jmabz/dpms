@@ -107,6 +107,11 @@ class Message
         return $this;
     }
 
+    public function getRecepientName(): ?string
+    {
+        return $this->recepient->getUserInfo()->getCompleteName();
+    }
+
     public function getSender(): ?User
     {
         return $this->sender;

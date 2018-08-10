@@ -1,34 +1,27 @@
-{% extends 'base.html.twig' %}
+{# {% extends 'base.html.twig' %} #}
 
-{% block title %}Message{% endblock %}
+{# {% block title %}Message{% endblock %} #}
 
 {% block body %}
-    <h1>Message</h1>
     {% if message %}
-        <table class="table">
-            <tbody>
-                <tr>
-                    <th>From</th>
-                    <td>{{ message.sender.userInfo.getCompleteName() }}</td>
-                </tr>
-                <tr>
-                    <th>To</th>
-                    <td>{{ message.recepient.userInfo.getCompleteName() }}</td>
-                </tr>
-                <tr>
-                    <th>Subject</th>
-                    <td>{{ message.subject }}</td>
-                </tr>
-                <tr>
-                    <th>Message</th>
-                    <td>{{ message.message }}</td>
-                </tr>
-                <tr>
-                    <th>Date Sent</th>
-                    <td><time class="timeago" datetime="{{ message.dateSent ? message.dateSent|date('Y-m-d H:i:s') : '' }}">{{ message.dateSent ? message.dateSent|date('Y-m-d h:i:s A') : '' }}</time></td>
-                </tr>
-            </tbody>
-        </table>
+        <dl>
+            <dt>From:</dt>
+            <dd>{{ message.getSenderName() }}</dd>
+            <dt>To:</dt>
+            <dd>{{ message.getRecepientName() }}</dd>
+            <dt>Subject:</dt>
+            <dd>{{ message.subject }}</dd>
+            <dt>Date sent:</dt>
+            <dd><time class="timeago" datetime="{{ message.dateSent ? message.dateSent|date('Y-m-d H:i:s') : '' }}">{{ message.dateSent ? message.dateSent|date('Y-m-d h:i:s A') : '' }}</time></dd>
+        </dl>
+        <p>{{ message.message }}</p>
+        <br>
+        <button class="button" data-msg-id data-close>Reply</button>
+        <button class="button alert" id="delete" data-close>Delete</button>
     {% endif %}
-    <a href="{{ path('message_index') }}">Back to List</a>
+    {# <a href="{{ path('message_index') }}">Back to List</a> #}
+{% endblock %}
+
+{% block javascripts %}
+
 {% endblock %}
