@@ -13,8 +13,11 @@
                     <ul class="breadcrumbs">
                         {% if is_granted('ROLE_DOCTOR') %}
                             <li><a href="{{ path('doctor') }}">Home</a></li>
+                            <li><a href="{{ path('appointment_doctor') }}">Appointments</a></li>
                         {% elseif is_granted('ROLE_PATIENT') %}
                             <li><a href="{{ path('patient') }}">Home</a></li>
+                            <li><a href="{{ path('record_history') }}">Record History</a></li>
+                            <li><a href="{{ path('add_appointment') }}">Set an appointment</a></li>
                         {% endif %}
                             <li><span class="show-for-sr">Current: </span>Messages</li>
                     </ul>
