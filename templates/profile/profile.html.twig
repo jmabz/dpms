@@ -5,7 +5,7 @@
 <div class="notification">
 {% for msg in app.session.flashBag.get('success') %}
 	<div class="callout alert-callout-border success radius" data-closable="fade-out" autoClose="5000">
-		<strong>Success!</strong> {{ msg }}
+		<em><strong>Success!</strong></em> {{ msg }}
 		<button class="close-button" aria-label="Dismiss alert" type="button" data-close>
 		<span aria-hidden="true">&times;</span>
 		</button>
