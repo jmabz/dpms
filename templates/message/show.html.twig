@@ -1,27 +1,36 @@
-{# {% extends 'base.html.twig' %} #}
-
-{# {% block title %}Message{% endblock %} #}
-
 {% block body %}
     {% if message %}
-        <dl>
-            <dt>From:</dt>
-            <dd>{{ message.getSenderName() }}</dd>
-            <dt>To:</dt>
-            <dd>{{ message.getRecepientName() }}</dd>
-            <dt>Subject:</dt>
-            <dd>{{ message.subject }}</dd>
-            <dt>Date sent:</dt>
-            <dd><time class="timeago" datetime="{{ message.dateSent ? message.dateSent|date('Y-m-d H:i:s') : '' }}">{{ message.dateSent ? message.dateSent|date('Y-m-d h:i:s A') : '' }}</time></dd>
-        </dl>
+        <div class="grid-x">
+            <div class="cell small-12">
+                <button class="button" onclick="replyToMessage({{ message.id }})" data-msg-id="{{ message.id }}" data-open="messageModal"><i class="fas fa-reply"></i> Reply</button>
+                <button class="button alert" data-msg-id="{{ message.id }}" id="delete" data-open="deleteModal"><i class="fas fa-trash-alt"></i> Delete</button>
+            </div>
+            <div class="cell small-12 medium-9">
+                <b>{{ message.getSenderName() }}</b> to <b>{{ message.getRecepientName() }}</b>
+            </div>
+            <div class="cell small-12 medium-3">
+                <time class="timeago" datetime="{{ message.dateSent ? message.dateSent|date('Y-m-d H:i:s') : '' }}">{{ message.dateSent ? message.dateSent|date('Y-m-d h:i:s A') : '' }}</time>
+            </div>
+            <div class="cell small-12">
+                <h2>{{ message.subject }}</h2>
+            </div>
+        </div>
+        <hr>
         <p>{{ message.message }}</p>
         <br>
-        <button class="button" data-msg-id data-close>Reply</button>
-        <button class="button alert" id="delete" data-close>Delete</button>
+
     {% endif %}
-    {# <a href="{{ path('message_index') }}">Back to List</a> #}
 {% endblock %}
 
 {% block javascripts %}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $(".timeago").timeago();
+        });
 
+        $('#delete').click( function(event) {
+            msgId = $(this).data('msgId');
+            $('#deleteModal #delete').data('msg-id', msgId);
+        });
+    </script>
 {% endblock %}

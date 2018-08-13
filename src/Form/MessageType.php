@@ -18,7 +18,7 @@ class MessageType extends AbstractType
     {
         $userId = $options['userId'];
         $builder
-            ->add('recepient', EntityType::class, [
+            ->add('recepient', EntityType::class, array(
                 'label' => 'Recepient',
                 'class' => User::class,
                 'choice_label' => function ($user) {
@@ -36,23 +36,23 @@ class MessageType extends AbstractType
                 'query_builder' => function (UserRepository $repo) use ($userId) {
                     return $repo->findNonAdminUsers($userId);
                 },
-
-            ])
-            ->add('subject', TextType::class, [
+            ))
+            ->add('subject', TextType::class, array(
                 'label' => 'Subject',
-            ])
-            ->add('message', TextareaType::class, [
+            ))
+            ->add('message', TextareaType::class, array(
                 'label' => 'Message',
-            ])
+                'attr' => ['rows' => 15, 'cols' => 10,],
+            ))
 
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults([
+        $resolver->setDefaults(array(
             'data_class' => Message::class,
-        ]);
+        ));
         $resolver->setRequired('userId');
     }
 }

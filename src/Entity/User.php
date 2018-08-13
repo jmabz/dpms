@@ -56,14 +56,19 @@ class User implements AdvancedUserInterface
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Message", mappedBy="recepient", orphanRemoval=true)
-     * @ORM\OneToMany(targetEntity="App\Entity\Message", mappedBy="sender", orphanRemoval=true)
      */
-    private $messages;
+    private $receivedMessages;
+
+    /**
+    * @ORM\OneToMany(targetEntity="App\Entity\Message", mappedBy="sender", orphanRemoval=true)
+    */
+    private $sentMessages;
 
     public function __construct()
     {
         $this->isActive = true;
-        $this->messages = new ArrayCollection();
+        $this->receivedMessages = new ArrayCollection();
+        $this->sentMessages = new ArrayCollection();
     }
 
     public function getId()
@@ -164,13 +169,21 @@ class User implements AdvancedUserInterface
      */
     public function getMessages(): Collection
     {
-        return $this->messages;
+        return $this->receivedMessages;
+    }
+
+    /**
+     * @return Collection|Message[]
+     */
+    public function getSentMessages(): Collection
+    {
+        return $this->sentMessages;
     }
 
     public function addMessage(Message $message): self
     {
-        if (!$this->messages->contains($message)) {
-            $this->messages[] = $message;
+        if (!$this->receivedMessages->contains($message)) {
+            $this->receivedMessages[] = $message;
             $message->setRecepient($this);
         }
 
@@ -179,8 +192,8 @@ class User implements AdvancedUserInterface
 
     public function removeMessage(Message $message): self
     {
-        if ($this->messages->contains($message)) {
-            $this->messages->removeElement($message);
+        if ($this->receivedMessages->contains($message)) {
+            $this->receivedMessages->removeElement($message);
             // set the owning side to null (unless already changed)
             if ($message->getRecepient() === $this) {
                 $message->setRecepient(null);

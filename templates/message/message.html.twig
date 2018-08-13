@@ -21,9 +21,12 @@
                 </nav>
 
                 <div class="grid-x">
-                    <div class="callout small-12 medium-4 columns">
-                        <input type="search" id="myInput" onkeyup="myFunction()" placeholder="Search conversation" title="Type in a name">
-                        <div class="tab">
+                    <div class="callout small-12 medium-5 large-4">
+                        <div class="newmessage">
+                            <button data-open="messageModal" onclick="composeMessage()"; class="button success"><i class="fas fa-pen"></i> Compose Message</button>
+                        </div>
+                        <input type="search" id="myInput" onkeyup="searchMessages()" placeholder="Search messages" title="Type in a name">
+                        <div class="tab auto">
                             <label class="tablinks active" onclick="getInbox(); changeTab(event, 'inbox')">Inbox</label>
                             <label class="tablinks" onclick="getSentItems(); changeTab(event, 'sent')">Sent Items</label>
                         </div>
@@ -37,64 +40,16 @@
                         </div>
                     </div>
 
-                    <div id="messagearea" class="callout small-12 medium-8 columns">
-                            <strong>SEND MESSAGE</strong>
-                            {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
-                        <div class="receiver">
-                                {{ form_row(form.recepient) }}
-                        </div>
-                        <div class="subject">
-                                {{ form_row(form.subject) }}
-                        </div>
-                        <div class="messages">
-                                {{ form_row(form.message) }}
-                                <input type="submit" value="SEND" class="button float-right">
-                                {{ form_end(form) }}
-                        </div>
+                    <div id="messagearea" class="callout small-12 medium-7 large-8">
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-
-    {% for message in messages %}
-        <div class="modal myModal" role="dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <span class="close">&times;</span>
-                    <p>Subject: {{ message.subject }} </p>
-                </div>
-                <div class="modal-body text-center">
-                    <p>{{ message.message }}</p>
-                </div>
-                <div class="modal-footer">
-                    <p class="text-left">{{ message.Datesent| date }}
-                    {% if is_granted('ROLE_DOCTOR') %}
-                    <a href="{{ path('message_reply', {'messageId': message.id}) }}" class="button float-right">Reply</a>
-                    </p>
-                    {% elseif is_granted('ROLE_PATIENT') %}
-                    <a href="{{ path('message_reply', {'messageId': message.id}) }}" class="button float-right">Reply</a>
-                    </p>
-                    {% endif %}
-                </div>
-            </div>
+    <div class="reveal large" id="messageModal" data-reveal data-animation-in="slide-in-down" data-animation-out="slide-out-up">
+        <div id="messageForm">
         </div>
-    {% endfor %}
-    <div class="reveal" id="messageModal" data-reveal data-animation-in="slide-in-down" data-animation-out="slide-out-up">
-        <dl>
-            <dt>From:</dt>
-            <dd>message.getSenderName</dd>
-            <dt>To:</dt>
-            <dd>message.getRecepientName</dd>
-            <dt>Subject:</dt>
-            <dd>message.subject</dd>
-            <dt>Date sent:</dt>
-            <dd>message.dateSent</dd>
-        </dl>
-        <p>message.body</p>
-        <button class="button" id="delete" data-msg-id data-close>Yes</button>
-        <button class="button" data-close>No</button>
         <button class="close-button" data-close aria-label="Close" type="button">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -119,33 +74,33 @@
                 url:            "{{ path('inbox') }}",
                 type:           "POST",
                 contentType:    "application/json",
-                success:        function(data, status) {
-                                    $("#inbox #myUL").empty();
-                                    data.forEach(function(msgInfo) {
-                                        var item = $(
-                                                    `<li>\
-                                                        <a id="messageBtn" onclick="getMessage(${ msgInfo['id'] })" href="#" id="messageBtn" \
-                                                            class="myBtn ${ msgInfo['isread'] ? '' : 'unread' }">\
-                                                            <strong id="sendername"></strong>\
-                                                            <br>\
-                                                            <span id="subject"></span>\
-                                                            <br>\
-                                                            <small>\
-                                                                <time class="timeago" datetime="${ msgInfo['datesent'] }" title="${ msgInfo['datesent'] }">\
-                                                                    <span id="datesent"></span>
-                                                                </time>\
-                                                            </small>\
-                                                        </a>\
-                                                    </li>`);
-                                        $("#sendername", item).html(msgInfo['sender']);
-                                        $("#subject", item).html(msgInfo['subject']);
-                                        $("#datesent", item).html(msgInfo['datesent']);
-                                        $("#inbox #myUL").append(item);
-                                    });
-                                },
-                error:          function(xhr, textStatus, errorThrown) {
-                                    console.log('Failed to retrieve messages');
-                                }
+            })
+            .done(function(data, status) {
+                $("#inbox #myUL").empty();
+                data.forEach(function(msgInfo) {
+                    var item = $(
+                                `<li>\
+                                    <a id="messageBtn" onclick="getMessage(${ msgInfo['id'] })" href="#" id="messageBtn" \
+                                        class="myBtn ${ msgInfo['isread'] ? '' : 'unread' }">\
+                                        <strong id="sendername"></strong>\
+                                        <br>\
+                                        <span id="subject"></span>\
+                                        <br>\
+                                        <small>\
+                                            <time class="timeago" datetime="${ msgInfo['datesent'] }" title="${ msgInfo['datesent'] }">\
+                                                <span id="datesent"></span>
+                                            </time>\
+                                        </small>\
+                                    </a>\
+                                </li>`);
+                    $("#sendername", item).html(msgInfo['sender']);
+                    $("#subject", item).html(msgInfo['subject']);
+                    $("#datesent", item).html($.timeago(msgInfo['datesent']));
+                    $("#inbox #myUL").append(item);
+                });
+            })
+            .fail(function(xhr, textStatus, errorThrown) {
+                console.log('Failed to retrieve messages');
             });
         }
 
@@ -154,33 +109,33 @@
                 url:            "{{ path('sent') }}",
                 type:           "POST",
                 contentType:    "application/json",
-                success:        function(data, status) {
-                                    $("#sent #myUL").empty();
-                                    data.forEach(function(sentItem) {
-                                        var item = $(
-                                                    `<li>\
-                                                        <a id="messageBtn" href="#" onclick="getMessage(${ sentItem['id'] })" class="openmodal myBtn">\
-                                                            <strong id="recepientName"></strong>\
-                                                            <br>\
-                                                            <span id="subject"></span>\
-                                                            <br>\
-                                                            <small>\
-                                                                <time class="timeago" datetime="${ sentItem['datesent'] }" title="${ sentItem['datesent'] }">\
-                                                                    <span id="datesent"></span>
-                                                                </time>\
-                                                            </small>\
-                                                        </a>\
-                                                    </li>`);
-                                        $("#recepientName", item).html(sentItem['recepient']);
-                                        $("#subject", item).html(sentItem['subject']);
-                                        $("#datesent", item).html(sentItem['datesent']);
-                                        $("#sent #myUL").append(item);
-                                    });
-                                },
-                error:          function(xhr, textStatus, errorThrown) {
-                                    console.log('Failed to retrieve sent items');
-                                }
             })
+            .done(function(data, status) {
+                $("#sent #myUL").empty();
+                data.forEach(function(sentItem) {
+                    var item = $(
+                                `<li>\
+                                    <a id="messageBtn" href="#" onclick="getMessage(${ sentItem['id'] })" class="openmodal myBtn">\
+                                        <strong id="recepientName"></strong>\
+                                        <br>\
+                                        <span id="subject"></span>\
+                                        <br>\
+                                        <small>\
+                                            <time class="timeago" datetime="${ sentItem['datesent'] }" title="${ sentItem['datesent'] }">\
+                                                <span id="datesent"></span>
+                                            </time>\
+                                        </small>\
+                                    </a>\
+                                </li>`);
+                    $("#recepientName", item).html(sentItem['recepient']);
+                    $("#subject", item).html(sentItem['subject']);
+                    $("#datesent", item).html($.timeago(sentItem['datesent']));
+                    $("#sent #myUL").append(item);
+                });
+            })
+            .fail(function(xhr, textStatus, errorThrown) {
+                console.log('Failed to retrieve sent items');
+            });
         }
 
         function getMessage(id) {
@@ -188,12 +143,12 @@
                 url: `{{ path('message_show', {'messageId': 'msgId'}) }}`.replace('msgId', id),
                 type: 'POST',
                 contentType: "application/json",
-                success: function(data, status) {
-                    $("#messagearea").load(`{{ path('message_show', {'messageId': 'msgId'}) }}`.replace('msgId', id));
-                },
-                error: function(xhr, textStatus, errorThrown) {
-                    console.log(`Failed to retrieve the message`);
-                }
+            })
+            .done(function(data, status) {
+                $("#messagearea").html(data);
+            })
+            .fail(function(xhr, textStatus, errorThrown) {
+                console.log(`Failed to retrieve the message`);
             });
         }
 
@@ -201,16 +156,71 @@
             $.ajax({
                 url: `{{ path('message_delete', {'messageId': 'msgId'}) }}`.replace('msgId', id),
                 type: 'DELETE',
-                success: function(data, status) {
-                    console.log('Deleted ' + id);
-                },
-                error: function(xhr, textStatus, errorThrown) {
-                    console.log(`Failed to delete ${id}`);
-                }
+            })
+            .done(function(data, status) {
+                console.log(`Deleted ${id}`);
+                $("#messagearea").html("");
+            })
+            .fail(function(xhr, textStatus, errorThrown) {
+                console.log(`Failed to delete ${id}`);
             });
         }
 
-        function myFunction() {
+        function composeMessage() {
+            $.ajax({
+                url: `{{ path('message_new') }}`,
+                type: 'POST',
+            })
+            .done(function(data, status) {
+                $("#messageForm").html(data);
+            })
+            .fail(function(xhr, textStatus, errorThrown) {
+                console.log(`...`);
+            });
+        }
+
+        function replyToMessage(id) {
+            $.ajax({
+                url: `{{ path('message_reply', {'messageId': 'msgId'}) }}`.replace('msgId', id),
+                type: 'POST',
+            })
+            .done(function(data, status) {
+                $("#messageForm").html(data);
+            })
+            .fail(function(xhr, textStatus, errorThrown) {
+                console.log(`...`);
+            });;
+        }
+
+        function initMessageSubmission(){
+            $('#messageForm').on('submit', '.msgForm', function(event) {
+                event.preventDefault();
+
+                $.ajax({
+                    type:$(this).attr('method'),
+                    url:$(this).attr('action'),
+                    data:$(this).serialize(),
+                })
+                .done(function(data, status) {
+                    if (typeof data.message !== 'undefined') {
+                        console.log(data.message);
+                        $('#messageModal').foundation('close');
+                    }
+                })
+                .fail(function(xhr, textStatus, errorThrown) {
+                    if (typeof xhr.responseJSON !== 'undefined') {
+                        if (xhr.responseJSON.hasOwnProperty('form')) {
+                            console.log(xhr.responseJSON);
+                            $('#messageForm').html(xhr.responseJSON.form);
+                        }
+                    } else {
+                        console.log(errorThrown);
+                    }
+                })
+            });
+        }
+
+        function searchMessages() {
             var input, filter, ul, li, a, i;
             input = document.getElementById("myInput");
             filter = input.value.toUpperCase();
@@ -226,23 +236,6 @@
             }
         }
 
-    {# Modal #}
-        var modals = document.getElementsByClassName('modal');
-        var btns = document.getElementsByClassName("openmodal");
-        var spans = document.getElementsByClassName("close");
-
-            for(let i=0;i<btns.length;i++){
-                btns[i].onclick = function() {
-                modals[i].style.display = "block";
-            }
-        }
-            for(let i=0;i<spans.length;i++){
-                spans[i].onclick = function() {
-                modals[i].style.display = "none";
-            }
-        }
-
-    {# Tab #}
         function changeTab(evt, tabName) {
             var i, tabcontent, tablinks;
             tabcontent = document.getElementsByClassName("tabcontent");
@@ -257,8 +250,13 @@
             evt.currentTarget.className += " active";
         }
 
-    $(window).ready(function(){
-        getInbox();
-    });
+        $('#deleteModal').on('click', '#delete', function(event) {
+            msgId = $(event.currentTarget).data('msg-id');
+            deleteMessage(msgId);
+        })
+
+        $(window).ready(function(){
+            initMessageSubmission();
+        });
     </script>
 {% endblock %}

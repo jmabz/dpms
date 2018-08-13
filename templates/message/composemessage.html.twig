@@ -1,24 +1,13 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}Reply Message{% endblock %}
-
 {% block body %}
-<div class="grid-container">
-    <div class="panel-heading">
-		<div>
-			<h4 class="text-center">
-            Messages
-			</h4>
-		</div>
-
-<div class="callout">
-    {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+    {{ form_start(form, {'attr': {'novalidate': 'novalidate', 'class': 'msgForm'}}) }}
         {{ form_widget(form) }}
         <button class="button success">{{ button_label|default('Reply') }}</button>
-        <a href="{{ path('send_message') }}" class="button alert">Cancel</a>
+        <a data-close href="#" class="button primary">Cancel</a>
     {{ form_end(form) }}
+{% endblock %}
 
-</div>
-</div>
-</div>
+{% block javascripts %}
+    <script>
+        $(".chosen-select").chosen();
+    </script>
 {% endblock %}
