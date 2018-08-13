@@ -15,35 +15,36 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+
 use Faker\Provider\Lorem;
 
 class MessageController extends Controller
 {
-    /**
-     * @Route("/messages", name="message_index", methods="GET|POST")
-     */
-    public function displayMessages(UserInterface $user, Request $request): Response
+    private function listMessagesAsArray($messages) : array
     {
-        $messages = $user->getMessages();
+        $jsonData = array();
 
-        if($request->isXmlHttpRequest() || $request->query->get('showJson') == 1) {
-            $jsonData = array();
-
-            foreach($messages as $message) {
-                $temp = [
-                    'id' => $message->getId(),
-                    'sender' => $message->getSenderName(),
-                    'subject' => $message->getSubject(),
-                    'message' => $message->getMessage(),
-                    'datesent' => $message->getDateSent()->format('m/d/Y h:i:s A'),
-                    'isread' => $message->getIsRead(),
-                ];
-                $jsonData[] = $temp;
-            }
-            return new JsonResponse($jsonData);
-
+        foreach($messages as $message) {
+            $temp = array(
+                'id' => $message->getId(),
+                'sender' => $message->getSenderName(),
+                'recepient' => $message->getRecepientName(),
+                'subject' => $message->getSubject(),
+                'message' => $message->getMessage(),
+                'datesent' => $message->getDateSent()->format('m/d/Y h:i:s A'),
+                'isread' => $message->getIsRead(),
+            );
+            $jsonData[] = $temp;
         }
-        return $this->render('message/index.html.twig', ['messages' => $user->getMessages()]);
+        return $jsonData;
+    }
+
+    /**
+     * @Route("/messages", name="messages", methods="GET|POST")
+     */
+    public function viewMessages(): Response
+    {
+        return $this->render('message/message.html.twig');
     }
 
     /**
@@ -54,37 +55,43 @@ class MessageController extends Controller
         if (!$request->isXmlHttpRequest()) {
             return new JsonResponse(array('message' => 'You can access this only using Ajax!'), 400);
         }
-            $messages = $user->getMessages();
-            $jsonData = array();
 
-            foreach($messages as $message) {
-                $temp = [
-                    'id' => $message->getId(),
-                    'sender' => $message->getSenderName(),
-                    'recepient' => $message->getRecepientName(),
-                    'subject' => $message->getSubject(),
-                    'message' => $message->getMessage(),
-                    'datesent' => $message->getDateSent()->format('m/d/Y h:i:s A'),
-                    'isread' => $message->getIsRead(),
-                ];
-                $jsonData[] = $temp;
-            }
-            return new JsonResponse($jsonData);
+        $jsonData = $this->listMessagesAsArray($user->getMessages());
+        return new JsonResponse($jsonData);
     }
 
     /**
-     * @Route("/message/compose", name="send_message", methods="GET|POST")
+     * @Route("/messages/sent", name="sent", methods="GET|POST")
      */
-    public function composeMessage(UserInterface $user, MessageRepository $msgRepository, Request $request): Response
+    public function displaySentItems(UserInterface $user, Request $request): Response
     {
-        $messages = $user->getMessages();
+        if (!$request->isXmlHttpRequest()) {
+            return new JsonResponse(array('message' => 'You can access this only using Ajax!'), 400);
+        }
+
+        $jsonData = $this->listMessagesAsArray($user->getSentMessages());
+        return new JsonResponse($jsonData);
+    }
+
+    /**
+     * Sends a new message
+     *
+     * @param UserInterface $user
+     * @param Request $request
+     * @return Response
+     *
+     * @Route("/message/compose", name="message_new", methods="GET|POST")
+     */
+    public function composeMessage(UserInterface $user, Request $request): Response {
         $message = new Message();
         $message->setSender($user);
         $message->setDateSent(new \DateTime('now'));
         $message->setSubject(Lorem::words($nb = 2, $asText = true));
         $message->setMessage(Lorem::paragraph($nbSentences = 3, $variableNbSentences = true));
+
         $form = $this->createForm(MessageType::class, $message, [
-            'userId' => $user->getId()
+            'userId' => $user->getId(),
+            'action' => $this->generateUrl('message_new'),
             ]);
         $form->handleRequest($request);
 
@@ -93,72 +100,13 @@ class MessageController extends Controller
             $entityManager->persist($message);
             $entityManager->flush();
 
-            return $this->redirectToRoute('send_message');
+            return new JsonResponse(array('message' => 'Success!'), 200);
         }
 
-        $sent = $msgRepository->findBy(['sender' => $user->getId()]);
-
-        return $this->render('message/message.html.twig', [
-            'messages' => $messages,
-            'message' => $message,
+        return $this->render('message/composemessage.html.twig', [
             'form' => $form->createView(),
-            'sent' => $sent,
         ]);
     }
-
-    /**
-     * @Route("/messages/sent", name="sent", methods="GET|POST")
-     */
-    public function displaySentItems(UserInterface $user, Request $request, MessageRepository $msgRepository): Response
-    {
-        if (!$request->isXmlHttpRequest()) {
-            return new JsonResponse(array('message' => 'You can access this only using Ajax!'), 400);
-        }
-        $messages = $msgRepository->findBy(['sender' => $user->getId()]);
-
-        $jsonData = array();
-
-        foreach($messages as $message) {
-            $temp = [
-                'id' => $message->getId(),
-                'sender' => $message->getSenderName(),
-                'recepient' => $message->getRecepientName(),
-                'subject' => $message->getSubject(),
-                'message' => $message->getMessage(),
-                'datesent' => $message->getDateSent()->format('m/d/Y h:i:s A'),
-                'isread' => $message->getIsRead(),
-            ];
-            $jsonData[] = $temp;
-        }
-        return new JsonResponse($jsonData);
-    }
-
-    // /**
-    //  * @Route("/message/compose", name="message_new", methods="GET|POST")
-    //  */
-    // public function composeMessage(UserInterface $user, Request $request): Response
-    // {
-    //     $message = new Message();
-    //     $message->setSender($user);
-    //     $message->setDateSent(new \DateTime('now'));
-    //     $form = $this->createForm(MessageType::class, $message, [
-    //         'userId' => $user->getId()
-    //         ]);
-    //     $form->handleRequest($request);
-
-    //     if ($form->isSubmitted() && $form->isValid()) {
-    //         $entityManager = $this->getDoctrine()->getManager();
-    //         $entityManager->persist($message);
-    //         $entityManager->flush();
-
-    //         return $this->redirectToRoute('message_index');
-    //     }
-
-    //     return $this->render('message/message.html.twig', [
-    //         'message' => $message,
-    //         'form' => $form->createView(),
-    //     ]);
-    // }
 
     /**
      * @Route("/message/reply/{messageId}", name="message_reply", methods="GET|POST")
@@ -174,9 +122,14 @@ class MessageController extends Controller
         $message->setSubject($messageToReply->getSubject());
         $message->setRecepient($messageToReply->getRecepient());
         $message->setDateSent(new \DateTime('now'));
+
         $form = $this->createForm(MessageType::class, $message, [
-            'userId' => $user->getId()
+            'userId' => $user->getId(),
+            'action' => $this->generateUrl('message_reply', [
+                    'messageId' => $messageId,
+                ]),
             ]);
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -184,11 +137,10 @@ class MessageController extends Controller
             $entityManager->persist($message);
             $entityManager->flush();
 
-            return $this->redirectToRoute('send_message');
+            return new JsonResponse(array('message' => 'Success!'), 200);
         }
 
         return $this->render('message/composemessage.html.twig', [
-            'message' => $message,
             'form' => $form->createView(),
         ]);
     }
@@ -202,7 +154,7 @@ class MessageController extends Controller
             ->getRepository(Message::class)
             ->find($messageId);
 
-        //if($user->getId() == $message->receiver->getId())
+        if($user->getId() == $message->getRecepient()->getId())
             $message->setIsRead(true);
 
         $entityManager = $this->getDoctrine()->getManager();
@@ -221,7 +173,7 @@ class MessageController extends Controller
      *
      * @Route("/message/show/ajax/{messageId}", name="message_show_ajax", methods="POST")
      */
-    public function showAjax(Request $request, $messageId): JsonResponse
+    public function showAjax(UserInterface $user, Request $request, $messageId): JsonResponse
     {
         if (!$request->isXmlHttpRequest()) {
             return new JsonResponse(array('message' => 'You can access this only using Ajax!'), 400);
@@ -231,7 +183,8 @@ class MessageController extends Controller
             ->getRepository(Message::class)
             ->find($messageId);
 
-        $message->setIsRead(true);
+        if($user->getId() == $message->getRecepient()->getId())
+            $message->setIsRead(true);
 
         $entityManager = $this->getDoctrine()->getManager();
                     $entityManager->persist($message);
@@ -240,38 +193,18 @@ class MessageController extends Controller
         $jsonData = array();
 
         $temp = array(
-            'id' => $message->getId(),
-            'sender' => $message->getSenderName(),
-            'recepient' => $message->getRecepientName(),
-            'subject' => $message->getSubject(),
-            'message' => $message->getMessage(),
-            'datesent' => $message->getDateSent()->format('m/d/Y h:i:s A'),
-            'isread' => $message->getIsRead(),
+                'id' => $message->getId(),
+                'sender' => $message->getSenderName(),
+                'recepient' => $message->getRecepientName(),
+                'subject' => $message->getSubject(),
+                'message' => $message->getMessage(),
+                'datesent' => $message->getDateSent()->format('m/d/Y h:i:s A'),
+                'isread' => $message->getIsRead(),
             )
         ;
         $jsonData = $temp;
 
         return new JsonResponse($jsonData);
-    }
-
-    /**
-     * @Route("/message/edit/{messageId}", name="message_edit", methods="GET|POST")
-     */
-    public function edit(Request $request, Message $message): Response
-    {
-        $form = $this->createForm(MessageType::class, $message);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('message_edit', ['messageId' => $message->getId()]);
-        }
-
-        return $this->render('message/edit.html.twig', [
-            'message' => $message,
-            'form' => $form->createView(),
-        ]);
     }
 
     /**

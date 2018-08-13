@@ -37,14 +37,14 @@ class Message
     private $dateSent;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="messages")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="receivedMessages")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank()
      */
     private $recepient;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="messages")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="sentMessages")
      * @ORM\JoinColumn(nullable=false)
      */
     private $sender;

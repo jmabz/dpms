@@ -8,7 +8,7 @@ use App\Form\Model\ChangePassword;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class SecurityController extends Controller
 {
@@ -76,8 +76,9 @@ class SecurityController extends Controller
      * @return void
      * @Route("/changepassword/", name="change_password")
      */
-    public function changePassword(UserInterface $user, Request $request)
+    public function changePassword(TokenStorageInterface $tokenStorage, Request $request)
     {
+        $user=$tokenStorage->getToken()->getUser();
         $changePasswordModel = new ChangePassword();
         $form = $this->createForm(ChangePasswordType::class, $changePasswordModel);
         $form->handleRequest($request);
