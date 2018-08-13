@@ -27,8 +27,8 @@
                     <div class="callout small-12 medium-4 columns">
                         <input type="search" id="myInput" onkeyup="myFunction()" placeholder="Search conversation" title="Type in a name">
                         <div class="tab">
-                            <label class="tablinks" onclick="getInbox(); changeTab(event, 'inbox')">Inbox</label>
-                            <label class="tablinks" onclick="getSentItems(); changeTab(event, 'sent')">Sent Items</label>
+                            <label class="tablinks" onclick="getInbox(); changeTab(event, 'inbox')"><i class="fa fa-inbox"></i> Inbox</label>
+                            <label class="tablinks" onclick="getSentItems(); changeTab(event, 'sent')"><i class="fa fa-envelope-open"></i> Sent items</label>
                         </div>
                         <div id="inbox" class="tabcontent">
                             <ul id="myUL">
@@ -61,7 +61,7 @@
     </div>
 
 
-    {% for message in messages %}
+    {# {% for message in messages %}
         <div class="modal myModal" role="dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -83,7 +83,7 @@
                 </div>
             </div>
         </div>
-    {% endfor %}
+    {% endfor %} #}
     <div class="reveal" id="messageModal" data-reveal data-animation-in="slide-in-down" data-animation-out="slide-out-up">
         <dl>
             <dt>From:</dt>

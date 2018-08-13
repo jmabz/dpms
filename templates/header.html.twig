@@ -27,11 +27,11 @@
 			{% if is_granted('IS_AUTHENTICATED_FULLY') %}
 				<p>Hi,
 					{% if is_granted('ROLE_DOCTOR') or is_granted('ROLE_PATIENT') %}
-						<a href="{{ path('profile', { userId: app.user.id }) }}">{{ app.user.username }}</a>!
+						<a href="{{ path('profile', { userId: app.user.id }) }}"><i class="fa fa-user-circle"></i> {{ app.user.username }}</a>!
 					{% else %}
 						{{ app.user.username }}!
 					{% endif %}
-					<a href="/logout">(Logout)</a></p>
+					<a href="/logout"><i class="fa fa-power-off">Logout</i></a></p>
 					{# {% if not is_granted('ROLE_ADMIN') %}
 						<a href="#" class="button-badge">
 							<i class="fas fa-stethoscope"></i>

@@ -24,7 +24,9 @@
                     </a>
                     </li>
                     <li><span class="show-for-sr">Current: </span>Appointments</li>
-                    <li><a href="{{ path('send_message') }}">Messages</a></li>
+                    {% if is_granted('ROLE_DOCTOR') %}
+                    <li><a href="{{path('send_message')}}">Messages</a></li>
+                    {% endif %}
                 </ul>
             </nav>
             <table class="table">
