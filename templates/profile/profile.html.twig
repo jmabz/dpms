@@ -38,7 +38,7 @@
 		<div class="callout">
 			<h5>
 				User Profile
-				{% if is_granted('ROLE_ACCOUNT_SETUP') %}
+				{% if is_granted('ROLE_DOCTOR') or is_granted('ROLE_PATIENT')%}
 					<a href="{{ path('edit_profile', {'userId': userId}) }}" class="button primary small float-right">Edit Profile</a>
 				{% endif %}
 			</h5>
@@ -65,7 +65,7 @@
 		{% endif %}
 		{% if accreditationinfo %}
 			<h5>Accreditation Info
-				{% if accreditationinfo and is_granted('ROLE_ACCOUNT_SETUP') %}
+				{% if accreditationinfo and is_granted('ROLE_DOCTOR') %}
 					<a href="{{ path('edit_accred', {'userId': userId}) }}" class="button primary small float-right">Edit Accreditation Info</a>
 				{% endif %}
 			</h5>
