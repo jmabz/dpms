@@ -25,7 +25,7 @@
                     </li>
                     <li><span class="show-for-sr">Current: </span>Appointments</li>
                     {% if is_granted('ROLE_DOCTOR') %}
-                    <li><a href="{{path('send_message')}}">Messages</a></li>
+                    <li><a href="{{path('messages')}}">Messages</a></li>
                     {% endif %}
                 </ul>
             </nav>

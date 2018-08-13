@@ -24,13 +24,6 @@
                 </nav>
 
                 <div class="grid-x">
-<<<<<<< HEAD
-                    <div class="callout small-12 medium-4 columns">
-                        <input type="search" id="myInput" onkeyup="myFunction()" placeholder="Search conversation" title="Type in a name">
-                        <div class="tab">
-                            <label class="tablinks" onclick="getInbox(); changeTab(event, 'inbox')"><i class="fa fa-inbox"></i> Inbox</label>
-                            <label class="tablinks" onclick="getSentItems(); changeTab(event, 'sent')"><i class="fa fa-envelope-open"></i> Sent items</label>
-=======
                     <div class="callout small-12 medium-5 large-4">
                         <div class="newmessage">
                             <button data-open="messageModal" onclick="composeMessage()"; class="button success"><i class="fas fa-pen"></i> Compose Message</button>
@@ -39,7 +32,6 @@
                         <div class="tab auto">
                             <label class="tablinks active" onclick="getInbox(); changeTab(event, 'inbox')">Inbox</label>
                             <label class="tablinks" onclick="getSentItems(); changeTab(event, 'sent')">Sent Items</label>
->>>>>>> 9a1123dbd51955115b2150d07d80909bbd00de43
                         </div>
                         <div id="inbox" class="tabcontent">
                             <ul id="myUL">
@@ -58,50 +50,9 @@
         </div>
     </div>
 
-<<<<<<< HEAD
-
-    {# {% for message in messages %}
-        <div class="modal myModal" role="dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <span class="close">&times;</span>
-                    <p>Subject: {{ message.subject }} </p>
-                </div>
-                <div class="modal-body text-center">
-                    <p>{{ message.message }}</p>
-                </div>
-                <div class="modal-footer">
-                    <p class="text-left">{{ message.Datesent| date }}
-                    {% if is_granted('ROLE_DOCTOR') %}
-                    <a href="{{ path('message_reply', {'messageId': message.id}) }}" class="button float-right">Reply</a>
-                    </p>
-                    {% elseif is_granted('ROLE_PATIENT') %}
-                    <a href="{{ path('message_reply', {'messageId': message.id}) }}" class="button float-right">Reply</a>
-                    </p>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-    {% endfor %} #}
-    <div class="reveal" id="messageModal" data-reveal data-animation-in="slide-in-down" data-animation-out="slide-out-up">
-        <dl>
-            <dt>From:</dt>
-            <dd>message.getSenderName</dd>
-            <dt>To:</dt>
-            <dd>message.getRecepientName</dd>
-            <dt>Subject:</dt>
-            <dd>message.subject</dd>
-            <dt>Date sent:</dt>
-            <dd>message.dateSent</dd>
-        </dl>
-        <p>message.body</p>
-        <button class="button" id="delete" data-msg-id data-close>Yes</button>
-        <button class="button" data-close>No</button>
-=======
     <div class="reveal large" id="messageModal" data-reveal data-animation-in="slide-in-down" data-animation-out="slide-out-up">
         <div id="messageForm">
         </div>
->>>>>>> 9a1123dbd51955115b2150d07d80909bbd00de43
         <button class="close-button" data-close aria-label="Close" type="button">
             <span aria-hidden="true">&times;</span>
         </button>
