@@ -218,7 +218,7 @@ td{
 }
 
 .subject{
-	margin-top:-11%;
+	margin-top:-8%;
 	float:right;
 	width:40%;
 }
@@ -269,4 +269,8 @@ td{
 
 .--unread{
 	background-color: #FFFACD;
+}
+.change{
+	border: 1px solid #c1c1c1;
+	padding: 15px 18px;
 }
