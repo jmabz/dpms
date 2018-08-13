@@ -326,3 +326,7 @@ td{
 .unread{
 	background-color: #FFFACD;
 }
+.change{
+	border: 1px solid #c1c1c1;
+	padding: 15px 18px;
+}
