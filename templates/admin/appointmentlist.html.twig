@@ -12,7 +12,9 @@
             <table class="table unstriped">
                 <thead>
                     <tr>
+                        {% if is_granted('ROLE_DOCTOR')  or is_granted('ROLE_ADMIN')%}
                         <th>ID</th>
+                        {% endif %}
                         <th>Appointment Date</th>
                         <th>Patient</th>
                         <th>Appointment Status</th>
@@ -27,7 +29,7 @@
                         <tr>
                         {% if is_granted('ROLE_DOCTOR') %}
                             <td><a href="{{ path('appointment_show', {'appointmentId': appointment.id}) }}">{{ appointment.id }}</a></td>
-                        {% elseif is_granted('ROLE_ADMIN') %}
+                        {% elseif is_granted('ROLE_ADMIN')%}
                             <td>{{ appointment.id }}</td>
                             {% endif %}
                             <td>{{ appointment.appointmentDate ? appointment.appointmentDate|date('Y-m-d') : '' }}</td>
