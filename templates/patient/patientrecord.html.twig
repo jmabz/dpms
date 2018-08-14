@@ -4,10 +4,10 @@
 <div class="grid-container">
     <div class="panel-heading">
 		<div>
-			<h4 class="text-center">Patient Records</h4>
+			<h4 class="text-center">Patient Records <a href="{{path('record_history')}}" class="small button alert float-right">Back to list</a></h4>
 		</div>
 	<div class="callout">
-	<table class="table unstriped text-justify">
+	<table class="table unstriped text-justify" width="100%;">
 		<tr>
 			<th>Patient: </th>
 			<td>{{ patient.getCompleteName() }}</td>

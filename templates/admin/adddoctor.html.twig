@@ -8,55 +8,55 @@
 				Add New Doctor
 			</h4>
 	</div>
-<div class="callout">
-			{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
-			<div class="grid-x">
-				<div class="cell medium-12">
-					{{ form_row(form.username) }}
-					{{ form_row(form.plainPassword) }}
-				</div>
-				<div class="small-12 medium-12"><h3>User Information</h3></div>
-					<div class="small-12 medium-3 columns">
-						{# {{ form_errors(form.userinfo) }} #}
-						{{ form_row(form.userinfo.fname) }}
-					</div>
-					<div class="small-12 medium-3 columns">
-						{{ form_row(form.userinfo.mname) }}
-					</div>
-					<div class="small-12 medium-3 columns">
-						{{ form_row(form.userinfo.lname) }}
-					</div>
-					<div class="small-12 medium-3 columns">
-						{{ form_row(form.userinfo.suffix) }}
-					</div>
-					<div class="small-12 medium-6 columns">
-						{{ form_row(form.userinfo.gender) }}
-					</div>
-					<div class="small-12 medium-6 columns">
-						{{ form_row(form.userinfo.civil_status) }}
-					</div>
-					<div class="small-12 medium-6 columns">
-						{{ form_row(form.userinfo.address) }}
-					</div>
-					<div class="small-12 medium-6 columns">
-						{{ form_row(form.userinfo.birthDate) }}
-					</div>
+		<div class="callout">
+					{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+					<div class="grid-x">
+						<div class="cell medium-12">
+							{{ form_row(form.username) }}
+							{{ form_row(form.plainPassword) }}
+						</div>
+						<div class="small-12 medium-12"><h3>User Information</h3></div>
+							<div class="small-12 medium-3 columns">
+								{# {{ form_errors(form.userinfo) }} #}
+								{{ form_row(form.userinfo.fname) }}
+							</div>
+							<div class="small-12 medium-3 columns">
+								{{ form_row(form.userinfo.mname) }}
+							</div>
+							<div class="small-12 medium-3 columns">
+								{{ form_row(form.userinfo.lname) }}
+							</div>
+							<div class="small-12 medium-3 columns">
+								{{ form_row(form.userinfo.suffix) }}
+							</div>
+							<div class="small-12 medium-6 columns">
+								{{ form_row(form.userinfo.gender) }}
+							</div>
+							<div class="small-12 medium-6 columns">
+								{{ form_row(form.userinfo.civil_status) }}
+							</div>
+							<div class="small-12 medium-6 columns">
+								{{ form_row(form.userinfo.address) }}
+							</div>
+							<div class="small-12 medium-6 columns">
+								{{ form_row(form.userinfo.birthDate) }}
+							</div>
 
-				<div class="medium-12"><h3>Accreditation Information</h3></div>
-				<div class="cell medium-4">
-					{{ form_row(form.accreditationinfo.accreditationCode) }}
-				</div>
-				<div class="cell medium-4">
-					{{ form_row(form.accreditationinfo.accreditationDate) }}
-				</div>
-				<div class="cell medium-4">
-					{{ form_row(form.accreditationinfo.accreditationExpDate) }}
-				</div>
-			</div>
-			<input type="submit" class="button success" value="Add Doctor">
-			<a href="{{ path('doctor_list') }}" class="button alert float-right">Cancel</a>
-		{{ form_end(form) }}
+						<div class="medium-12"><h3>Accreditation Information</h3></div>
+						<div class="cell medium-4">
+							{{ form_row(form.accreditationinfo.accreditationCode) }}
+						</div>
+						<div class="cell medium-4">
+							{{ form_row(form.accreditationinfo.accreditationDate) }}
+						</div>
+						<div class="cell medium-4">
+							{{ form_row(form.accreditationinfo.accreditationExpDate) }}
+						</div>
+					</div>
+					<input type="submit" class="button success" value="Add Doctor">
+					<a href="{{ path('doctor_list') }}" class="button alert float-right">Cancel</a>
+				{{ form_end(form) }}
+		</div>
 	</div>
-</div>
 </div>
 {% endblock %}

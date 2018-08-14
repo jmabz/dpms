@@ -13,14 +13,14 @@
 	<table class="table unstriped">
 		<thead>
 			<tr>
-				<th>Checkup Date</th>
-				<th>Doctor in Charge</th>
-				<th>Diagnosis Category</th>
+				<th class="text-center">Checkup Date</th>
+				<th class="text-center">Doctor in Charge</th>
+				<th class="text-center">Diagnosis Category</th>
 			</tr>
 		</thead>
 		<tbody>
 		{% for record in records %}
-			<tr>
+			<tr class="text-center">
 				<td><a href="{{ path('view_record', {recordId : record.id}) }}" title="Click here to view full details.">{{ record.checkupDate|date('m/d/Y') }}</a></td>
 				<td>{{ record.doctor.fname }} {{ record.doctor.mname }} {{ record.doctor.lname }} {{ record.doctor.suffix }}</td>
 				<td>{{ record.diagnosisCategory.diagnosisName }}</td>
