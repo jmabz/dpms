@@ -11,7 +11,18 @@
 				</h4>
 			</div>
 
-<div class="callout">		
+<div class="callout">
+{% for message in app.flashes('success') %}
+    <div class="flash-notice">
+        {{ message }}
+    </div>
+{% endfor %}
+
+{% for flash_message in app.flashes('error') %}
+    <div class="flash-notice">
+        {{ flash_message }}
+    </div>
+{% endfor %}
 <div class="grid-x" style="margin-left:10px;">
                 <div class="small-12 medium-3 columns">
                     
