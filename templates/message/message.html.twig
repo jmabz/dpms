@@ -9,20 +9,6 @@
                 <h4 class="text-center">Messages</h4>
             </div>
             <div class="callout">
-                <nav aria-label="You are here:" role="navigation">
-                    <ul class="breadcrumbs">
-                        {% if is_granted('ROLE_DOCTOR') %}
-                            <li><a href="{{ path('doctor') }}">Home</a></li>
-                            <li><a href="{{ path('appointment_doctor') }}">Appointments</a></li>
-                        {% elseif is_granted('ROLE_PATIENT') %}
-                            <li><a href="{{ path('patient') }}">Home</a></li>
-                            <li><a href="{{ path('record_history') }}">Record History</a></li>
-                            <li><a href="{{ path('add_appointment') }}">Set an appointment</a></li>
-                        {% endif %}
-                            <li><span class="show-for-sr">Current: </span>Messages</li>
-                    </ul>
-                </nav>
-
                 <div class="grid-x">
                     <div class="callout small-12 medium-5 large-4">
                         <div class="newmessage">
@@ -30,8 +16,8 @@
                         </div>
                         <input type="search" id="myInput" onkeyup="searchMessages()" placeholder="Search messages" title="Type in a name">
                         <div class="tab auto">
-                            <label class="tablinks active" onclick="getInbox(); changeTab(event, 'inbox')">Inbox</label>
-                            <label class="tablinks" onclick="getSentItems(); changeTab(event, 'sent')">Sent Items</label>
+                            <label class="tablinks" onclick="getInbox(); changeTab(event, 'inbox')"><i class="fas fa-inbox fa-fw"></i> Inbox</label>
+                            <label class="tablinks" onclick="getSentItems(); changeTab(event, 'sent')"><i class="fas fa-envelope-open fa-fw"></i> Sent Items</label>
                         </div>
                         <div id="inbox" class="tabcontent">
                             <ul id="myUL">
@@ -58,10 +44,10 @@
         </button>
     </div>
     <div class="reveal" id="deleteModal" data-reveal data-animation-in="slide-in-down" data-animation-out="slide-out-up">
-        <h2>Delete Message</h2>
+        <h3 class="text-center">Delete Message</h3>
         <p>Are you sure you want to delete this message?</p>
-        <button class="button" id="delete" data-msg-id data-close>Yes</button>
-        <button class="button" data-close>No</button>
+        <button class="button" id="delete" data-msg-id data-close><i class="fas fa-check"></i> Yes</button>
+        <button class="button alert float-right" data-close><i class="fas fa-times"></i> No</button>
         <button class="close-button" data-close aria-label="Close" type="button">
             <span aria-hidden="true">&times;</span>
         </button>

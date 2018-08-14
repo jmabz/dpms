@@ -9,26 +9,6 @@
 					Scheduled Appointments
 				</h4>
         <div class="callout">
-            <nav aria-label="You are here:" role="navigation">
-                <ul class="breadcrumbs">
-                    <li>
-                    <a href=
-                        {% if is_granted('ROLE_ADMIN') %}
-                            "{{ path('admin') }}"
-                        {% elseif is_granted('ROLE_DOCTOR') %}
-                            "{{ path('doctor') }}"
-                        {% elseif is_granted('ROLE_PATIENT') %}
-                            "{{ path('patient') }}"
-                        {% endif %}>
-                        Home
-                    </a>
-                    </li>
-                    <li><span class="show-for-sr">Current: </span>Appointments</li>
-                    {% if is_granted('ROLE_DOCTOR') %}
-                    <li><a href="{{path('messages')}}">Messages</a></li>
-                    {% endif %}
-                </ul>
-            </nav>
             <table class="table">
                 <thead>
                     <tr>

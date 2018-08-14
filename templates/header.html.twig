@@ -3,23 +3,28 @@
 	<div class="top-bar">
 		<div class="top-bar-left">
 			<ul class="dropdown menu" data-dropdown-menu>
-
-				<li class="menu-text">DPMS</li>
-
+			<li class="menu-text">DPMS</li>
 				{% if app.request.get('_route') != 'admin' and is_granted('ROLE_ADMIN') %}
+					<li><a href="{{ path('clinic_list') }}"><i class="fas fa-hospital-o fa-fw"></i>Clinics</a></li>
+					<li><a href="{{ path('diagnosis_categories') }}"><i class="fas fa-medkit fa-fw"></i>Diagnosis Categories</a></li>
 					<li>
-						<a href="{{ path('admin') }}">Admin Portal</a>
-					</li>
+					<a href="#"><i class="fas fa-group fa-fw"></i> Manage Users</a>
+					<ul class="menu vertical">
+					<li><a href="{{ path('doctor_list') }}"><i class="fas fa-user-md fa-fw"></i>Doctors</a></li>
+					<li><a href="{{ path('patient_list') }}"><i class="fas fa-user-alt fa-fw"></i>Patients</a></li>
+					</ul>
+				</li>
+
+				<div class="top-bar foundation-5-top-bar">
 				{% endif %}
 				{% if app.request.get('_route') != 'doctor' and is_granted('ROLE_DOCTOR') %}
-					<li>
-						<a href="{{ path('doctor') }}">Doctor's Portal</a>
-					</li>
+					<li><a href="{{ path('appointment_doctor') }}"><i class="fas fa-calendar fa-fw"></i>Appointments</a></li>
+					<li><a href="{{ path('messages') }}"><i class="far fa-comments fa-fw"></i>Messages</a></li>
 				{% endif %}
 				{% if app.request.get('_route') != 'patient' and is_granted('ROLE_PATIENT') %}
-					<li>
-						<a href="{{ path('patient') }}">Patient's Portal</a>
-					</li>
+					<li><a href="{{ path('record_history') }}"><i class="fas fa-file-invoice fa-fw"></i>Record History</a></li>
+					<li><a href="{{ path('add_appointment') }}"><i class="fas fa-calendar fa-fw"></i>Set an appointment</a></li>
+					<li><a href="{{ path('messages') }}"><i class="far fa-comments fa-fw"></i>Messages</a></li>
 				{% endif %}
 			</ul>
 		</div>
@@ -31,7 +36,7 @@
 					{% else %}
 						{{ app.user.username }}!
 					{% endif %}
-					<a href="/logout"><i class="fa fa-power-off">Logout</i></a></p>
+					<a href="/logout"><i class="fa fa-power-off fa-fw"></i>Logout</a></p>
 					{# {% if not is_granted('ROLE_ADMIN') %}
 						<a href="#" class="button-badge">
 							<i class="fas fa-stethoscope"></i>
@@ -49,4 +54,7 @@
 			{% endif %}
 		{% endif %}
 	</div>
+</div>
+
+
 {% endblock %}

@@ -274,17 +274,15 @@ td{
 	border: 1px solid #c1c1c1;
 	padding: 15px 18px;
 }
-.fa {color:black;}
-.fa:hover{
-	color:#fff;
-}
-.fa-inbox, .fa-envelope-open{
-	color:white;
-}
-.fa-edit:hover{
-	color:#c1c1c1;
-}
-
 .change, .log-in-form{
 	box-shadow: 10px 10px #c1c1c1;
 }
+
+.top-bar {
+	width: 100%;
+}
+
+.top-bar a:hover{
+	color:black;
+}
+.fa-edit:hover{color:black;}
