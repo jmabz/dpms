@@ -41,7 +41,7 @@
             <script>
                 $( function() {
                     $(".datepicker").datepicker();
-                } );
+                });
             </script>
 
             <script>
@@ -49,18 +49,30 @@
             </script>
 
             <script>
-                $(document).ready( function () {
-                    $('.table').DataTable();
-                } );
+                $(document).ready(function() {
+                    $(".table").DataTable();
+                });
             </script>
 
             <script type="text/javascript">
-                $('.my-selector').collection();
+                $(".my-selector").collection();
             </script>
 
             <script type="text/javascript">
-                jQuery(document).ready(function() {
+                $(document).ready(function() {
                     $(".timeago").timeago();
+                });
+            </script>
+
+            <script>
+                $(function() {
+                    $("#tabs").tabs( {
+                        beforeLoad: function(event, ui) {
+                            ui.jqXHR.fail(function() {
+                                ui.panel.html("Couldn't load this tab.");
+                            });
+                        }
+                    });
                 });
             </script>
         {% endblock %}
