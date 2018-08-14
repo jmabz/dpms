@@ -66,7 +66,10 @@ class AppointmentController extends Controller
             $entityManager->persist($appointment);
             $entityManager->flush();
 
-            return $this->redirectToRoute('patient');
+            $this->addFlash('success', 'Your appointment has been set!');
+            $this->addFlash('error', 'Error: cant add an appointment');
+
+            return $this->redirectToRoute('appointment_patient');
         }
 
         return $this->render('patient/setappointment.html.twig', [
@@ -151,7 +154,7 @@ class AppointmentController extends Controller
                 ->getManager()
                 ->flush();
 
-            return $this->redirectToRoute('appointment_index');
+            return $this->redirectToRoute('appointment_list');
         }
 
         return $this->render('appointment/edit.html.twig', [
@@ -182,6 +185,6 @@ class AppointmentController extends Controller
             $entityManager->remove($appointment);
             $entityManager->flush();
 
-        return $this->redirectToRoute('appointment_index');
+        return $this->redirectToRoute('appointment_list');
     }
 }
