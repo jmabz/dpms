@@ -15,17 +15,20 @@
                             <button data-open="messageModal" onclick="composeMessage()"; class="button success"><i class="fas fa-pen"></i> Compose Message</button>
                         </div>
                         <input type="search" id="myInput" onkeyup="searchMessages()" placeholder="Search messages" title="Type in a name">
-                        <div class="tab auto">
-                            <label class="tablinks" onclick="getInbox(); changeTab(event, 'inbox')"><i class="fas fa-inbox fa-fw"></i> Inbox</label>
-                            <label class="tablinks" onclick="getSentItems(); changeTab(event, 'sent')"><i class="fas fa-envelope-open fa-fw"></i> Sent Items</label>
-                        </div>
-                        <div id="inbox" class="tabcontent">
-                            <ul id="myUL">
+                        <div id="tabs">
+                            <ul>
+                                <li><a class="tablinks" href="#inbox" onclick="getInbox();"><i class="fas fa-inbox fa-fw"></i>Inbox</a></li>
+                                <li><a class="tablinks" href="#sent" onclick="getSentItems();"><i class="fas fa-envelope-open fa-fw"></i>Sent Items</a></li>
                             </ul>
-                        </div>
-                        <div id="sent" class="tabcontent">
-                            <ul id="myUL">
-                            </ul>
+
+                            <div id="inbox" class="tabcontent">
+                                <ul id="myUL">
+                                </ul>
+                            </div>
+                            <div id="sent" class="tabcontent">
+                                <ul id="myUL">
+                                </ul>
+                            </div>
                         </div>
                     </div>
 
@@ -225,26 +228,13 @@
             }
         }
 
-        function changeTab(evt, tabName) {
-            var i, tabcontent, tablinks;
-            tabcontent = document.getElementsByClassName("tabcontent");
-            for (i = 0; i < tabcontent.length; i++) {
-                tabcontent[i].style.display = "none";
-            }
-            tablinks = document.getElementsByClassName("tablinks");
-            for (i = 0; i < tablinks.length; i++) {
-                tablinks[i].className = tablinks[i].className.replace(" active", "");
-            }
-            document.getElementById(tabName).style.display = "block";
-            evt.currentTarget.className += " active";
-        }
-
         $('#deleteModal').on('click', '#delete', function(event) {
             msgId = $(event.currentTarget).data('msg-id');
             deleteMessage(msgId);
         })
 
         $(window).ready(function(){
+            getInbox();
             initMessageSubmission();
         });
     </script>
