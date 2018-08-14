@@ -25,7 +25,11 @@
                 <tbody>
                     {% for appointment in appointments %}
                         <tr>
+                        {% if is_granted('ROLE_DOCTOR') %}
                             <td><a href="{{ path('appointment_show', {'appointmentId': appointment.id}) }}">{{ appointment.id }}</a></td>
+                        {% elseif is_granted('ROLE_ADMIN') %}
+                            <td>{{ appointment.id }}</td>
+                            {% endif %}
                             <td>{{ appointment.appointmentDate ? appointment.appointmentDate|date('Y-m-d') : '' }}</td>
                             <td>{{ appointment.patient.userInfo.getCompleteName() }}</td>
                             <td>{{ appointment.appointmentStatus }}</td>
