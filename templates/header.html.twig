@@ -35,16 +35,18 @@
 					{% if not is_granted('IS_AUTHENTICATED_FULLY') %}
 					<ul class="menu">
 							<li>
-								<a class="button" href="{{ path('login') }}">Login</a>
+								<a href="{{ path('login') }}" class="button"><i class="fas fa-sign-in-alt fa-fw"></i>Login</a>
 							</li>
 					{% endif %}
 					{% if not loginpage %}
 						{% if is_granted('IS_AUTHENTICATED_FULLY') %}
-						Hi, 
-								{% if is_granted('ROLE_DOCTOR') or is_granted('ROLE_PATIENT') %}
-									<a href="{{ path('profile', { userId: app.user.id }) }}"><i class="fa fa-user-circle"></i> {{ app.user.username }}</a>!
+						Logged in as:
+								{% if is_granted('ROLE_DOCTOR') %}
+									<a href="{{ path('profile', { userId: app.user.id }) }}"><i class="fa fa-user-md fa-fw"></i> {{ app.user.userInfo.getCompleteName }}</a>|
+								{% elseif is_granted('ROLE_PATIENT') %}
+								<a href="{{ path('profile', { userId: app.user.id }) }}"><i class="fa fa-user-circle fa-fw"></i> {{ app.user.userInfo.getCompleteName }}</a>|
 								{% else %}
-									{{ app.user.username }}!
+									<i class="fas fa-user fa-fw"></i>Admin |
 								{% endif %}
 								<a href="/logout" onclick="return confirm('Do you really want to logout?')"><i class="fa fa-power-off fa-fw"></i>Logout</a>
 					{% else %}
