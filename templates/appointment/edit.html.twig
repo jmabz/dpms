@@ -7,16 +7,15 @@
         <div class="panel-heading">
             <div>
                 <h4 class="text-center">
+                    {% if is_granted('ROLE_ADMIN') %}
+                    <a href="{{ path('appointment_list') }}" class="button alert float-left"><i class="fa fa-arrow-left"> back to list</i></a>
                     Scheduled Appointments
                 </h4>
             </div>
-
             <div class="callout">
                 {{ form_start(form) }}
                     {{ form_widget(form) }}
                     <input type="submit" value="SET APPOINTMENT" class="button success float-right">
-                    {% if is_granted('ROLE_ADMIN') %}
-                    <a href="{{ path('appointment_index') }}">back to list</a>
                     {% elseif is_granted('ROLE_DOCTOR') %}
                     <a href="{{ path('appointment_doctor') }}" class="button alert">CANCEL</a>
                     {% endif %}

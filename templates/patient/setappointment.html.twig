@@ -11,28 +11,30 @@
 				</h4>
 			</div>
 
-<div class="callout">
-	<nav aria-label="You are here:" role="navigation">
-		<ul class="breadcrumbs">
-			<li><a href="{{ path('patient') }}">Home</a></li>
-			<li><a href="{{ path('record_history') }}">Record History</a></li>
-            <li><span class="show-for-sr">Current: </span>Set an appointment</li>
-            <li><a href="{{ path('send_message') }}">Messages</a></li>
-        </ul>
-	</nav>		
-<div class="grid-x" style="margin-left:10px;">
-                <div class="small-12 medium-3 columns">
-                    
-                    {{ form_row(form.appointmentDate) }}
+            <div class="callout">
+            {% for message in app.flashes('success') %}
+                <div class="flash-notice">
+                    {{ message }}
                 </div>
-                <div class="small-12 medium-8 columns" style="margin-left:50px;">
-                    {{ form_row(form.reason) }}
+            {% endfor %}
+
+                {{ form_start(form) }}
+                <div class="grid-x">
+                    <div class="small-12 medium-3 columns">
+                        {{ form_row(form.appointmentDate) }}
+                    </div>
+                    <div class="small-12 medium-8 columns" style="margin-left:50px;">
+                        {{ form_row(form.reason) }}
+                    </div>
+                    <div class="small-12 medium-6 columns">
+                        {{ form_row(form.doctor) }}
+                    </div>
+                    <div class="small-12 medium-6">
+                        <input type="submit" value="SET APPOINTMENT" class="small button success float-right" style="margin-top:4%;margin-right:8%;">
+                    </div>
+                {{ form_end(form) }}
                 </div>
-                <div class="small-12 medium-6 columns">
-                    {{ form_row(form.doctor) }}
-                </div>
-                <div class="small-12 medium-6">
-                    <a href="{{ path('add_appointment') }}" class="small button success float-right" style="margin-top:3%; margin-right:50px;">Set Appointment</a>
-                </div>
+            </div>
+    </div>
 </div>
 {% endblock %}

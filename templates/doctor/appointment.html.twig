@@ -8,11 +8,11 @@
             <div>
                 <h4 class="text-center">Scheduled Appointments
                 <a href={% if is_granted('ROLE_ADMIN') %}
-                        {{ path('appointment_index') }}
+                        {{ path('appointment_list') }}
                     {% elseif is_granted('ROLE_DOCTOR') %}
                         {{ path('appointment_doctor') }}
                     {% endif %}
-                class="small button primary float-right">Back to List</a>
+                class="small button primary float-right"><i class="fa fa-arrow-left"></i> Go Back</a>
                 </h4>
             </div>
         <div class="callout">

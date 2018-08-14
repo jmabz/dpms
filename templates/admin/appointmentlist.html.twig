@@ -9,25 +9,7 @@
 					Scheduled Appointments
 				</h4>
         <div class="callout">
-            <nav aria-label="You are here:" role="navigation">
-                <ul class="breadcrumbs">
-                    <li>
-                    <a href=
-                        {% if is_granted('ROLE_ADMIN') %}
-                            "{{ path('admin') }}"
-                        {% elseif is_granted('ROLE_DOCTOR') %}
-                            "{{ path('doctor') }}"
-                        {% elseif is_granted('ROLE_PATIENT') %}
-                            "{{ path('patient') }}"
-                        {% endif %}>
-                        Home
-                    </a>
-                    </li>
-                    <li><span class="show-for-sr">Current: </span>Appointments</li>
-                    <li><a href="{{ path('send_message') }}">Messages</a></li>
-                </ul>
-            </nav>
-            <table class="table">
+            <table class="table unstriped">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -43,7 +25,11 @@
                 <tbody>
                     {% for appointment in appointments %}
                         <tr>
+                        {% if is_granted('ROLE_DOCTOR') %}
                             <td><a href="{{ path('appointment_show', {'appointmentId': appointment.id}) }}">{{ appointment.id }}</a></td>
+                        {% elseif is_granted('ROLE_ADMIN') %}
+                            <td>{{ appointment.id }}</td>
+                            {% endif %}
                             <td>{{ appointment.appointmentDate ? appointment.appointmentDate|date('Y-m-d') : '' }}</td>
                             <td>{{ appointment.patient.userInfo.getCompleteName() }}</td>
                             <td>{{ appointment.appointmentStatus }}</td>

@@ -21,7 +21,18 @@
         <header>
             {% include 'header.html.twig' %}
         </header>
-        {% block body %}{% endblock %}
+        {% block body %}
+
+        {% endblock %}
+        <div class="reveal" id="logoutModal" data-reveal data-animation-in="slide-in-down" data-animation-out="slide-out-up">
+            <h1>Logout</h1>
+            <p class="lead">Are you sure you want to log out?</p>
+            <a class="button primary" href="/logout"><i class="fas fa-check"></i> Yes</a>
+            <button class="button alert float-right" data-close><i class="fas fa-times"></i> No</button>
+            <button class="close-button" data-close aria-label="Close reveal" type="button">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
         {% block javascripts %}
 
 			<script src="{{ asset('js/vendor/jquery.js') }}"></script>

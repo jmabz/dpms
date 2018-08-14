@@ -4,7 +4,20 @@
 
 {% block body %}
 <div class="grid-container">
-	<h1>Doctor-Patient Management System</h1>
-    <h2>Welcome!</h2>
+    <div class="panel-heading">
+		<div>
+			<h4 class="text-center">
+            {% if is_granted('ROLE_ADMIN') %}Admin Portal
+            {% elseif is_granted('ROLE_DOCTOR') %}Doctor Portal 
+            {% elseif is_granted('ROLE_PATIENT') %}Patient Portal
+            {% endif %} </h4>
+		</div>
+		<div class="callout text-center">
+            <h3>Doctor-Patient Management System</h3>
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            <h5>Welcome! You have now the full access to this site.</h5>
+            {% endif %}
+        </div>
+    </div>
 </div>
 {% endblock %}

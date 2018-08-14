@@ -209,23 +209,6 @@ td{
 	font-size: .8em;
 }
 
-/* .fa, .fas {
-	color: white;
-} */
-
-.receiver{
-	width:40%;
-}
-
-.subject{
-	margin-top:-8%;
-	float:right;
-	width:40%;
-}
-.messages{
-	width:100%;
-}
-
 /* tab */
 .tab {
     overflow: hidden;
@@ -278,4 +261,51 @@ td{
 .change{
 	border: 1px solid #c1c1c1;
 	padding: 15px 18px;
+}
+.change, .log-in-form{
+	box-shadow: 10px 10px #c1c1c1;
+}
+.fa-edit:hover{color:black;}
+
+/* Top bar */
+.top-bar {
+	width: 100%;
+}
+
+.top-bar a:hover{
+	color:black;
+}
+
+.top-bar li {
+	display: block;
+	transition-duration: 0.5s;
+}
+
+.top-bar li:hover {
+	cursor: pointer;
+}
+
+.top-bar ul li ul {
+	visibility: hidden;
+	opacity: 1;
+	position: absolute;
+	transition: all 0.5s ease;
+	display: none;
+	background-color: #fff;
+	box-shadow: 2px 3px #ccc;
+	border-radius: 10px;
+	padding: 5px 6px;
+	text-align: justify;
+}
+
+.top-bar ul li:hover > ul,
+ul li ul:hover {
+	visibility: visible;
+	opacity: 1;
+	display: block;
+}
+
+.menuitem--selected {
+	background-color: #1779ba;
+	color: #ffffff;
 }

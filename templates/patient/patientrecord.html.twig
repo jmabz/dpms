@@ -4,16 +4,10 @@
 <div class="grid-container">
     <div class="panel-heading">
 		<div>
-			<h4 class="text-center">Patient Records</h4>
+			<h4 class="text-center">Patient Records <a href="{{path('record_history')}}" class="small button alert float-right">Back to list</a></h4>
 		</div>
 	<div class="callout">
-		<nav aria-label="You are here:" role="navigation">
-			<ul class="breadcrumbs">
-			<li><a href="{{ path('record_history') }}">Back to list</a></li>
-			<li><span class="show-for-sr">Current: </span>Record History: #{{ record.id }}</li>
-			</ul>
-		</nav>
-	<table class="table unstriped text-justify">
+	<table class="table unstriped text-justify" width="100%;">
 		<tr>
 			<th>Patient: </th>
 			<td>{{ patient.getCompleteName() }}</td>

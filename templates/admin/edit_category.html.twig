@@ -5,15 +5,9 @@
   <div class="grid-container">
     <div class="panel-heading">
       <div>
-        <h4 class="text-center">Update Diagnosis Categories</h4>
+        <h4 class="text-center">Update Diagnosis Categories <a href="{{ path('diagnosis_categories') }}" class="small button alert float-right">back to list</a></h4>
       </div>
       <div class="callout">
-        <nav aria-label="You are here:" role="navigation">
-          <ul class="breadcrumbs">
-            <li><span class="show-for-sr">Current: </span>Diagnosis Category: Update Category</li>
-            <li><a href="{{ path('diagnosis_categories') }}">back to list</a></li>
-          </ul>
-        </nav>
         {{ form_start(form) }}
         <div class="grid-x">
           <div class="medium-10 columns">

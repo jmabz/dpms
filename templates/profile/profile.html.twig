@@ -5,7 +5,7 @@
 <div class="notification">
 {% for msg in app.session.flashBag.get('success') %}
 	<div class="callout alert-callout-border success radius" data-closable="fade-out" autoClose="5000">
-		<strong>Success!</strong> {{ msg }}
+		<em><strong>Success!</strong></em> {{ msg }}
 		<button class="close-button" aria-label="Dismiss alert" type="button" data-close>
 		<span aria-hidden="true">&times;</span>
 		</button>
@@ -17,29 +17,23 @@
 		<div class="panel-heading">
 			<div>
 				<h4 class="text-center">{{ userinfo.fname }} {{ userinfo.mname }} {{ userinfo.lname }} {{ userinfo.suffix }} ({{ role }})
-				{% if is_granted('ROLE_DOCTOR') or is_granted('ROLE_PATIENT') %}<a href="{{ path('change_password') }}" class="button primary small float-left">Change Password...</a>{% endif %}
+				{% if is_granted('ROLE_DOCTOR') or is_granted('ROLE_PATIENT') %}<a href="{{ path('change_password') }}" class="button primary small float-left"><i class="fas fa-cog fa-fw"></i>Change Password</a>{% endif %}
 				<a href=
 				{% if is_granted('ROLE_DOCTOR') or is_granted('ROLE_PATIENT') %}
 					{% if role == "Doctor" %}
-						"{{ path('doctor') }}"
+						"{{ path('home') }}"
 					{% elseif role == "Patient" %}
-						"{{ path('patient') }}"
-					{% endif %}
-				{% elseif is_granted('ROLE_ADMIN') %}
-					{% if role == "Doctor" %}
-						"{{ path('doctor_list') }}"
-					{% elseif role == "Patient" %}
-						"{{ path('patient_list') }}"
+						"{{ path('home') }}"
 					{% endif %}
 				{% endif %}
-				class="button alert small float-right">RETURN</a>
+				class="button alert small float-right"><i class="fas fa-angle-double-left fa-fw fa-lg"></i>RETURN</a>
 				</h4>
 			</div>
 		<div class="callout">
 			<h5>
 				User Profile
-				{% if is_granted('ROLE_ACCOUNT_SETUP') %}
-					<a href="{{ path('edit_profile', {'userId': userId}) }}" class="button primary small float-right">Edit Profile</a>
+				{% if is_granted('ROLE_DOCTOR') or is_granted('ROLE_PATIENT')%}
+					<a href="{{ path('edit_profile', {'userId': userId}) }}" class="button primary small float-right"><i class="fas fa-user-edit fa-fw"></i></a>
 				{% endif %}
 			</h5>
 			<table class="unstriped text-center">
@@ -65,7 +59,7 @@
 		{% endif %}
 		{% if accreditationinfo %}
 			<h5>Accreditation Info
-				{% if accreditationinfo and is_granted('ROLE_ACCOUNT_SETUP') %}
+				{% if accreditationinfo and is_granted('ROLE_DOCTOR') %}
 					<a href="{{ path('edit_accred', {'userId': userId}) }}" class="button primary small float-right">Edit Accreditation Info</a>
 				{% endif %}
 			</h5>
