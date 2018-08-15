@@ -28,8 +28,8 @@
 					<li><a href="{{ path('record_history') }}"><i class="fas fa-file-invoice fa-fw"></i>Record History</a></li>
 					<li class="is-dropdown-submenu-parent"><a href="#"><i class="fas fa-calendar-alt fa-fw"></i> Appointments</a>
 						<ul class="menu vertical">
-							<li><a href="{{ path('add_appointment') }}"><i class="fas fa-calendar-plus fa-fw"></i>Set appointment</a></li>
-							<li><a href="{{ path('appointment_patient') }}"><i class="fas fa-calendar-check fa-fw"></i>Appointment list</a></li>
+							<li><a href="{{ path('appointment_patient') }}"><i class="fas fa-calendar-check fa-fw"></i> Appointment List</a></li>
+							<li><a href="{{ path('add_appointment') }}"><i class="fas fa-calendar-plus fa-fw"></i> Set Appointment</a></li>
 						</ul>
 					</li>
 					<li><a href="{{ path('messages') }}"><i class="far fa-comments fa-fw"></i>Messages</a></li>
@@ -53,7 +53,7 @@
 								{% else %}
 									<i class="fas fa-user fa-fw"></i>Admin |
 								{% endif %}
-								<a href="/logout" onclick="return confirm('Do you really want to logout?')"><i class="fa fa-power-off fa-fw"></i>Logout</a>
+								<a href="#" data-open="logoutModal"><i class="fa fa-power-off fa-fw"></i>Logout</a>
 					{% else %}
 					</ul>
 				</div>
