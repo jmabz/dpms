@@ -17,14 +17,15 @@
                         <input type="search" id="myInput" onkeyup="searchMessages()" placeholder="Search messages" title="Type in a name">
                         <div id="tabs">
                             <ul>
-                                <li><a class="tablinks" href="#inbox" onclick="getInbox();"><i class="fas fa-inbox fa-fw"></i>Inbox</a></li>
-                                <li><a class="tablinks" href="#sent" onclick="getSentItems();"><i class="fas fa-envelope-open fa-fw"></i>Sent Items</a></li>
+                                <li><a class="tablinks" href="#inbox"><i class="fas fa-inbox fa-fw"></i>Inbox</a></li>
+                                <li><a class="tablinks" href="#sent"><i class="fas fa-envelope-open fa-fw"></i>Sent Items</a></li>
                             </ul>
 
                             <div id="inbox" class="tabcontent">
                                 <ul id="myUL">
                                 </ul>
                             </div>
+
                             <div id="sent" class="tabcontent">
                                 <ul id="myUL">
                                 </ul>
@@ -33,6 +34,7 @@
                     </div>
 
                     <div id="messagearea" class="callout small-12 medium-7 large-8">
+                        Select an item from the list.
                     </div>
                 </div>
             </div>
@@ -46,6 +48,7 @@
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
+
     <div class="reveal" id="deleteModal" data-reveal data-animation-in="slide-in-down" data-animation-out="slide-out-up">
         <h3 class="text-center">Delete Message</h3>
         <p>Are you sure you want to delete this message?</p>
@@ -59,8 +62,43 @@
 
 {% block javascripts %}
     {{ parent() }}
-    {# Search #}
+
     <script>
+        /**
+         * Perform initializations when page is ready
+         */
+        $(window).ready(function(){
+            initMessageSubmission();
+        });
+
+        /**
+         * Initializes events performed by tabs
+         */
+        $("#tabs").tabs({
+            create: function( event, ui ) {
+                getInbox();
+            },
+            activate: function( event, ui ) {
+                resetMsgList();
+                $("#messagearea").html("Select an item from the list.");
+            }
+        });
+
+        /**
+         * Resets the message list.
+         */
+        function resetMsgList() {
+            var active = $( "#tabs .ui-tabs-panel:visible" ).attr('id');
+            if(active === "inbox") {
+                getInbox();
+            }else if(active === "sent") {
+                getSentItems();
+            }
+        }
+
+        /**
+         * Retrieves messages from user's inbox, and populates the message list with the results.
+         */
         function getInbox() {
             $.ajax({
                 url:            "{{ path('inbox') }}",
@@ -72,8 +110,8 @@
                 data.forEach(function(msgInfo) {
                     var item = $(
                                 `<li>\
-                                    <a id="messageBtn" onclick="getMessage(${ msgInfo['id'] })" href="#" id="messageBtn" \
-                                        class="myBtn ${ msgInfo['isread'] ? '' : 'unread' }">\
+                                    <a id="messageBtn" href="#" data-msg-id="${ msgInfo['id'] }" \
+                                        class="myBtn ${ msgInfo['isread'] ? '' : 'messageBtn--unread' }">\
                                         <strong id="sendername"></strong>\
                                         <br>\
                                         <span id="subject"></span>\
@@ -85,6 +123,11 @@
                                         </small>\
                                     </a>\
                                 </li>`);
+                    $('#messageBtn', item).click(function (event) {
+                        getMessage($(event.currentTarget).data('msgId'));
+                        getSelectedItem(this);
+                        changeReadStatus(this);
+                    });
                     $("#sendername", item).html(msgInfo['sender']);
                     $("#subject", item).html(msgInfo['subject']);
                     $("#datesent", item).html($.timeago(msgInfo['datesent']));
@@ -96,6 +139,9 @@
             });
         }
 
+        /**
+         * Retrieves messages from user's sent items, and populates the message list with the results.
+         */
         function getSentItems() {
             $.ajax({
                 url:            "{{ path('sent') }}",
@@ -107,7 +153,7 @@
                 data.forEach(function(sentItem) {
                     var item = $(
                                 `<li>\
-                                    <a id="messageBtn" href="#" onclick="getMessage(${ sentItem['id'] })" class="openmodal myBtn">\
+                                    <a href="#" data-msg-id="${ sentItem['id'] }" id="messageBtn">\
                                         <strong id="recepientName"></strong>\
                                         <br>\
                                         <span id="subject"></span>\
@@ -119,6 +165,10 @@
                                         </small>\
                                     </a>\
                                 </li>`);
+                    $('#messageBtn', item).click(function (event) {
+                        getMessage($(event.currentTarget).data('msgId'));
+                        getSelectedItem(this);
+                    });
                     $("#recepientName", item).html(sentItem['recepient']);
                     $("#subject", item).html(sentItem['subject']);
                     $("#datesent", item).html($.timeago(sentItem['datesent']));
@@ -130,6 +180,9 @@
             });
         }
 
+        /**
+         * Retrieves the selected message.
+         */
         function getMessage(id) {
             $.ajax({
                 url: `{{ path('message_show', {'messageId': 'msgId'}) }}`.replace('msgId', id),
@@ -144,6 +197,29 @@
             });
         }
 
+        /**
+         * Adds a blue border on the selected message.
+         */
+        function getSelectedItem(btn) {
+            var current = $(".messageBtn--selected");
+            if(current.length !== 0) {
+                current[0].className = current[0].className.replace(" messageBtn--selected", "");
+            }
+            btn.className += " messageBtn--selected";
+        }
+
+        /**
+         * Removes the unread message indicator.
+         */
+        function changeReadStatus(btn) {
+            if(btn.className.includes(" messageBtn--unread")) {
+                btn.className = btn.className.replace(" messageBtn--unread", "");
+            }
+        }
+
+        /**
+         * Deletes a message based on ID.
+         */
         function deleteMessage (id) {
             $.ajax({
                 url: `{{ path('message_delete', {'messageId': 'msgId'}) }}`.replace('msgId', id),
@@ -151,13 +227,17 @@
             })
             .done(function(data, status) {
                 console.log(`Deleted ${id}`);
-                $("#messagearea").html("");
+                resetMsgList();
+                $("#messagearea").html("Select an item from the list.");
             })
             .fail(function(xhr, textStatus, errorThrown) {
                 console.log(`Failed to delete ${id}`);
             });
         }
 
+        /**
+         * Displays a modal to compose a new message.
+         */
         function composeMessage() {
             $.ajax({
                 url: `{{ path('message_new') }}`,
@@ -167,10 +247,13 @@
                 $("#messageForm").html(data);
             })
             .fail(function(xhr, textStatus, errorThrown) {
-                console.log(`...`);
+                console.log(errorThrown);
             });
         }
 
+        /**
+         * Displays a modal to reply to a message.
+         */
         function replyToMessage(id) {
             $.ajax({
                 url: `{{ path('message_reply', {'messageId': 'msgId'}) }}`.replace('msgId', id),
@@ -180,10 +263,13 @@
                 $("#messageForm").html(data);
             })
             .fail(function(xhr, textStatus, errorThrown) {
-                console.log(`...`);
-            });;
+                console.log(errorThrown);
+            });
         }
 
+        /**
+         * Initializes the message form's modal.
+         */
         function initMessageSubmission(){
             $('#messageForm').on('submit', '.msgForm', function(event) {
                 event.preventDefault();
@@ -228,14 +314,13 @@
             }
         }
 
+        /**
+         * Displays the message deletion modal.
+         */
         $('#deleteModal').on('click', '#delete', function(event) {
             msgId = $(event.currentTarget).data('msg-id');
             deleteMessage(msgId);
         })
 
-        $(window).ready(function(){
-            getInbox();
-            initMessageSubmission();
-        });
     </script>
 {% endblock %}

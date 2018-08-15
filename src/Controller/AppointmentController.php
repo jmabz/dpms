@@ -67,7 +67,7 @@ class AppointmentController extends Controller
             $entityManager->flush();
 
             $this->addFlash('success', 'Your appointment has been set!');
-            $this->addFlash('error', 'Error: cant add an appointment');
+            $this->addFlash('error', 'Could not set appointment. Please try again.');
 
             return $this->redirectToRoute('appointment_patient');
         }

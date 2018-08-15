@@ -1,23 +1,23 @@
 {% block header %}
-{% set loginpage = app.request.get('_route') == 'login' %}
-<div class="top-bar-container" data-sticky-container>
-	<div class="sticky sticky-topbar" data-sticky data-options="anchor: page; marginTop: 0; stickyOn: small;">
-    	<div class="top-bar">
-			<div class="top-bar-left">
-				<ul class="dropdown menu" data-dropdown-menu>
-					<li class="menu-text">DPMS</li>
-					{% if app.request.get('_route') != 'admin' and is_granted('ROLE_ADMIN') %}
-					<li><a href="{{ path('home') }}"><i class="fas fa-home fa-fw"></i>Home</a></li>
-					<li><a href="{{ path('clinic_list') }}"><i class="fas fa-hospital fa-fw"></i>Clinics</a></li>
-					<li><a href="{{ path('diagnosis_categories') }}"><i class="fas fa-medkit fa-fw"></i>Diagnosis Categories</a></li>
-					<li class="is-dropdown-submenu-parent"><a href="#"><i class="fas fa-users fa-fw"></i> Manage Users</a>
-						<ul class="menu vertical">
-							<li><a href="{{ path('doctor_list') }}"><i class="fas fa-user-md fa-fw"></i>Doctors</a></li>
-							<li><a href="{{ path('patient_list') }}"><i class="fas fa-user-alt fa-fw"></i>Patients</a></li>
-						</ul>
-					</li>
-			<div class="top-bar foundation-5-top-bar">
-					{% endif %}
+	{% set loginpage = app.request.get('_route') == 'login' %}
+	<div class="top-bar-container" data-sticky-container>
+		<div class="sticky sticky-topbar" data-sticky data-options="anchor: page; marginTop: 0; stickyOn: small;">
+			<div class="top-bar">
+				<div class="top-bar-left">
+					<ul class="dropdown menu" data-dropdown-menu>
+						<li class="menu-text">DPMS</li>
+						{% if app.request.get('_route') != 'admin' and is_granted('ROLE_ADMIN') %}
+						<li><a href="{{ path('home') }}"><i class="fas fa-home fa-fw"></i>Home</a></li>
+						<li><a href="{{ path('clinic_list') }}"><i class="fas fa-hospital fa-fw"></i>Clinics</a></li>
+						<li><a href="{{ path('diagnosis_categories') }}"><i class="fas fa-medkit fa-fw"></i>Diagnosis Categories</a></li>
+						<li class="is-dropdown-submenu-parent"><a href="#"><i class="fas fa-users fa-fw"></i> Manage Users</a>
+							<ul class="menu vertical">
+								<li><a href="{{ path('doctor_list') }}"><i class="fas fa-user-md fa-fw"></i>Doctors</a></li>
+								<li><a href="{{ path('patient_list') }}"><i class="fas fa-user-alt fa-fw"></i>Patients</a></li>
+							</ul>
+						</li>
+				<div class="top-bar foundation-5-top-bar">
+						{% endif %}
 					{% if app.request.get('_route') != 'doctor' and is_granted('ROLE_DOCTOR') %}
 					<li><a href="{{ path('home') }}"><i class="fas fa-home fa-fw"></i>Home</a></li>
 					<li><a href="{{ path('appointment_doctor') }}"><i class="fas fa-calendar-alt fa-fw"></i>Appointments</a></li>
@@ -56,11 +56,11 @@
 								<a href="/logout" onclick="return confirm('Do you really want to logout?')"><i class="fa fa-power-off fa-fw"></i>Logout</a>
 					{% else %}
 					</ul>
-			</div>
+				</div>
+				{% endif %}
 			{% endif %}
-		{% endif %}
+				</div>
 			</div>
 		</div>
 	</div>
-</div>
 {% endblock %}

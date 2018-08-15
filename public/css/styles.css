@@ -250,9 +250,14 @@ td{
 	border-radius: 0.75rem;
 }
 
-.--unread{
+.messageBtn--unread {
 	background-color: #FFFACD;
 }
+
+.messageBtn--selected {
+	border: 4px solid #2ba6cb !important;
+}
+
 .change{
 	border: 1px solid #c1c1c1;
 	padding: 15px 18px;
@@ -298,4 +303,9 @@ ul li ul:hover {
 	visibility: visible;
 	opacity: 1;
 	display: block;
+}
+
+.menuitem--selected {
+	background-color: #1779ba;
+	color: #ffffff;
 }
