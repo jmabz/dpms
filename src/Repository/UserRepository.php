@@ -48,14 +48,25 @@ class UserRepository extends ServiceEntityRepository
     }
     */
 
-    public function findNonAdminUsers(int $userId)
+    public function findNonAdminUsers(int $userId, string $discr = "Admin")
     {
+
+        $user = $this->createQueryBuilder('u')
+            ->andWhere('u.id = :id')
+            ->setParameter("id", $userId)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+
+        $role = (new \ReflectionClass($user))->getShortName();
+        $notPatient = ($role === "Patient") ? ' AND u NOT INSTANCE OF App:Patient' : '';
+
         return $this->createQueryBuilder('u')
-            ->andWhere('u NOT INSTANCE OF :discr')
+            ->andWhere('u NOT INSTANCE OF :discr' . $notPatient)
             ->andWhere('u.id != :id')
             ->setParameters(
                 [
-                    ":discr" => "Admin",
+                    ":discr" => $discr,
                     ":id"    => $userId,
                 ]
             )

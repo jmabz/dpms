@@ -1,0 +1,12 @@
+{% block body %}
+    {{ form_start(form, {'attr': {'novalidate': 'novalidate', 'class': 'replyForm'}}) }}
+        <div class="grid-x">
+            <div class="cell small-10">
+                {{ form_row(form.replyBody) }}
+            </div>
+            <div class="cell small-2">
+                <button class="button success"><i class="fas fa-reply"></i> {{ button_label|default('Reply') }}</button>
+            </div>
+        </div>
+    {{ form_end(form) }}
+{% endblock %}

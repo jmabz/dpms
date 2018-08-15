@@ -5,8 +5,10 @@ namespace App\Controller;
 use App\Entity\Doctor;
 use App\Entity\Message;
 use App\Entity\Patient;
+use App\Entity\Reply;
 use App\Entity\User;
 use App\Form\MessageType;
+use App\Form\ReplyType;
 use App\Repository\MessageRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -52,11 +54,15 @@ class MessageController extends Controller
      */
     public function displayInbox(UserInterface $user, Request $request): Response
     {
+        $messages = $this->getDoctrine()
+            ->getRepository(Message::class)
+            ->findMessagesWithUser($user->getId())
+        ;
         if (!$request->isXmlHttpRequest()) {
             return new JsonResponse(array('message' => 'You can access this only using Ajax!'), 400);
         }
 
-        $jsonData = $this->listMessagesAsArray($user->getMessages());
+        $jsonData = $this->listMessagesAsArray($messages);
         return new JsonResponse($jsonData);
     }
 
@@ -117,30 +123,30 @@ class MessageController extends Controller
             ->getRepository(Message::class)
             ->find($messageId);
 
-        $message = new Message();
-        $message->setSender($user);
-        $message->setSubject($messageToReply->getSubject());
-        $message->setRecepient($messageToReply->getRecepient());
-        $message->setDateSent(new \DateTime('now'));
+        $reply = new Reply();
+        $reply->setSender($user);
+        $reply->setReplyDate(new \DateTime('now'));
+        $reply->setReplyBody(Lorem::paragraph($nbSentences = 3, $variableNbSentences = true));
+        $reply->setMessage($messageToReply);
 
-        $form = $this->createForm(MessageType::class, $message, [
-            'userId' => $user->getId(),
+        $form = $this->createForm(ReplyType::class, $reply, [
             'action' => $this->generateUrl('message_reply', [
                     'messageId' => $messageId,
                 ]),
-            ]);
+            ]
+        );
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($message);
+            $entityManager->persist($reply);
             $entityManager->flush();
 
             return new JsonResponse(array('message' => 'Success!'), 200);
         }
 
-        return $this->render('message/composemessage.html.twig', [
+        return $this->render('message/reply.html.twig', [
             'form' => $form->createView(),
         ]);
     }

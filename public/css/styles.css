@@ -309,3 +309,11 @@ ul li ul:hover {
 	background-color: #1779ba;
 	color: #ffffff;
 }
+
+#messagepanel {
+	height: 100% !important;
+}
+
+.msg-section {
+	border: 1px solid #ccc;
+}

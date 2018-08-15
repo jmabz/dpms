@@ -11,14 +11,13 @@
 
 <div class="callout">
 <nav aria-label="You are here:" role="navigation">
-  <ul class="breadcrumbs">
-    <li><a href="{{ path('doctor') }}">Home</a></li>
-	<li><span class="show-for-sr">Current: </span>Patients: Record Diagnosis</li>
-  </ul>
+	<ul class="breadcrumbs">
+		<li><a href="{{ path('doctor') }}">Home</a></li>
+		<li><span class="show-for-sr">Current: </span>Patients: Record Diagnosis</li>
+	</ul>
 </nav>
 
 		<p><b>Patient:</b> {{patient.fname}} {{patient.mname}} {{patient.lname}} {{patient.suffix}}</p>
-		
 			{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
 			<div class="small-12 medium-12 columns float-right">
 			<div class="medium-6 columns">
