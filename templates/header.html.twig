@@ -26,7 +26,12 @@
 				{% if app.request.get('_route') != 'patient' and is_granted('ROLE_PATIENT') %}
 					<li><a href="{{ path('home') }}"><i class="fas fa-home fa-fw"></i>Home</a></li>
 					<li><a href="{{ path('record_history') }}"><i class="fas fa-file-invoice fa-fw"></i>Record History</a></li>
-					<li><a href="{{ path('add_appointment') }}"><i class="fas fa-calendar-alt fa-fw"></i>Set an appointment</a></li>
+					<li class="is-dropdown-submenu-parent"><a href="#"><i class="fas fa-calendar-alt fa-fw"></i> Appointments</a>
+						<ul class="menu vertical">
+							<li><a href="{{ path('add_appointment') }}"><i class="fas fa-calendar-plus fa-fw"></i>Set appointment</a></li>
+							<li><a href="{{ path('appointment_patient') }}"><i class="fas fa-calendar-check fa-fw"></i>Appointment list</a></li>
+						</ul>
+					</li>
 					<li><a href="{{ path('messages') }}"><i class="far fa-comments fa-fw"></i>Messages</a></li>
 				{% endif %}
 				</ul>
