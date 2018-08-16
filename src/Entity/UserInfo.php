@@ -64,6 +64,13 @@ class UserInfo
      */
     private $birthDate;
 
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $avatar;
+
+    private $fileUpload;
+
     public function getId()
     {
         return $this->id;
@@ -171,5 +178,25 @@ class UserInfo
         $this->birthDate = $birthDate;
 
         return $this;
+    }
+
+    public function getAvatar(): ?string
+    {
+        return $this->avatar;
+    }
+
+    public function setAvatar(string $avatar): self
+    {
+        $this->avatar = $avatar;
+
+        return $this;
+    }
+    public function getFileUpload()
+    {
+        return $this->fileUpload;
+    }
+    public function setFileUpload($fileUpload)
+    {
+        $this->fileUpload = $fileUpload;
     }
 }
