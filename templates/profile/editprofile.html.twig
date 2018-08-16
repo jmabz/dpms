@@ -28,11 +28,14 @@
 				<div class="medium-6 columns">
 					{{ form_row(form.civil_status) }}
 				</div>
-				<div class="medium-8 columns">
+				<div class="medium-5 columns">
 					{{ form_row(form.address) }}
 				</div>
-				<div class="medium-4 columns">
+				<div class="medium-3 columns">
 					{{ form_row(form.birthDate) }}
+				</div>
+				<div class="medium-4 columns">
+					{{ form_row(form.fileUpload, { 'attr': {'disabled': 'disabled'} }) }}
 				</div>
 			</div>
 			<input type="submit" class="button success" value="Save Changes">
