@@ -25,17 +25,25 @@
 					{% elseif role == "Patient" %}
 						"{{ path('home') }}"
 					{% endif %}
-				{% endif %}
 				class="button alert small float-right"><i class="fas fa-angle-double-left fa-fw fa-lg"></i>RETURN</a>
+				{% endif %}
+
+				{% if is_granted ('ROLE_ADMIN') %}
+					<a href="{{ path('home') }}" class="small button alert float-right"><i class="fas fa-angle-double-left fa-fw"></i>RETURN</a>
+				{% endif %}
 				</h4>
 			</div>
 		<div class="callout">
 			<div class="grid-x">
 				<div class="small-12 medium-4 columns" id="profile-pic">
-					{% if is_granted('ROLE_DOCTOR') or is_granted('ROLE_PATIENT')%}
-						<a title="Click here to edit profile." href="{{ path('edit_profile', {'userId': userId}) }}"><img src="{{ asset( 'images/avatar.png' ) }}"/></a>
+
+					{% if is_granted('ROLE_DOCTOR') or is_granted('ROLE_PATIENT') %}
+						<a title="Click here to edit profile." href="{{ path('edit_profile', {'userId': userId}) }}">
+							<img src='{{ asset("brochures_directory/"~ userinfo.fileUpload)}}' alt="Embedded Image" />
+						</a>
+					
 					{% elseif is_granted('ROLE_ADMIN') %}
-						<img src="{{ asset( 'images/avatar.png' ) }}"/>
+						<img src='{{ asset("brochures_directory/"~ userinfo.fileUpload)}}' alt="Embedded Image"/>
 					{% endif %}
 				</div>
 				<div class="small-12 medium-8 columns" id="profile">
@@ -45,8 +53,9 @@
 					<strong>Address:</strong> {{ userinfo.address }}<br>
 					<strong>Birthday:</strong> {{ userinfo.birthdate|date('M d, Y') }}
 			{% endif %}
-			<hr>
+
 			{% if accreditationinfo %}
+			<hr>
 				<h3>~ Accreditation Info ~
 					{% if accreditationinfo and is_granted('ROLE_DOCTOR') %}
 						<a href="{{ path('edit_accred', {'userId': userId}) }}" class="button primary small float-right">Edit Accreditation Info</a>

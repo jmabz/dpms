@@ -310,20 +310,13 @@ ul li ul:hover {
 	color: #ffffff;
 }
 
-#profile{
-	margin-left:25%;
-	margin-top:-15%;
-	font-size:18px;
-	text-align:justify;
-}
-
 #profile-pic img{
 	box-shadow: #2ba6cb 1px solid;
 	padding: 5px;
-	border-radius:100px;
-	width:200px;
+	width:180px;
 	height:200px;
-	margin-left:10%;
+	margin-left:18%;
+	margin-top:3%;
 }
 #profile-pic img:hover {
     box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
