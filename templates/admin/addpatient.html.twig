@@ -1,6 +1,16 @@
 {% extends 'base.html.twig' %}
 {% block title %}Add Patient{% endblock %}
 {% block body %}
+<div class="notification">
+{% for msg in app.session.flashBag.get('success') %}
+	<div class="callout alert-callout-border success radius" data-closable="fade-out" autoClose="5000">
+		<em><strong>Success!</strong></em> {{ msg }}
+		<button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+		<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+{% endfor %}
+</div>
 <div class="grid-container">
 	<div class="panel-heading">
 		<div>
@@ -35,11 +45,14 @@
 					<div class="small-12 medium-6 columns">
 						{{ form_row(form.userinfo.civil_status) }}
 					</div>
-					<div class="small-12 medium-6 columns">
+					<div class="small-12 medium-5 columns">
 						{{ form_row(form.userinfo.address) }}
 					</div>
-					<div class="small-12 medium-6 columns">
+					<div class="small-12 medium-3 columns">
 						{{ form_row(form.userinfo.birthDate) }}
+					</div>
+					<div class="small-12 medium-4 columns">
+						{{ form_row(form.userinfo.fileUpload) }}
 					</div>
 				</div>
 			<input type="submit" class="button success" value="Add Patient">
