@@ -18,6 +18,7 @@
 			<div>
 				<h4 class="text-center">USER PROFILE ({{ role }})
 				{% if is_granted('ROLE_DOCTOR') or is_granted('ROLE_PATIENT') %}<a href="{{ path('change_password') }}" class="button primary small float-left"><i class="fas fa-cog fa-fw"></i>Change Password</a>{% endif %}
+				
 				<a href=
 				{% if is_granted('ROLE_DOCTOR') or is_granted('ROLE_PATIENT') %}
 					{% if role == "Doctor" %}
@@ -25,28 +26,25 @@
 					{% elseif role == "Patient" %}
 						"{{ path('home') }}"
 					{% endif %}
+					{% elseif is_granted('ROLE_ADMIN') %}
+					"{{ path('home') }}"
+					{% endif %}
 				class="button alert small float-right"><i class="fas fa-angle-double-left fa-fw fa-lg"></i>RETURN</a>
-				{% endif %}
-
-				{% if is_granted ('ROLE_ADMIN') %}
-					<a href="{{ path('home') }}" class="small button alert float-right"><i class="fas fa-angle-double-left fa-fw"></i>RETURN</a>
-				{% endif %}
 				</h4>
 			</div>
 		<div class="callout">
 			<div class="grid-x">
-				<div class="small-12 medium-4 columns" id="profile-pic">
-
+				<div class="small-12 medium-4 columns">
+					<br>
 					{% if is_granted('ROLE_DOCTOR') or is_granted('ROLE_PATIENT') %}
-						<a title="Click here to edit profile." href="{{ path('edit_profile', {'userId': userId}) }}">
-							<img src='{{ asset("brochures_directory/"~ userinfo.fileUpload)}}' alt="Embedded Image" />
+						<a href="{{ path('edit_profile', {'userId': userId}) }}">
+							<img src="{{ asset('uploads/' ~ userinfo.getAvatar()) }}" alt="Embedded Image"  id="profile-pic"/>
 						</a>
-					
-					{% elseif is_granted('ROLE_ADMIN') %}
-						<img src='{{ asset("brochures_directory/"~ userinfo.fileUpload)}}' alt="Embedded Image"/>
+						{% else %}
+						<img src="{{ asset('uploads/' ~ userinfo.getAvatar()) }}" alt="Embedded Image"  id="profile-pic"/>
 					{% endif %}
 				</div>
-				<div class="small-12 medium-8 columns" id="profile">
+				<div class="small-12 medium-8 columns">
 					<strong>Name:</strong> {{ userinfo.getCompleteName() }}<br>
 					<strong>Gender:</strong> {{ userinfo.gender }}<br>
 					<strong>Civil Status:</strong> {{ userinfo.civilstatus }}<br>
