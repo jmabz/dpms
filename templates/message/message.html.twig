@@ -14,7 +14,7 @@
                         <div class="newmessage">
                             <button data-open="messageModal" onclick="composeMessage()"; class="button success"><i class="fas fa-pen"></i> Compose Message</button>
                         </div>
-                        <input type="search" id="myInput" onkeyup="searchMessages()" placeholder="Search messages" title="Type in a name">
+                        <input type="search" id="myInput" onkeyup="searchMessages()" placeholder="Search conversation" title="Type in a name">
                         <div id="tabs">
                             <ul>
                                 <li>
@@ -38,11 +38,11 @@
                     </div>
                     <div class="cell small-12 medium-7 large-8 msg-section">
                         <div id="messagepanel" class="grid-y">
-                            <div id="messagearea" class="cell small-12 medium-11">
+                            <div id="messagearea" class="cell small-12 medium-10">
                                 Select an item from the list.
                             </div>
-                            <div id="replyarea" class="cell small-12 medium-1">
-                                ...
+                            <div id="replyarea" class="cell small-12 medium-2">
+
                             </div>
                         </div>
                     </div>
@@ -106,12 +106,12 @@
             }
         });
 
-        $('#inbox').on('click','#messageBtn',function (event) {
+        $('#inbox').on('click','#messageBtn', function (event) {
             getMessage($(event.currentTarget).data('msgId'));
             replyToMessage($(event.currentTarget).data('msgId'));
             getSelectedItem(this);
         });
-        $('#archive').on('click','#messageBtn',function (event) {
+        $('#archive').on('click','#messageBtn', function (event) {
             getMessage($(event.currentTarget).data('msgId'));
             getSelectedItem(this);
         });
@@ -120,7 +120,7 @@
          * Resets the message list.
          */
         function resetMsgList() {
-            var active = $( "#tabs .ui-tabs-panel:visible" ).attr('id');
+            var active = $("#tabs .ui-tabs-panel:visible").attr('id');
             if(active === "inbox") {
                 getInbox();
             }else if(active === "archive") {
@@ -170,6 +170,11 @@
             })
             .done(function(data, status) {
                 $("#messagearea").html(data);
+                $('#messagearea').animate({ scrollTop: 9999 }, 2500);
+                $('#replies').on('click', '.deletereply', function (event) {
+                    deleteReply($(event.currentTarget).data('replyId'));
+                    $(this).closest('li').fadeOut('slow');
+                })
             })
             .fail(function(xhr, textStatus, errorThrown) {
                 console.log(`Failed to retrieve the message`);
@@ -279,6 +284,11 @@
                         url: $form.attr('action'),
                         method: 'POST',
                         data: $form.serialize()
+                    })
+                    .done(function(data, status) {
+                        $('.replies').append(data.newMsg);
+                        $('#messagearea').animate({ scrollTop: 9999 }, 2500);
+                        $('#reply_replyBody').val('');
                     });
                 })
             })

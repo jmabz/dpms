@@ -39,7 +39,7 @@ class MessageController extends Controller
     {
         $messages = $this->getDoctrine()
             ->getRepository(Message::class)
-            ->findMessagesWithUser($user->getId())
+            ->findMessagesWithUser($user->getId(), false)
         ;
         if (!$request->isXmlHttpRequest()) {
             return new JsonResponse(array('message' => 'You can access this only using Ajax!'), 400);
@@ -58,7 +58,7 @@ class MessageController extends Controller
     {
         $messages = $this->getDoctrine()
             ->getRepository(Message::class)
-            ->findArchivedMessagesWithUser($user->getId())
+            ->findMessagesWithUser($user->getId(), true)
         ;
         if (!$request->isXmlHttpRequest()) {
             return new JsonResponse(array('message' => 'You can access this only using Ajax!'), 400);
@@ -93,7 +93,6 @@ class MessageController extends Controller
         $reply->setMessage($message);
 
         $form = $this->createForm(MessageType::class, $message, [
-            'userId' => $user->getId(),
             'action' => $this->generateUrl('message_new'),
             ]);
         $form->handleRequest($request);
@@ -148,9 +147,10 @@ class MessageController extends Controller
 
                 $newMsg = $template->renderBlock('replytext', [
                     'reply' => $reply,
+                    'userId' => $user->getId(),
                 ]);
 
-                return new JsonResponse(array('message' => 'Success!'), 200);
+                return new JsonResponse(array('message' => 'Success!', 'newMsg' => $newMsg), 200);
             }
         }
 
@@ -175,50 +175,9 @@ class MessageController extends Controller
                     $entityManager->persist($message);
                     $entityManager->flush();
 
-        return $this->render('message/show.html.twig', ['message' => $message]);
-    }
-
-    /**
-     * Returns a message by ID as a JsonResponse
-     *
-     * @param Request $request
-     * @param [type] $messageId
-     * @return JsonResponse
-     *
-     * @Route("/message/show/ajax/{messageId}", name="message_show_ajax", methods="POST")
-     */
-    public function showAjax(UserInterface $user, Request $request, $messageId): JsonResponse
-    {
-        if (!$request->isXmlHttpRequest()) {
-            return new JsonResponse(array('message' => 'You can access this only using Ajax!'), 400);
-        }
-
-        $message = $this->getDoctrine()
-            ->getRepository(Message::class)
-            ->find($messageId);
-
-        if($user->getId() == $message->getRecepient()->getId())
-            $message->setIsRead(true);
-
-        $entityManager = $this->getDoctrine()->getManager();
-                    $entityManager->persist($message);
-                    $entityManager->flush();
-
-        $jsonData = array();
-
-        $temp = array(
-                'id' => $message->getId(),
-                'sender' => $message->getSenderName(),
-                'recepient' => $message->getRecepientName(),
-                'subject' => $message->getSubject(),
-                'message' => $message->getMessage(),
-                'datesent' => $message->getDateSent()->format('m/d/Y h:i:s A'),
-                'isread' => $message->getIsRead(),
-            )
-        ;
-        $jsonData = $temp;
-
-        return new JsonResponse($jsonData);
+        return $this->render('message/show.html.twig', [
+            'message' => $message,
+            'userId' => $user->getId(),]);
     }
 
     /**

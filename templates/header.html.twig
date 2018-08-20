@@ -9,7 +9,7 @@
 						{% if is_granted('IS_AUTHENTICATED_FULLY') %}
 						<li><a class="{{ app.request.attributes.get('_route') == 'home' ? 'menuitem--selected' }}" href="{{ path('home') }}"><i class="fas fa-home fa-fw"></i>Home</a></li>
 						{% endif %}
-						
+
 						{% if app.request.get('_route') != 'admin' and is_granted('ROLE_ADMIN') %}
 						<li><a class="{{ app.request.attributes.get('_route') == 'clinic_list' ? 'menuitem--selected' }}" href="{{ path('clinic_list') }}"><i class="fas fa-hospital fa-fw"></i>Clinics</a></li>
 						<li><a class="{{ app.request.attributes.get('_route') == 'diagnosis_categories' ? 'menuitem--selected' }}" href="{{ path('diagnosis_categories') }}"><i class="fas fa-medkit fa-fw"></i>Diagnosis Categories</a></li>

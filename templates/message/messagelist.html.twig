@@ -1,7 +1,7 @@
 {% block body %}
     {% for message in messages %}
         <li>
-            <a id="messageBtn" href="#" data-msg-id="{{ message.id }}"
+            <a id="messageBtn" href="#messagearea" data-msg-id="{{ message.id }}"
                 class="myBtn {{ message.isRead ? '' : 'messageBtn--unread' }}">
                 <strong id="sendername">{{ message.sender.getId() == app.user.id ? message.getRecepientName() : message.getSenderName() }}</strong>
                 <br>
