@@ -52,7 +52,7 @@ class ProfileController extends Controller
 
         $userInfo = $user->getUserInfo();
 
-        $form = $this->createForm(UserInfoType::class, $userInfo);
+        $form = $this->createForm(UserInfoType::class, $userInfo, ['fileUpload' => false]);
 
         $form->handleRequest($request);
 

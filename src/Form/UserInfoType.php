@@ -58,17 +58,18 @@ class UserInfoType extends AbstractType
                 'attr' => [
                     'class' => 'datepicker',
                 ],
-            ])
-            ->add('fileUpload', FileType::class, array('attr'=>[
-                'class' => 'form-control',
-                'required'   => false,
-            ]));
-
-        $builder
+            ]);
+            $builder
             ->get('birthDate')
             ->addModelTransformer(new DateToStringTransformer($builder->get('birthDate')));
-    }
 
+            if($options["fileUpload"]){
+                $builder->add('fileUpload', FileType::class, array('attr'=>[
+                    'class' => 'form-control',
+                    'required'   => false,
+                ]));
+            }
+        }
     /**
      * {@inheritdoc}
      */
@@ -76,6 +77,7 @@ class UserInfoType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => UserInfo::class,
+            'fileUpload' => true
         ));
     }
 
