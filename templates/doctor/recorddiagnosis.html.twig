@@ -10,13 +10,6 @@
 		</div>
 
 <div class="callout">
-<nav aria-label="You are here:" role="navigation">
-	<ul class="breadcrumbs">
-		<li><a href="{{ path('doctor') }}">Home</a></li>
-		<li><span class="show-for-sr">Current: </span>Patients: Record Diagnosis</li>
-	</ul>
-</nav>
-
 		<p><b>Patient:</b> {{patient.fname}} {{patient.mname}} {{patient.lname}} {{patient.suffix}}</p>
 			{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
 			<div class="small-12 medium-12 columns float-right">
@@ -42,8 +35,8 @@
 			<span class="input-group-label" style="height:39px;">₱</span>
 			{{ form_widget(form.payment, {'label_attr': {'class': 'input-group-field'}}) }}
 			</div>
-			<input type="submit" class="button success small" value="SAVE">
-			<a href="{{ path('doctor') }}" class="button alert small float-right">CANCEL</a>
+			<input type="submit" class="button success" value="SAVE">
+			<a href="{{ path('appointment_doctor') }}" class="button alert float-right">CANCEL</a>
 		{{ form_end(form) }}
 	</div>
 </div>
