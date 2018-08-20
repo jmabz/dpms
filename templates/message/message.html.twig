@@ -10,16 +10,16 @@
             </div>
             <div class="callout">
                 <div class="grid-x">
-                    <div class="callout small-12 medium-5 large-4 columns">
+                    <div class="cell small-12 medium-5 large-4 msg-section">
                         <div class="newmessage">
                             <button data-open="messageModal" onclick="composeMessage()"; class="button success"><i class="fas fa-pen"></i> Compose Message</button>
                         </div>
-                        <input type="search" id="myInput" onkeyup="searchMessages()" placeholder="Search messages" title="Type in a name">
+                        <input type="search" id="myInput" onkeyup="searchMessages()" placeholder="Search conversation" title="Type in a name">
                         <div id="tabs">
                             <ul>
                                 <li><a class="tablinks" href="#inbox"><i class="fas fa-inbox fa-fw"></i>Inbox</a></li>
                                 <li><a class="tablinks" href="#sent"><i class="fas fa-envelope-open fa-fw"></i>Sent</a></li>
-                                <li><a class="tablinks" href="#archive"><i class="fas fa-archive fa-fw"></i>Archived</a></li>
+                                <li><a class="tablinks" href="#archive"><i class="fas fa-archive fa-fw"></i>Archive</a></li>
                             </ul>
 
                             <div id="inbox" class="tabcontent">
@@ -33,9 +33,15 @@
                             </div>
                         </div>
                     </div>
-
-                    <div id="messagearea" class="callout small-12 medium-7 large-8 columns">
-                        Select an item from the list.
+                    <div class="cell small-12 medium-7 large-8 msg-section">
+                        <div id="messagepanel" class="grid-y">
+                            <div id="messagearea" class="cell small-12 medium-11">
+                                Select an item from the list.
+                            </div>
+                            <div id="replyarea" class="cell small-12 medium-1">
+                                ...
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -82,6 +88,7 @@
             activate: function( event, ui ) {
                 resetMsgList();
                 $("#messagearea").html("Select an item from the list.");
+                $("#reply").html("");
             }
         });
 
@@ -128,6 +135,7 @@
                         getMessage($(event.currentTarget).data('msgId'));
                         getSelectedItem(this);
                         changeReadStatus(this);
+                        replyToMessage($(event.currentTarget).data('msgId'));
                     });
                     $("#sendername", item).html(msgInfo['sender']);
                     $("#subject", item).html(msgInfo['subject']);
@@ -237,6 +245,20 @@
         }
 
         /**
+         * Archives a message.
+         */
+        function sendToArchive(id) {
+            //TODO: send selected message to archive
+        }
+
+        /**
+         * Returns a message from the archive.
+         */
+        function returnFromArchive(id) {
+            //TODO: return selected message from archive
+        }
+
+        /**
          * Displays a modal to compose a new message.
          */
         function composeMessage() {
@@ -261,7 +283,7 @@
                 type: 'POST',
             })
             .done(function(data, status) {
-                $("#messageForm").html(data);
+                $("#replyarea").html(data);
             })
             .fail(function(xhr, textStatus, errorThrown) {
                 console.log(errorThrown);
@@ -315,7 +337,9 @@
             }
         }
 
-        /**
+        /**T (content): Merge conflict in public/css/styles.css
+Automatic merge failed; fix conflicts and then commit the result.
+deguzmanianmooreen@admed
          * Displays the message deletion modal.
          */
         $('#deleteModal').on('click', '#delete', function(event) {

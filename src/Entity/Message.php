@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -53,6 +55,16 @@ class Message
      * @ORM\Column(type="boolean")
      */
     private $isRead = false;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Reply", mappedBy="message", orphanRemoval=true)
+     */
+    private $replies;
+
+    public function __construct()
+    {
+        $this->replies = new ArrayCollection();
+    }
 
     public function getId()
     {
@@ -137,6 +149,37 @@ class Message
     public function setIsRead(bool $isRead): self
     {
         $this->isRead = $isRead;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Reply[]
+     */
+    public function getReplies(): Collection
+    {
+        return $this->replies;
+    }
+
+    public function addReplies(Reply $replies): self
+    {
+        if (!$this->replies->contains($replies)) {
+            $this->replies[] = $replies;
+            $replies->setMessage($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReplies(Reply $replies): self
+    {
+        if ($this->replies->contains($replies)) {
+            $this->replies->removeElement($replies);
+            // set the owning side to null (unless already changed)
+            if ($replies->getMessage() === $this) {
+                $replies->setMessage(null);
+            }
+        }
 
         return $this;
     }

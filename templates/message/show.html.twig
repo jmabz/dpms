@@ -1,8 +1,7 @@
 {% block body %}
     {% if message %}
-        <div class="grid-x">
+        <div class="grid-x sticky-container">
             <div class="cell small-12">
-                <button class="button" onclick="replyToMessage({{ message.id }})" data-msg-id="{{ message.id }}" data-open="messageModal"><i class="fas fa-reply"></i> Reply</button>
                 <button class="button alert" data-msg-id="{{ message.id }}" id="delete" data-open="deleteModal"><i class="fas fa-trash-alt"></i> Delete</button>
             </div>
             <div class="cell small-12 medium-9">
@@ -16,9 +15,17 @@
             </div>
         </div>
         <hr>
-        <p>{{ message.message }}</p>
-        <br>
+        <div>
+        {% for reply in message.getReplies() %}
+            <div>
+                <p>{{ reply.getSenderName() }}</p>
+                <p>{{ reply.replyBody }}</p>
+                <time class="timeago" datetime="{{ reply.replyDate|date('Y-m-d h:i:s A') }}">{{ reply.replyDate|date('Y-m-d h:i:s A') }}</time>
+            </div>
 
+        {% endfor %}
+        <br>
+        </div>
     {% endif %}
 {% endblock %}
 
