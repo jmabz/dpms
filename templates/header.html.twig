@@ -6,7 +6,10 @@
 				<div class="top-bar-left">
 					<ul class="dropdown menu" data-dropdown-menu>
 						<li class="menu-text">DPMS</li>
+						{% if is_granted('IS_AUTHENTICATED_FULLY') %}
 						<li><a class="{{ app.request.attributes.get('_route') == 'home' ? 'menuitem--selected' }}" href="{{ path('home') }}"><i class="fas fa-home fa-fw"></i>Home</a></li>
+						{% endif %}
+						
 						{% if app.request.get('_route') != 'admin' and is_granted('ROLE_ADMIN') %}
 						<li><a class="{{ app.request.attributes.get('_route') == 'clinic_list' ? 'menuitem--selected' }}" href="{{ path('clinic_list') }}"><i class="fas fa-hospital fa-fw"></i>Clinics</a></li>
 						<li><a class="{{ app.request.attributes.get('_route') == 'diagnosis_categories' ? 'menuitem--selected' }}" href="{{ path('diagnosis_categories') }}"><i class="fas fa-medkit fa-fw"></i>Diagnosis Categories</a></li>
@@ -18,7 +21,7 @@
 						</li>
 				<div class="top-bar foundation-5-top-bar">
 						{% endif %}
-						{% if app.request.get('_route') != 'doctor' and is_granted('ROLE_DOCTOR') %}
+					{% if app.request.get('_route') != 'doctor' and is_granted('ROLE_DOCTOR') %}
 							<li><a class="{{ app.request.attributes.get('_route') == 'appointment_doctor' ? 'menuitem--selected' }}" href="{{ path('appointment_doctor') }}"><i class="fas fa-calendar-alt fa-fw"></i>Appointments</a></li>
 							<li><a class="{{ app.request.attributes.get('_route') == 'messages' ? 'menuitem--selected' }}" href="{{ path('messages') }}"><i class="far fa-comments fa-fw"></i>Messages</a></li>
 						{% elseif app.request.get('_route') != 'patient' and is_granted('ROLE_PATIENT') %}
@@ -31,26 +34,28 @@
 						</li>
 							<li><a class="{{ app.request.attributes.get('_route') == 'messages' ? 'menuitem--selected' }}" href="{{ path('messages') }}"><i class="far fa-comments fa-fw"></i>Messages</a></li>
 						{% endif %}
+				</ul>
+			</div>
+			<div class="top-bar-right">
+					{% if not is_granted('IS_AUTHENTICATED_FULLY') %}
+					<ul class="menu">
+							<li>
+								<a href="{{ path('login') }}" class="button"><i class="fas fa-sign-in-alt fa-fw"></i>Login</a>
+							</li>
+					{% endif %}
+					{% if not loginpage %}
+						{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+						Logged in as:
+								{% if is_granted('ROLE_DOCTOR') %}
+									<a href="{{ path('profile', { userId: app.user.id }) }}"><i class="fa fa-user-md fa-fw"></i> {{ app.user.userInfo.fname }}</a> |
+								{% elseif is_granted('ROLE_PATIENT') %}
+								<a href="{{ path('profile', { userId: app.user.id }) }}"><i class="fa fa-user-circle fa-fw"></i> {{ app.user.userInfo.fname }}</a> |
+								{% else %}
+									<i class="fas fa-user fa-fw"></i>Admin |
+								{% endif %}
+								<a href="#" data-open="logoutModal"><i class="fa fa-power-off fa-fw"></i>Logout</a>
+					{% else %}
 					</ul>
-				</div>
-				<div class="top-bar-right">
-						{% if not is_granted('IS_AUTHENTICATED_FULLY') %}
-						<ul class="menu">
-								<li>
-									<a class="button" href="{{ path('login') }}">Login</a>
-								</li>
-						{% endif %}
-						{% if not loginpage %}
-							{% if is_granted('IS_AUTHENTICATED_FULLY') %}
-							Hi,
-									{% if is_granted('ROLE_DOCTOR') or is_granted('ROLE_PATIENT') %}
-										<a href="{{ path('profile', { userId: app.user.id }) }}"><i class="fa fa-user-circle"></i> {{ app.user.username }}</a>!
-									{% else %}
-										{{ app.user.username }}!
-									{% endif %}
-									<a href="#" data-open="logoutModal"><i class="fa fa-power-off fa-fw"></i>Logout</a>
-						{% else %}
-						</ul>
 				</div>
 				{% endif %}
 			{% endif %}

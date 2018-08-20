@@ -3,6 +3,16 @@
 {% block title %}Appointment index{% endblock %}
 
 {% block body %}
+<div class="notification">
+            {% for message in app.flashes('success') %}
+                <div class="callout alert-callout-border success radius" data-closable="fade-out" autoClose="5000">
+                    <em><strong>Success!</strong></em> {{ message }}
+                    <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
+</div>
     <div class="grid-container">
             <div class="panel-heading">
                     <h4 class="text-center">

@@ -8,6 +8,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class UserInfoType extends AbstractType
@@ -58,12 +59,19 @@ class UserInfoType extends AbstractType
                     'class' => 'datepicker',
                 ],
             ]);
-
-        $builder
+            $builder
             ->get('birthDate')
             ->addModelTransformer(new DateToStringTransformer($builder->get('birthDate')));
-    }
 
+            if($options["fileUpload"]){
+                $builder->add('fileUpload', FileType::class, array(
+                    'label' => 'Avatar Image',
+                    'attr'=>[
+                        'class' => 'form-control',
+                        'required'   => false,
+                    ]));
+            }
+        }
     /**
      * {@inheritdoc}
      */
@@ -71,6 +79,7 @@ class UserInfoType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => UserInfo::class,
+            'fileUpload' => true
         ));
     }
 

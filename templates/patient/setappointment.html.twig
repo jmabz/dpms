@@ -10,14 +10,7 @@
 					Set an Appointment
 				</h4>
 			</div>
-
             <div class="callout">
-            {% for message in app.flashes('success') %}
-                <div class="flash-notice">
-                    {{ message }}
-                </div>
-            {% endfor %}
-
                 {{ form_start(form) }}
                 <div class="grid-x">
                     <div class="small-12 medium-3 columns">

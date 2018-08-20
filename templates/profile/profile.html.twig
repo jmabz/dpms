@@ -14,74 +14,41 @@
 </div>
 	<div class="grid-container">
 		{% if userinfo %}
-		<div class="panel-heading">
-			<div>
-				<h4 class="text-center">{{ userinfo.fname }} {{ userinfo.mname }} {{ userinfo.lname }} {{ userinfo.suffix }} ({{ role }})
-				{% if is_granted('ROLE_DOCTOR') or is_granted('ROLE_PATIENT') %}<a href="{{ path('change_password') }}" class="button primary small float-left"><i class="fas fa-cog fa-fw"></i>Change Password</a>{% endif %}
-				<a href=
-				{% if is_granted('ROLE_DOCTOR') or is_granted('ROLE_PATIENT') %}
-					{% if role == "Doctor" %}
-						"{{ path('home') }}"
-					{% elseif role == "Patient" %}
-						"{{ path('home') }}"
+		<div class="grid-x">
+			<div class="profile small-12 medium-12 columns">
+					<h4 class="text-center">{{ role }} {{ userinfo.getCompleteName }}
+					</h4>
+						<br>
+					<div class="small-12 medium-12 columns">
+						{% if is_granted('ROLE_ADMIN') %}
+							<a href="{{ path('edit_profile', {'userId': userId}) }}">
+								<img src="{{ userinfo.getAvatar() ? asset('uploads/' ~ userinfo.getAvatar()) : 'http://via.placeholder.com/160x200' }}" alt="Embedded Image"  id="profile-pic"/>
+							</a>
+							{% else %}
+							<img src="{{ userinfo.getAvatar() ? asset('uploads/' ~ userinfo.getAvatar()) : 'http://via.placeholder.com/160x200' }}" alt="Embedded Image"  id="profile-pic"/>
+						{% endif %}
+					</div>
+					<div class="user_info small-12 medium-12 columns">
+					<h5>~ User Information ~</h5>
+					{% if is_granted('ROLE_DOCTOR') or is_granted('ROLE_PATIENT') %}
+						<a href="{{ path('change_password') }}" class="float-right"><i class="fas fa-cog fa-fw"></i>CHANGE PASSWORD</a>
 					{% endif %}
+						<strong>Gender:</strong> {{ userinfo.gender }}<br>
+						<strong>Civil Status:</strong> {{ userinfo.civilstatus }}<br>
+						<strong>Address:</strong> {{ userinfo.address }}<br>
+						<strong>Birthday:</strong> {{ userinfo.birthdate|date('M d, Y') }}
 				{% endif %}
-				class="button alert small float-right"><i class="fas fa-angle-double-left fa-fw fa-lg"></i>RETURN</a>
-				</h4>
+
+				{% if accreditationinfo %}
+					<h5>~ Accreditation Info ~</h5>
+					{% if accreditationinfo and is_granted('ROLE_DOCTOR') %}
+							<a href="{{ path('edit_accred', {'userId': userId}) }}" class="small float-right"><i class="fas fa-edit"></i> EDIT</a>
+					{% endif %}
+						<strong>Accreditation Code:</strong> {{ accreditationinfo.accreditationcode }}<br>
+						<strong>Date Accredited:</strong> {{ accreditationinfo.accreditationdate|date('M d, Y') }}<br>
+						<strong>Expiry Date:</strong> {{ accreditationinfo.accreditationexpdate|date('M d, Y') }}<br>
+				{% endif %}
 			</div>
-		<div class="callout">
-			<h5>
-				User Profile
-				{% if is_granted('ROLE_DOCTOR') or is_granted('ROLE_PATIENT')%}
-					<a href="{{ path('edit_profile', {'userId': userId}) }}" class="button primary small float-right"><i class="fas fa-user-edit fa-fw"></i></a>
-				{% endif %}
-			</h5>
-			<table class="unstriped text-center">
-				<tbody>
-					<tr>
-						<th>Gender:</th>
-						<td>{{ userinfo.gender }}</td>
-					</tr>
-					<tr>
-						<th>Civil Status:</th>
-						<td>{{ userinfo.civilstatus }}</td>
-					</tr>
-					<tr>
-						<th>Address:</th>
-						<td>{{ userinfo.address }}</td>
-					</tr>
-					<tr>
-						<th>Birthdate:</th>
-						<td>{{ userinfo.birthdate|date('M d, Y') }}</td>
-					</tr>
-				</tbody>
-			</table>
-		{% endif %}
-		{% if accreditationinfo %}
-			<h5>Accreditation Info
-				{% if accreditationinfo and is_granted('ROLE_DOCTOR') %}
-					<a href="{{ path('edit_accred', {'userId': userId}) }}" class="button primary small float-right">Edit Accreditation Info</a>
-				{% endif %}
-			</h5>
-			<table class="unstriped">
-				<tbody>
-					<tr>
-						<th>Accreditation Code:</th>
-						<td>{{ accreditationinfo.accreditationcode }}</td>
-					</tr>
-					<tr>
-						<th>Date Accredited:</th>
-						<td>{{ accreditationinfo.accreditationdate|date('M d, Y') }}</td>
-					</tr>
-					<tr>
-						<th>Expiry Date:</th>
-						<td>{{ accreditationinfo.accreditationexpdate|date('M d, Y') }}</td>
-					</tr>
-					<tr>
-					</tr>
-				</tbody>
-			</table>
-		{% endif %}
 		</div>
 	</div>
 </div>

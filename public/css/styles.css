@@ -163,7 +163,7 @@ td{
 	background-repeat: no-repeat;
 	width: 100%;
 	font-size: 16px;
-	padding: 12px 20px 12px 40px;
+	padding:14px;
 	border: 1px solid #ddd;
 }
 
@@ -263,7 +263,7 @@ td{
 	padding: 15px 18px;
 }
 .change, .log-in-form{
-	box-shadow: 10px 10px #c1c1c1;
+	box-shadow: 0 0 2px 2px #c1c1c1;
 }
 .fa-edit:hover{color:black;}
 
@@ -309,6 +309,24 @@ ul li ul:hover {
 	background-color: #1779ba;
 	color: #ffffff;
 }
+.profile{
+	width:500px;
+	border:2px solid #ccc;
+	padding: 25px 30px;
+	text-align: justify;
+	border-radius:5px;
+	position:relative;
+	box-shadow: 0 0 2px 1px #ccc;
+}
+
+.profile h5, h4{
+	font-weight: bold;
+	text-align:center;
+}
+
+#replies {
+	list-style-type: none;
+}
 
 #messageheader {
 	top: 0;
@@ -317,6 +335,18 @@ ul li ul:hover {
 	z-index: 1;
 }
 
+#profile-pic {
+	padding: 5px;
+	border-radius: 15px;
+	width:160px;
+	height:200px;
+	margin-left:43%;
+	position:relative;
+}
+
+#profile-pic:hover {
+	box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+}
 #messagepanel {
 	height: 555px !important;
 }
@@ -324,7 +354,6 @@ ul li ul:hover {
 #messagearea {
 	overflow-y: scroll;
 }
-
 .msg-section {
 	border: 1px solid #ccc;
 }

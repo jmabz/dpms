@@ -15,6 +15,7 @@ use App\Form\ClinicType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use App\Service\FileUploader;
 
 use Faker\Provider\en_US\Person;
 use Faker\Provider\en_US\Address;
@@ -83,24 +84,31 @@ class AdminController extends Controller
     /**
      * @Route("/admin/adddoctor", name="add_doctor")
      */
-    public function addDoctor(Request $request)
+    public function addDoctor(Request $request, FileUploader $fileUploader)
     {
         $doctor = new Doctor();
-        // $gender = "Male";
-        // $userInfo = new UserInfo();
-        // $userInfo->setGender($gender);
-        // $userInfo->setFname(Person::firstNameMale());
-        // $userInfo->setMname(Person::lastName());
-        // $userInfo->setLname(Person::lastName());
+        $gender = "Male";
+        $userInfo = new UserInfo();
+        $userInfo->setGender($gender);
+        $userInfo->setFname(Person::firstNameMale());
+        $userInfo->setMname(Person::lastName());
+        $userInfo->setLname(Person::lastName());
 
-        // $userInfo->setBirthDate(DateTime::dateTimeBetween($startDate = '-40 years', $endDate = '-20 years'));
-        // $doctor->setUserInfo($userInfo);
+        $userInfo->setBirthDate(DateTime::dateTimeBetween($startDate = '-40 years', $endDate = '-20 years'));
+        $doctor->setUserInfo($userInfo);
+
         $form = $this->createForm(DoctorAccountType::class, $doctor);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $doctor = $form->getData();
+
+            $file = $userInfo->getFileUpload();
+
+            $fileName = $fileUploader->upload($file);
+
+            $doctor->getUserInfo()->setAvatar($fileName);
 
             $password = $this->get('security.password_encoder')
                 ->encodePassword($doctor, $doctor->getPlainPassword());
@@ -110,6 +118,8 @@ class AdminController extends Controller
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($doctor);
             $entityManager->flush();
+
+            $this->addFlash('success', 'Profile has been successfully saved!');
 
             return $this->redirectToRoute('doctor_list');
         }
@@ -122,24 +132,29 @@ class AdminController extends Controller
     /**
      * @Route("/admin/addpatient", name="add_patient")
      */
-    public function addPatient(Request $request)
+    public function addPatient(Request $request, FileUploader $fileUploader)
     {
         $patient = new Patient();
-        // $gender = "Male";
-        // $userInfo = new UserInfo();
-        // $userInfo->setGender($gender);
-        // $userInfo->setFname(Person::firstNameMale());
-        // $userInfo->setMname(Person::lastName());
-        // $userInfo->setLname(Person::lastName());
+        $gender = "Male";
+        $userInfo = new UserInfo();
+        $userInfo->setGender($gender);
+        $userInfo->setFname(Person::firstNameMale());
+        $userInfo->setMname(Person::lastName());
+        $userInfo->setLname(Person::lastName());
 
-        // $userInfo->setBirthDate(DateTime::dateTimeBetween($startDate = '-40 years', $endDate = '-20 years'));
-        // $patient->setUserInfo($userInfo);
+        $userInfo->setBirthDate(DateTime::dateTimeBetween($startDate = '-40 years', $endDate = '-20 years'));
+        $patient->setUserInfo($userInfo);
+
         $form = $this->createForm(PatientType::class, $patient);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $patient = $form->getData();
+
+            $file = $userInfo->getFileUpload();
+            $fileName = $fileUploader->upload($file);
+            $patient->getUserInfo()->setAvatar($fileName);
 
             $password = $this->get('security.password_encoder')
                 ->encodePassword($patient, $patient->getPlainPassword());
@@ -149,6 +164,8 @@ class AdminController extends Controller
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($patient);
             $entityManager->flush();
+
+            $this->addFlash('success', 'Profile has been successfully saved!');
 
             return $this->redirectToRoute('patient_list');
         }
@@ -303,8 +320,8 @@ class AdminController extends Controller
         if ($form->isValid() && $form->isSubmitted()) {
             // $clinic = $form->getData();
             $doctorsToAdd = $form->get('doctors')->getData();
-            foreach ($doctorsToAdd as $doctor => $d) {
-                $clinic->addDoctor($d);
+            foreach ($doctorsToAdd as $doctor) {
+                $clinic->addDoctor($doctor);
             }
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($clinic);
@@ -343,8 +360,8 @@ class AdminController extends Controller
         if ($form->isSubmitted()) {
             // $clinic = $form->getData();
             $doctorsToAdd = $form->get('doctors')->getData();
-            foreach ($doctorsToAdd as $doctor => $d) {
-                $clinic->removeDoctor($d);
+            foreach ($doctorsToAdd as $doctor) {
+                $clinic->removeDoctor($doctor);
             }
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($clinic);
