@@ -1,8 +1,12 @@
 {% block body %}
     {% if message %}
-        <div class="grid-x sticky-container">
-            <div class="cell small-12">
-                <button class="button alert" data-msg-id="{{ message.id }}" id="delete" data-open="deleteModal"><i class="fas fa-trash-alt"></i> Delete</button>
+        <div class="grid-x" id="messageheader">
+            <div class="cell small-12" id="actions">
+            {% set isArchived = (message.sender.id == app.user.id and message.isArchivedBySender) or (message.recepient.id == app.user.id and message.isArchivedByRecepient) %}
+                {% if isArchived %}
+                    <button class="button alert" data-msg-id="{{ message.id }}" id="delete" data-open="deleteModal"><i class="fas fa-trash fa-fw"></i> Delete</button>
+                {% endif %}
+                <button class="button alert" data-msg-id="{{ message.id }}" id="archive" data-open="archiveModal"><i class="fas fa-archive fa-fw"></i> {{ isArchived ? 'Recover' : 'Archive' }}</button>
             </div>
             <div class="cell small-12 medium-9">
                 <b>{{ message.getSenderName() }}</b> to <b>{{ message.getRecepientName() }}</b>
@@ -15,16 +19,34 @@
             </div>
         </div>
         <hr>
-        <div>
-        {% for reply in message.getReplies() %}
-            <div>
-                <p>{{ reply.getSenderName() }}</p>
-                <p>{{ reply.replyBody }}</p>
-                <time class="timeago" datetime="{{ reply.replyDate|date('Y-m-d h:i:s A') }}">{{ reply.replyDate|date('Y-m-d h:i:s A') }}</time>
-            </div>
-
-        {% endfor %}
-        <br>
+        <div class="replies">
+            {% for reply in message.getReplies() %}
+                {% if  (not reply.isSenderCopyDeleted and reply.getSenderId() == app.user.id) or (not reply.isReceiverCopyDeleted and reply.getSenderId() != app.user.id) %}
+                    <div class="grid-x speech-bubble speech-bubble--{{ reply.getSenderId() == app.user.id ? 'sender' : 'receiver' }}">
+                    {% block replytext %}
+                            <div class="cell small-12">
+                                <a href="#" onclick="deleteReply({{ reply.getId() }})" class="deletereply" title="Remove reply">
+                                    <i class="fas fa-times"></i>
+                                </a>
+                            </div>
+                            <div class="cell small-3">
+                                <img class="msg-avatar" src="http://via.placeholder.com/75x75">
+                            </div>
+                            <div class="cell small-9">
+                                <strong>{{ reply.getSenderName() }}</strong>
+                                <br>
+                                {{ reply.replyBody|nl2br }}
+                                <br>
+                                <span class="timestamp">
+                                    <time class="timeago" datetime="{{ reply.replyDate|date('Y-m-d h:i:s A') }}">{{ reply.replyDate|date('Y-m-d h:i:s A') }}</time>
+                                </span>
+                                <br>
+                            </div>
+                        </div>
+                        <br>
+                    {% endblock %}
+                {% endif %}
+            {% endfor %}
         </div>
     {% endif %}
 {% endblock %}
@@ -35,9 +57,14 @@
             $(".timeago").timeago();
         });
 
-        $('#delete').click( function(event) {
+        $('#actions').on('click', '#delete', function(event) {
             msgId = $(this).data('msgId');
             $('#deleteModal #delete').data('msg-id', msgId);
+        });
+
+        $('#actions').on('click', '#archive', function(event) {
+            msgId = $(this).data('msgId');
+            $('#archiveModal #archive').data('msg-id', msgId);
         });
     </script>
 {% endblock %}

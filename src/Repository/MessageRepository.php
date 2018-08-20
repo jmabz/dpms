@@ -48,11 +48,48 @@ class MessageRepository extends ServiceEntityRepository
     }
     */
 
+    /**
+     * Retrieve messages that involve a user with the specified ID
+     *
+     * @param integer $userId
+     * @return void
+     */
     public function findMessagesWithUser(int $userId)
     {
-        return $this->createQueryBuilder('m')
-            ->orWhere('s.id = :userId')
-            ->orWhere('r.id = :userId')
+        $querybuilder = $this->createQueryBuilder('m')
+            ->andwhere('(s.id = :userId and m.isArchivedBySender = false)
+                        or (r.id = :userId and m.isArchivedByRecepient = false)')
+            ->andWhere('(s.id = :userId and m.isSenderCopyDeleted = false)
+                        or (r.id = :userId and m.isRecepientCopyDeleted = false)')
+        ;
+
+        return $querybuilder
+            ->orderBy('m.dateSent', 'DESC')
+            ->join('m.sender', 's')
+            ->join('m.recepient', 'r')
+            ->setParameter('userId', $userId)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+     * Retrieve archived messages that involve a user with the specified ID
+     *
+     * @param integer $userId
+     * @return void
+     */
+    public function findArchivedMessagesWithUser(int $userId)
+    {
+        $querybuilder = $this->createQueryBuilder('m')
+            ->andwhere('(s.id = :userId and m.isArchivedBySender = true)
+                        or (r.id = :userId and m.isArchivedByRecepient = true)')
+            ->andWhere('(s.id = :userId and m.isSenderCopyDeleted = false)
+                        or (r.id = :userId and m.isRecepientCopyDeleted = false)')
+        ;
+
+        return $querybuilder
+            ->orderBy('m.dateSent', 'DESC')
             ->join('m.sender', 's')
             ->join('m.recepient', 'r')
             ->setParameter('userId', $userId)

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\DiagnosisCategory;
 use App\Entity\User;
+use App\Entity\UserInfo;
 use App\Entity\Doctor;
 use App\Entity\Patient;
 use App\Entity\Clinic;
@@ -14,6 +15,11 @@ use App\Form\ClinicType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+
+use Faker\Provider\en_US\Person;
+use Faker\Provider\en_US\Address;
+use Faker\Provider\DateTime;
+
 
 class AdminController extends Controller
 {
@@ -80,6 +86,15 @@ class AdminController extends Controller
     public function addDoctor(Request $request)
     {
         $doctor = new Doctor();
+        // $gender = "Male";
+        // $userInfo = new UserInfo();
+        // $userInfo->setGender($gender);
+        // $userInfo->setFname(Person::firstNameMale());
+        // $userInfo->setMname(Person::lastName());
+        // $userInfo->setLname(Person::lastName());
+
+        // $userInfo->setBirthDate(DateTime::dateTimeBetween($startDate = '-40 years', $endDate = '-20 years'));
+        // $doctor->setUserInfo($userInfo);
         $form = $this->createForm(DoctorAccountType::class, $doctor);
 
         $form->handleRequest($request);
@@ -110,6 +125,15 @@ class AdminController extends Controller
     public function addPatient(Request $request)
     {
         $patient = new Patient();
+        // $gender = "Male";
+        // $userInfo = new UserInfo();
+        // $userInfo->setGender($gender);
+        // $userInfo->setFname(Person::firstNameMale());
+        // $userInfo->setMname(Person::lastName());
+        // $userInfo->setLname(Person::lastName());
+
+        // $userInfo->setBirthDate(DateTime::dateTimeBetween($startDate = '-40 years', $endDate = '-20 years'));
+        // $patient->setUserInfo($userInfo);
         $form = $this->createForm(PatientType::class, $patient);
 
         $form->handleRequest($request);

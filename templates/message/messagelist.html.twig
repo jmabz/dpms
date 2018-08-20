@@ -1,0 +1,24 @@
+{% block body %}
+    {% for message in messages %}
+        <li>
+            <a id="messageBtn" href="#" data-msg-id="{{ message.id }}"
+                class="myBtn {{ message.isRead ? '' : 'messageBtn--unread' }}">
+                <strong id="sendername">{{ message.sender.getId() == app.user.id ? message.getRecepientName() : message.getSenderName() }}</strong>
+                <br>
+                <span id="subject">{{ message.subject }}</span>
+                <br>
+                <small>
+                    <time class="timeago" datetime="{{ message.dateSent ? message.dateSent|date('Y-m-d H:i:s') : '' }}">{{ message.dateSent ? message.dateSent|date('Y-m-d h:i:s A') : '' }}</time>
+                </small>
+            </a>
+        </li>
+    {% endfor %}
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $(".timeago").timeago();
+        });
+    </script>
+{% endblock %}

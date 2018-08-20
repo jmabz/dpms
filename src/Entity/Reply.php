@@ -23,7 +23,7 @@ class Reply
     private $message;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\User")
      * @ORM\JoinColumn(nullable=false)
      */
     private $sender;
@@ -42,6 +42,16 @@ class Reply
      * @ORM\Column(type="boolean")
      */
     private $isRead = false;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isSenderCopyDeleted = false;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isReceiverCopyDeleted = false;
 
     public function getId()
     {
@@ -63,6 +73,11 @@ class Reply
     public function getSender(): ?User
     {
         return $this->sender;
+    }
+
+    public function getSenderId()
+    {
+        return $this->sender->getId();
     }
 
     public function getSenderName(): ?string
@@ -109,6 +124,30 @@ class Reply
     public function setIsRead(bool $isRead): self
     {
         $this->isRead = $isRead;
+
+        return $this;
+    }
+
+    public function getIsSenderCopyDeleted(): ?bool
+    {
+        return $this->isSenderCopyDeleted;
+    }
+
+    public function setIsSenderCopyDeleted(bool $isSenderCopyDeleted): self
+    {
+        $this->isSenderCopyDeleted = $isSenderCopyDeleted;
+
+        return $this;
+    }
+
+    public function getIsReceiverCopyDeleted(): ?bool
+    {
+        return $this->isReceiverCopyDeleted;
+    }
+
+    public function setIsReceiverCopyDeleted(bool $isReceiverCopyDeleted): self
+    {
+        $this->isReceiverCopyDeleted = $isReceiverCopyDeleted;
 
         return $this;
     }
