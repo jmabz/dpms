@@ -263,7 +263,7 @@ td{
 	padding: 15px 18px;
 }
 .change, .log-in-form{
-	box-shadow: 10px 10px #c1c1c1;
+	box-shadow: 0 0 2px 2px #c1c1c1;
 }
 .fa-edit:hover{color:black;}
 
@@ -309,13 +309,27 @@ ul li ul:hover {
 	background-color: #1779ba;
 	color: #ffffff;
 }
+.profile{
+	width:500px;
+	border:2px solid #ccc;
+	padding: 25px 30px;
+	text-align: justify;
+	border-radius:5px;
+	position:relative;
+	box-shadow: 0 0 2px 1px #ccc;
+}
+
+.profile h5, h4{
+	font-weight: bold;
+	text-align:center;
+}
 
 #profile-pic {
 	padding: 5px;
-	border-radius: 20px;
-	width:180px;
+	border-radius: 15px;
+	width:160px;
 	height:200px;
-	margin-left:10%;
+	margin-left:43%;
 	position:relative;
 }
 #profile-pic:hover {

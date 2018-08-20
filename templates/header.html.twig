@@ -47,9 +47,9 @@
 						{% if is_granted('IS_AUTHENTICATED_FULLY') %}
 						Logged in as:
 								{% if is_granted('ROLE_DOCTOR') %}
-									<a href="{{ path('profile', { userId: app.user.id }) }}"><i class="fa fa-user-md fa-fw"></i> {{ app.user.userInfo.getCompleteName }}</a>|
+									<a href="{{ path('profile', { userId: app.user.id }) }}"><i class="fa fa-user-md fa-fw"></i> {{ app.user.userInfo.fname }}</a> |
 								{% elseif is_granted('ROLE_PATIENT') %}
-								<a href="{{ path('profile', { userId: app.user.id }) }}"><i class="fa fa-user-circle fa-fw"></i> {{ app.user.userInfo.getCompleteName }}</a>|
+								<a href="{{ path('profile', { userId: app.user.id }) }}"><i class="fa fa-user-circle fa-fw"></i> {{ app.user.userInfo.fname }}</a> |
 								{% else %}
 									<i class="fas fa-user fa-fw"></i>Admin |
 								{% endif %}
