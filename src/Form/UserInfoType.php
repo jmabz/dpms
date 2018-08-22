@@ -64,10 +64,12 @@ class UserInfoType extends AbstractType
             ->addModelTransformer(new DateToStringTransformer($builder->get('birthDate')));
 
             if($options["fileUpload"]){
-                $builder->add('fileUpload', FileType::class, array('attr'=>[
-                    'class' => 'form-control',
-                    'required'   => false,
-                ]));
+                $builder->add('fileUpload', FileType::class, array(
+                    'label' => 'Avatar Image',
+                    'attr'=>[
+                        'class' => 'form-control',
+                        'required'   => false,
+                    ]));
             }
         }
     /**

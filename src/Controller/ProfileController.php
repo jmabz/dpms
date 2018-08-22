@@ -8,6 +8,7 @@ use App\Entity\User;
 use App\Entity\UserInfo;
 use App\Form\AccreditationInfoType;
 use App\Form\UserInfoType;
+use App\Service\FileUploader;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -44,7 +45,7 @@ class ProfileController extends Controller
     /**
      * @Route("/userprofile/edit/{userId}", name="edit_profile")
      */
-    public function editProfile($userId, Request $request)
+    public function editProfile($userId, Request $request, FileUploader $fileUploader)
     {
         $user = $this->getDoctrine()
             ->getRepository(User::class)
@@ -52,12 +53,16 @@ class ProfileController extends Controller
 
         $userInfo = $user->getUserInfo();
 
-        $form = $this->createForm(UserInfoType::class, $userInfo, ['fileUpload' => false]);
+        $form = $this->createForm(UserInfoType::class, $userInfo);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $userInfo = $form->getData();
+
+            $file = $userInfo->getFileUpload();
+            $fileName = $fileUploader->upload($file);
+            $userInfo->setAvatar($fileName);
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($userInfo);

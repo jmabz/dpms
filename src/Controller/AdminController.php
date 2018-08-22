@@ -17,6 +17,11 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use App\Service\FileUploader;
 
+use Faker\Provider\en_US\Person;
+use Faker\Provider\en_US\Address;
+use Faker\Provider\DateTime;
+
+
 class AdminController extends Controller
 {
 
@@ -82,23 +87,28 @@ class AdminController extends Controller
     public function addDoctor(Request $request, FileUploader $fileUploader)
     {
         $doctor = new Doctor();
+        $gender = "Male";
+        $userInfo = new UserInfo();
+        $userInfo->setGender($gender);
+        $userInfo->setFname(Person::firstNameMale());
+        $userInfo->setMname(Person::lastName());
+        $userInfo->setLname(Person::lastName());
 
-        $avatar = new UserInfo();
+        $userInfo->setBirthDate(DateTime::dateTimeBetween($startDate = '-40 years', $endDate = '-20 years'));
+        $doctor->setUserInfo($userInfo);
 
-        $doctor->setUserInfo($avatar);
-        
         $form = $this->createForm(DoctorAccountType::class, $doctor);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // $doctor = $form->getData();
+            $doctor = $form->getData();
 
-            $file = $avatar->getFileUpload();
+            $file = $userInfo->getFileUpload();
 
             $fileName = $fileUploader->upload($file);
 
-            $avatar->setAvatar($fileName);
+            $doctor->getUserInfo()->setAvatar($fileName);
 
             $password = $this->get('security.password_encoder')
                 ->encodePassword($doctor, $doctor->getPlainPassword());
@@ -108,7 +118,7 @@ class AdminController extends Controller
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($doctor);
             $entityManager->flush();
-            
+
             $this->addFlash('success', 'Profile has been successfully saved!');
 
             return $this->redirectToRoute('doctor_list');
@@ -125,23 +135,26 @@ class AdminController extends Controller
     public function addPatient(Request $request, FileUploader $fileUploader)
     {
         $patient = new Patient();
+        $gender = "Male";
+        $userInfo = new UserInfo();
+        $userInfo->setGender($gender);
+        $userInfo->setFname(Person::firstNameMale());
+        $userInfo->setMname(Person::lastName());
+        $userInfo->setLname(Person::lastName());
 
-        $avatar = new UserInfo();
-
-        $patient->setUserInfo($avatar);
+        $userInfo->setBirthDate(DateTime::dateTimeBetween($startDate = '-40 years', $endDate = '-20 years'));
+        $patient->setUserInfo($userInfo);
 
         $form = $this->createForm(PatientType::class, $patient);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // $patient = $form->getData();
+            $patient = $form->getData();
 
-            $file = $avatar->getFileUpload();
-
+            $file = $userInfo->getFileUpload();
             $fileName = $fileUploader->upload($file);
-
-            $avatar->setAvatar($fileName);
+            $patient->getUserInfo()->setAvatar($fileName);
 
             $password = $this->get('security.password_encoder')
                 ->encodePassword($patient, $patient->getPlainPassword());
@@ -307,8 +320,8 @@ class AdminController extends Controller
         if ($form->isValid() && $form->isSubmitted()) {
             // $clinic = $form->getData();
             $doctorsToAdd = $form->get('doctors')->getData();
-            foreach ($doctorsToAdd as $doctor => $d) {
-                $clinic->addDoctor($d);
+            foreach ($doctorsToAdd as $doctor) {
+                $clinic->addDoctor($doctor);
             }
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($clinic);
@@ -347,8 +360,8 @@ class AdminController extends Controller
         if ($form->isSubmitted()) {
             // $clinic = $form->getData();
             $doctorsToAdd = $form->get('doctors')->getData();
-            foreach ($doctorsToAdd as $doctor => $d) {
-                $clinic->removeDoctor($d);
+            foreach ($doctorsToAdd as $doctor) {
+                $clinic->removeDoctor($doctor);
             }
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($clinic);

@@ -48,14 +48,29 @@ class MessageRepository extends ServiceEntityRepository
     }
     */
 
-    public function findMessagesWithUser(int $userId)
+    /**
+     * Retrieve messages that involve a user with the specified ID
+     *
+     * @param integer $userId
+     * @param boolean $isArchived
+     * @return void
+     */
+    public function findMessagesWithUser(int $userId, bool $isArchived)
     {
-        return $this->createQueryBuilder('m')
-            ->orWhere('s.id = :userId')
-            ->orWhere('r.id = :userId')
+        $querybuilder = $this->createQueryBuilder('m')
+            ->andwhere('(s.id = :userId and m.isArchivedBySender = :isArchived)
+                        or (r.id = :userId and m.isArchivedByRecepient = :isArchived)')
+            ->andWhere('(s.id = :userId and m.isSenderCopyDeleted = false)
+                        or (r.id = :userId and m.isRecepientCopyDeleted = false)')
+        ;
+
+        return $querybuilder
+            ->orderBy('m.dateSent', 'DESC')
             ->join('m.sender', 's')
             ->join('m.recepient', 'r')
-            ->setParameter('userId', $userId)
+            ->setParameters(array(
+                'userId' => $userId,
+                'isArchived' => $isArchived))
             ->getQuery()
             ->getResult()
         ;

@@ -61,6 +61,26 @@ class Message
      */
     private $replies;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isArchivedBySender = false;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isArchivedByRecepient = false;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isSenderCopyDeleted = false;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isRecepientCopyDeleted = false;
+
     public function __construct()
     {
         $this->replies = new ArrayCollection();
@@ -95,6 +115,11 @@ class Message
         return $this;
     }
 
+    public function getLastReply(): ?string
+    {
+        return (!$this->replies->isEmpty()) ? $this->replies->last()->getReplyBody() : $this->message;
+    }
+
     public function getDateSent(): ?\DateTimeInterface
     {
         return $this->dateSent;
@@ -105,6 +130,11 @@ class Message
         $this->dateSent = $dateSent;
 
         return $this;
+    }
+
+    public function getLastReplyDate(): ?\DateTimeInterface
+    {
+        return (!$this->replies->isEmpty()) ? $this->replies->last()->getReplyDate() : new \DateTime('now');
     }
 
     public function getRecepient(): ?User
@@ -180,6 +210,54 @@ class Message
                 $replies->setMessage(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getIsArchivedBySender(): ?bool
+    {
+        return $this->isArchivedBySender;
+    }
+
+    public function setIsArchivedBySender(bool $isArchivedBySender): self
+    {
+        $this->isArchivedBySender = $isArchivedBySender;
+
+        return $this;
+    }
+
+    public function getIsArchivedByRecepient(): ?bool
+    {
+        return $this->isArchivedByRecepient;
+    }
+
+    public function setIsArchivedByRecepient(bool $isArchivedByRecepient): self
+    {
+        $this->isArchivedByRecepient = $isArchivedByRecepient;
+
+        return $this;
+    }
+
+    public function getIsSenderCopyDeleted(): ?bool
+    {
+        return $this->isSenderCopyDeleted;
+    }
+
+    public function setIsSenderCopyDeleted(bool $isSenderCopyDeleted): self
+    {
+        $this->isSenderCopyDeleted = $isSenderCopyDeleted;
+
+        return $this;
+    }
+
+    public function getIsRecepientCopyDeleted(): ?bool
+    {
+        return $this->isRecepientCopyDeleted;
+    }
+
+    public function setIsRecepientCopyDeleted(bool $isRecepientCopyDeleted): self
+    {
+        $this->isRecepientCopyDeleted = $isRecepientCopyDeleted;
 
         return $this;
     }

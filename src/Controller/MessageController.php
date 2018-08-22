@@ -10,6 +10,7 @@ use App\Entity\User;
 use App\Form\MessageType;
 use App\Form\ReplyType;
 use App\Repository\MessageRepository;
+use App\Repository\ReplyRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,24 +23,6 @@ use Faker\Provider\Lorem;
 
 class MessageController extends Controller
 {
-    private function listMessagesAsArray($messages) : array
-    {
-        $jsonData = array();
-
-        foreach($messages as $message) {
-            $temp = array(
-                'id' => $message->getId(),
-                'sender' => $message->getSenderName(),
-                'recepient' => $message->getRecepientName(),
-                'subject' => $message->getSubject(),
-                'message' => $message->getMessage(),
-                'datesent' => $message->getDateSent()->format('m/d/Y h:i:s A'),
-                'isread' => $message->getIsRead(),
-            );
-            $jsonData[] = $temp;
-        }
-        return $jsonData;
-    }
 
     /**
      * @Route("/messages", name="messages", methods="GET|POST")
@@ -50,33 +33,41 @@ class MessageController extends Controller
     }
 
     /**
-     * @Route("/messages/inbox", name="inbox", methods="GET|POST")
+     * @Route("/messages/inbox", name="inbox", methods="GET")
      */
     public function displayInbox(UserInterface $user, Request $request): Response
     {
         $messages = $this->getDoctrine()
             ->getRepository(Message::class)
-            ->findMessagesWithUser($user->getId())
+            ->findMessagesWithUser($user->getId(), false)
         ;
         if (!$request->isXmlHttpRequest()) {
             return new JsonResponse(array('message' => 'You can access this only using Ajax!'), 400);
         }
 
-        $jsonData = $this->listMessagesAsArray($messages);
-        return new JsonResponse($jsonData);
+        //$jsonData = $this->listMessagesAsArray($messages);
+        return $this->render('message/messagelist.html.twig', [
+            'messages' => $messages,
+        ]);
     }
 
     /**
-     * @Route("/messages/sent", name="sent", methods="GET|POST")
+     * @Route("/messages/displayarchive", name="displayarchive", methods="GET")
      */
-    public function displaySentItems(UserInterface $user, Request $request): Response
+    public function displayArchive(UserInterface $user, Request $request): Response
     {
+        $messages = $this->getDoctrine()
+            ->getRepository(Message::class)
+            ->findMessagesWithUser($user->getId(), true)
+        ;
         if (!$request->isXmlHttpRequest()) {
             return new JsonResponse(array('message' => 'You can access this only using Ajax!'), 400);
         }
 
-        $jsonData = $this->listMessagesAsArray($user->getSentMessages());
-        return new JsonResponse($jsonData);
+        //$jsonData = $this->listMessagesAsArray($messages);
+        return $this->render('message/messagelist.html.twig', [
+            'messages' => $messages,
+        ]);
     }
 
     /**
@@ -95,8 +86,13 @@ class MessageController extends Controller
         $message->setSubject(Lorem::words($nb = 2, $asText = true));
         $message->setMessage(Lorem::paragraph($nbSentences = 3, $variableNbSentences = true));
 
+        $reply = new Reply();
+        $reply->setSender($user);
+        $reply->setReplyDate($message->getDateSent());
+        $reply->setReplyBody($message->getMessage());
+        $reply->setMessage($message);
+
         $form = $this->createForm(MessageType::class, $message, [
-            'userId' => $user->getId(),
             'action' => $this->generateUrl('message_new'),
             ]);
         $form->handleRequest($request);
@@ -106,6 +102,9 @@ class MessageController extends Controller
             $entityManager->persist($message);
             $entityManager->flush();
 
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($reply);
+            $entityManager->flush();
             return new JsonResponse(array('message' => 'Success!'), 200);
         }
 
@@ -139,11 +138,20 @@ class MessageController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($reply);
-            $entityManager->flush();
+            if($request->isXmlHttpRequest()) {
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($reply);
+                $entityManager->flush();
 
-            return new JsonResponse(array('message' => 'Success!'), 200);
+                $template = $this->get('twig')->loadTemplate('message/show.html.twig');
+
+                $newMsg = $template->renderBlock('replytext', [
+                    'reply' => $reply,
+                    'userId' => $user->getId(),
+                ]);
+
+                return new JsonResponse(array('message' => 'Success!', 'newMsg' => $newMsg), 200);
+            }
         }
 
         return $this->render('message/reply.html.twig', [
@@ -167,68 +175,98 @@ class MessageController extends Controller
                     $entityManager->persist($message);
                     $entityManager->flush();
 
-        return $this->render('message/show.html.twig', ['message' => $message]);
-    }
-
-    /**
-     * Returns a message by ID as a JsonResponse
-     *
-     * @param Request $request
-     * @param [type] $messageId
-     * @return JsonResponse
-     *
-     * @Route("/message/show/ajax/{messageId}", name="message_show_ajax", methods="POST")
-     */
-    public function showAjax(UserInterface $user, Request $request, $messageId): JsonResponse
-    {
-        if (!$request->isXmlHttpRequest()) {
-            return new JsonResponse(array('message' => 'You can access this only using Ajax!'), 400);
-        }
-
-        $message = $this->getDoctrine()
-            ->getRepository(Message::class)
-            ->find($messageId);
-
-        if($user->getId() == $message->getRecepient()->getId())
-            $message->setIsRead(true);
-
-        $entityManager = $this->getDoctrine()->getManager();
-                    $entityManager->persist($message);
-                    $entityManager->flush();
-
-        $jsonData = array();
-
-        $temp = array(
-                'id' => $message->getId(),
-                'sender' => $message->getSenderName(),
-                'recepient' => $message->getRecepientName(),
-                'subject' => $message->getSubject(),
-                'message' => $message->getMessage(),
-                'datesent' => $message->getDateSent()->format('m/d/Y h:i:s A'),
-                'isread' => $message->getIsRead(),
-            )
-        ;
-        $jsonData = $temp;
-
-        return new JsonResponse($jsonData);
+        return $this->render('message/show.html.twig', [
+            'message' => $message,
+            'userId' => $user->getId(),]);
     }
 
     /**
      * @Route("/message/delete/{messageId}", name="message_delete", methods="GET|DELETE")
      */
-    public function delete(MessageRepository $msgRepository, Request $request, $messageId): Response
+    public function delete(UserInterface $user, MessageRepository $msgRepository, Request $request, $messageId): Response
+    {
+        $message =  $msgRepository->find($messageId);
+        if($request->isXmlHttpRequest()) {
+            if (!$message) {
+                return new JsonResponse(['failure' => 'No message found for ID ' . $messageId]);
+            }
+
+                if($message->getSender()->getId() == $user->getId()) {
+                    $message->setIsSenderCopyDeleted(true);
+                } else {
+                    $message->setIsRecepientCopyDeleted(true);
+                }
+
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($message);
+                $entityManager->flush();
+
+                if($message->getIsSenderCopyDeleted() && $message->getIsRecepientCopyDeleted()) {
+                    $entityManager = $this->getDoctrine()->getManager();
+                    $entityManager->remove($message);
+                    $entityManager->flush();
+                }
+
+                return new JsonResponse(['success' => 'Deleted message ' . $messageId]);
+        }
+        return new JsonResponse(array('message' => 'You can access this only using Ajax!'), 400);
+    }
+
+    /**
+     * @Route("/message/deletereply/{replyId}", name="reply_delete", methods="POST")
+     */
+    public function deleteReply(UserInterface $user, ReplyRepository $replyRepository, Request $request, $replyId): Response
+    {
+        $reply = $replyRepository->find($replyId);
+        if($request->isXmlHttpRequest()) {
+            if (!$reply) {
+                return new JsonResponse(['failure' => 'No reply found for ID ' . $replyId]);
+            }
+
+                if($reply->getSenderId() == $user->getId()) {
+                    $reply->setIsSenderCopyDeleted(true);
+                } else {
+                    $reply->setIsReceiverCopyDeleted(true);
+                }
+
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($reply);
+                $entityManager->flush();
+
+                if($reply->getIsSenderCopyDeleted() && $reply->getIsReceiverCopyDeleted()) {
+                    $entityManager = $this->getDoctrine()->getManager();
+                    $entityManager->remove($reply);
+                    $entityManager->flush();
+                }
+
+                return new JsonResponse(['success' => 'Deleted reply ' . $replyId]);
+        }
+        return new JsonResponse(array('message' => 'You can access this only using Ajax!'), 400);
+    }
+
+    /**
+     * @Route("/message/archive/{messageId}", name="message_archive", methods="POST")
+     */
+    public function archive(UserInterface $user, MessageRepository $msgRepository, Request $request, $messageId): Response
     {
         $message =  $msgRepository->find($messageId);
         if($request->isXmlHttpRequest() || $request->query->get('showJson') == 1) {
             if (!$message) {
                 return new JsonResponse(['failure' => 'No message found for ID ' . $messageId]);
             }
+
+            if($message->getSender()->getId() == $user->getId()) {
+                $message->setIsArchivedBySender($message->getIsArchivedBySender() ? false : true);
+            } else {
+                $message->setIsArchivedByRecepient($message->getIsArchivedByRecepient() ? false : true);
+            }
+
                 $entityManager = $this->getDoctrine()->getManager();
-                $entityManager->remove($message);
+                $entityManager->persist($message);
                 $entityManager->flush();
 
-                return new JsonResponse(['success' => 'Deleted message ' . $messageId]);
+                return new JsonResponse(['success' => 'Archived message ' . $messageId]);
         }
-        //return $this->redirectToRoute('message_index');
+        return new JsonResponse(array('message' => 'You can access this only using Ajax!'), 400);
     }
 }

@@ -123,7 +123,7 @@ class UserInfo
 
         return $this;
     }
-    
+
     public function getCompleteName(): ?string
     {
         return $this->getFname() . ' '
