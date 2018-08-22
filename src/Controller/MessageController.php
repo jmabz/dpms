@@ -94,6 +94,7 @@ class MessageController extends Controller
 
         $form = $this->createForm(MessageType::class, $message, [
             'action' => $this->generateUrl('message_new'),
+            'userId' => $user->getId(),
             ]);
         $form->handleRequest($request);
 

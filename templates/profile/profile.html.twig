@@ -25,7 +25,7 @@
 					<div class="small-12 medium-12 columns">
 						{% if is_granted('ROLE_DOCTOR') or is_granted('ROLE_PATIENT') %}
 							<a href="{{ path('edit_profile', {'userId': userId}) }}" title="Click here to edit your profile.">
-								<img src="{{ asset('uploads/' ~ userinfo.getAvatar()) : 'http://via.placeholder.com/160x200' }}" alt="Embedded Image"  id="profile-pic"/>
+								<img src="{{  userinfo.getAvatar() ? asset('uploads/' ~ userinfo.getAvatar()) : 'http://via.placeholder.com/160x200' }}" alt="Embedded Image"  id="profile-pic"/>
 						{% elseif is_granted('ROLE_ADMIN') %}
 							<a href="{{ path('edit_profile', {'userId': userId}) }}">
 								<img src="{{ userinfo.getAvatar() ? asset('uploads/' ~ userinfo.getAvatar()) : 'http://via.placeholder.com/160x200' }}" alt="Embedded Image"  id="profile-pic"/>
