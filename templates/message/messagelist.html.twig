@@ -1,8 +1,16 @@
 {% block body %}
+
     {% for message in messages %}
+    {% set count = message['unreadItems'] %}
+    {% set message = message[0] %}
         <li>
             <a id="messageBtn" href="#messagearea" data-msg-id="{{ message.id }}"
                 class="myBtn {{ message.isRead ? '' : 'messageBtn--unread' }}">
+                {% set isArchived = (message.sender.id == app.user.id and message.isArchivedBySender) or (message.recepient.id == app.user.id and message.isArchivedByRecepient) %}
+                {% if not isArchived and count > 0 %}
+                    <small>{{ count }} unread {{ count == 1 ? 'reply' : 'replies' }}</small>
+                    <br>
+                {% endif %}
                 <strong id="sendername">{{ message.sender.getId() == app.user.id ? message.getRecepientName() : message.getSenderName() }}</strong>
                 <br>
                 <span id="subject">{{ message.subject }}</span>

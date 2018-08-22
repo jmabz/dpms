@@ -1,7 +1,7 @@
 {% block body %}
     {{ form_start(form, {'attr': {'novalidate': 'novalidate', 'class': 'replyForm'}}) }}
         <div class="input-group">
-            {{ form_row(form.replyBody, {'attr' : {'class' : 'input-group-field msgPanel'}}) }}
+            {{ form_widget(form.replyBody, {'attr' : {'class' : 'input-group-field msgPanel'}}) }}
             <div class="input-group-button">
                 <button class="button success"><i class="fas fa-reply"></i> {{ button_label|default('Reply') }}</button>
             </div>

@@ -286,7 +286,7 @@
                         data: $form.serialize()
                     })
                     .done(function(data, status) {
-                        $('.replies').append(data.newMsg);
+                        $('#replies').append(data.newMsg);
                         $('#messagearea').animate({ scrollTop: 9999 }, 2500);
                         $('#reply_replyBody').val('');
                     });

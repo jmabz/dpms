@@ -21,10 +21,11 @@
         <hr>
         <ul id="replies">
             {% for reply in message.getReplies() %}
-                {% if  (not reply.isSenderCopyDeleted and reply.getSenderId() == app.user.id) or (not reply.isReceiverCopyDeleted and reply.getSenderId() != app.user.id) %}
+                {% if (not reply.isSenderCopyDeleted and reply.getSenderId() == app.user.id) or (not reply.isReceiverCopyDeleted and reply.getSenderId() != app.user.id) %}
                     {% block replytext %}
+                        {% set isParentMessageArchived = (reply.message.sender.id == userId and reply.message.isArchivedBySender) or (reply.message.recepient.id == userId and reply.message.isArchivedByRecepient) %}
                         <li>
-                            <div class="grid-x speech-bubble speech-bubble--{{ reply.getSenderId() == userId ? 'sender' : 'receiver' }}">
+                            <div class="grid-x speech-bubble speech-bubble--{{ reply.getSenderId() == userId ? 'sender' : 'receiver' }} {{  not isParentMessageArchived and reply.getSenderId() != userId and not reply.isRead  ? 'speech-bubble--unread' : '' }}">
                                 <div class="cell small-12">
                                     <a href="#" data-reply-id="{{ reply.getId() }}" class="deletereply" title="Remove reply">
                                         <i class="fas fa-times"></i>
