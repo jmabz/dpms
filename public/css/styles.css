@@ -400,6 +400,10 @@ ul li ul:hover {
 	margin-left: -1.2em;
 }
 
+.speech-bubble--unread {
+	box-shadow: 0 0 10px #f60;
+}
+
 .msg-avatar {
 	border-radius: 3em;
 }
@@ -421,4 +425,9 @@ ul li ul:hover {
     -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
     -moz-box-sizing: border-box;    /* Firefox, other Gecko */
     box-sizing: border-box;         /* Opera/IE 8+ */
+}
+
+#reply_replyBody {
+	resize : none;
+	white-space : normal;
 }
