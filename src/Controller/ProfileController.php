@@ -53,16 +53,16 @@ class ProfileController extends Controller
 
         $userInfo = $user->getUserInfo();
 
-        $form = $this->createForm(UserInfoType::class, $userInfo);
+        $form = $this->createForm(UserInfoType::class, $userInfo, ['fileUpload' => false]);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $userInfo = $form->getData();
 
-            $file = $userInfo->getFileUpload();
-            $fileName = $fileUploader->upload($file);
-            $userInfo->setAvatar($fileName);
+            // $file = $userInfo->getFileUpload();
+            // $fileName = $fileUploader->upload($file);
+            // $userInfo->setAvatar($fileName);
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($userInfo);

@@ -33,9 +33,6 @@
 				<div class="small-12 medium-6 columns">
 					{{ form_row(form.birthDate) }}
 				</div>
-				<div class="small-12 medium-4 columns">
-					{{ form_row(form.fileUpload) }}
-				</div>
 			</div>
 			<input type="submit" class="button success" value="Save Changes">
 			<a href="{{ path('profile', {'userId' : userId}) }}" class="button alert float-right">Cancel</a>
