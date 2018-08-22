@@ -327,9 +327,9 @@ ul li ul:hover {
 #profile-pic {
 	padding: 5px;
 	border-radius: 15px;
-	width:160px;
+	width:200px;
 	height:200px;
-	margin-left:43%;
+	margin-left:41%;
 	position:relative;
 }
 #profile-pic:hover {

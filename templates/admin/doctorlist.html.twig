@@ -24,6 +24,7 @@
 			<table class="table unstriped text-center">
 				<thead>
 					<tr>
+						<th class="text-center">Avatar</th>
 						<th class="text-center">Name</th>
 						<th class="text-center">Accreditation Code</th>
 						<th class="text-center">Accreditation Date</th>
@@ -34,6 +35,7 @@
 				<tbody>
 					{% for doctor in doctors %}
 						<tr>
+							<td><img src="{{ asset('uploads/' ~ doctor.userinfo.getAvatar()) }}" alt="Embedded Image" style="width:70px;height:70px;"></td>
 							<td>
 								<a href="{{ path('profile', {userId : doctor.id}) }}" title="Click here to view profile.">{{ doctor.userInfo.getCompleteName }}</a>
 							</td>

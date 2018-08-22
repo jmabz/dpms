@@ -17,11 +17,14 @@
 		<div class="grid-x">
 			<div class="profile small-12 medium-12 columns">
 					<h4 class="text-center">{{ role }} {{ userinfo.getCompleteName }}
+					{% if is_granted('ROLE_ADMIN') %}
+					<a href="{{ path('doctor_list') }}" class="small button float-left"><i class="fas fa-arrow-left fa-fw"></i>Back to list</a>
+					{% endif %}
 					</h4>
 						<br>
 					<div class="small-12 medium-12 columns">
 						{% if is_granted('ROLE_DOCTOR') or is_granted('ROLE_PATIENT') %}
-							<a href="{{ path('edit_profile', {'userId': userId}) }}">
+							<a href="{{ path('edit_profile', {'userId': userId}) }}" title="Click here to edit your profile.">
 								<img src="{{ asset('uploads/' ~ userinfo.getAvatar()) }}" alt="Embedded Image"  id="profile-pic"/>
 							</a>
 							{% else %}

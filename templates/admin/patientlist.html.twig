@@ -13,6 +13,7 @@
 		<table class="table unstriped text-center">
 			<thead>
 				<tr>
+					<th class="text-center">Avatar</th>
 					<th class="text-center">Name</th>
 					<th class="text-center">Gender</th>
 					<th class="text-center">Civil Status</th>
@@ -24,8 +25,9 @@
 			<tbody>
 			{% for patient in patients %}
 				<tr>
+					<td><img src="{{ asset('uploads/' ~ patient.userinfo.getAvatar()) }}" alt="Embedded Image" style="width:70px;height:70px;"></td>
 					<td>
-						<a href="{{ path('profile', {userId : patient.id}) }}" title="Click here to view profile.">{{ patient.userInfo.fname }} {{ patient.userInfo.mname }} {{ patient.userInfo.lname }} {{ patient.userInfo.suffix }}</a>
+						{{ patient.userInfo.fname }} {{ patient.userInfo.mname }} {{ patient.userInfo.lname }} {{ patient.userInfo.suffix }}
 					</td>
 					<td>
 						{{ patient.userInfo.gender }}
