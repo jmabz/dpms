@@ -1,21 +1,21 @@
 {% block body %}
     {% if message %}
         <div class="grid-x" id="messageheader">
-            <div class="cell small-12" id="actions">
-            {% set isArchived = (message.sender.id == app.user.id and message.isArchivedBySender) or (message.recepient.id == app.user.id and message.isArchivedByRecepient) %}
-                {% if isArchived %}
-                    <button class="button alert" data-msg-id="{{ message.id }}" id="delete" data-open="deleteModal"><i class="fas fa-trash fa-fw"></i> Delete</button>
-                {% endif %}
-                <button class="button alert" data-msg-id="{{ message.id }}" id="archive" data-open="archiveModal"><i class="fas fa-archive fa-fw"></i> {{ isArchived ? 'Recover' : 'Archive' }}</button>
+            <div class="cell small-12 medium-12 text-center">
+                <h5><strong>{{ message.sender.getId() == app.user.id ? message.getRecepientName() : message.getSenderName() }}</strong></h5>
             </div>
-            <div class="cell small-12 medium-9 text-center">
-                <h5>{{ message.sender.getId() == app.user.id ? message.getRecepientName() : message.getSenderName() }}</h5>
+            <div class="cell small-12 medium-6">
+                <b>Subject: {{ message.subject }}</b>
             </div>
             <div class="cell small-12 medium-3">
                 <time class="timeago" datetime="{{ message.dateSent ? message.dateSent|date('Y-m-d H:i:s') : '' }}">{{ message.dateSent ? message.dateSent|date('Y-m-d h:i:s A') : '' }}</time>
             </div>
-            <div class="cell small-12">
-                <b>Subject: {{ message.subject }}</b>
+            <div class="cell small-12 medium-3 text-center" id="actions">
+            {% set isArchived = (message.sender.id == app.user.id and message.isArchivedBySender) or (message.recepient.id == app.user.id and message.isArchivedByRecepient) %}
+                {% if isArchived %}
+                    <i class="fas fa-trash fa-fw" data-msg-id="{{ message.id }}" id="delete" data-open="deleteModal"></i>
+                {% endif %}
+                    <i class="fas fa-archive fa-fw" data-msg-id="{{ message.id }}" id="archive" data-open="archiveModal">{{ isArchived ? 'Recover' : 'Archive' }}</i>
             </div>
         </div>
         <ul id="replies">
