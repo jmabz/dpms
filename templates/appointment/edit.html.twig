@@ -1,25 +1,37 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Appointment{% endblock %}
+{% block title %}Edit Schedule{% endblock %}
 
 {% block body %}
     <div class="grid-container">
         <div class="panel-heading">
             <div>
                 <h4 class="text-center">
-                    {% if is_granted('ROLE_ADMIN') %}
-                    <a href="{{ path('appointment_list') }}" class="button alert float-left"><i class="fa fa-arrow-left"> back to list</i></a>
-                    Scheduled Appointments
+                    Edit Scheduled Appointments
                 </h4>
             </div>
             <div class="callout">
-                {{ form_start(form) }}
-                    {{ form_widget(form) }}
-                    <input type="submit" value="SET APPOINTMENT" class="button success float-right">
+            {{ form_start(form) }}
+                <div class="grid-x">
+                    <div class="small-12 medium-3 columns">
+                    {{ form_row(form.appointmentDate) }}
+                    </div>
+                    <div class="small-12 medium-5 columns">
+                    {{ form_row(form.reason) }}
+                    </div>
+                    <div class="small-12 medium-4 columns">
+                    {{ form_row(form.doctor) }}
+                    </div>
+                    <div class="small-12 medium-12 columns">
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a href="{{ path('appointment_list') }}" class="button alert float-left">CANCEL</a>
                     {% elseif is_granted('ROLE_DOCTOR') %}
-                    <a href="{{ path('appointment_doctor') }}" class="button alert">CANCEL</a>
+                        <a href="{{ path('appointment_doctor') }}" class="button alert">CANCEL</a>
                     {% endif %}
+                    <input type="submit" value="SET APPOINTMENT" class="button success float-right">
+                    </div>
                 {{ form_end(form) }}
+                </div>
             </div>
         </div>
     </div>
