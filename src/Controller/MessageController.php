@@ -183,6 +183,30 @@ class MessageController extends Controller
     }
 
     /**
+     * @Route("/message/markreplies/{messageId}", name="message_markreplies", methods="POST")
+     */
+    public function markRepliesAsRead(UserInterface $user, Request $request, $messageId)
+    {
+        $message = $this->getDoctrine()
+            ->getRepository(Message::class)
+            ->find($messageId);
+        if ($request->isXmlHttpRequest()) {
+            $replies = $message->getReplies();
+
+            foreach ($replies as $reply) {
+                if ($reply->getSenderId() != $user->getId()) {
+                    $reply->setIsRead(true);
+                    $entityManager = $this->getDoctrine()->getManager();
+                    $entityManager->persist($reply);
+                    $entityManager->flush();
+                }
+            }
+            return new JsonResponse(array(['success' => 'Replies for this message have been read.'], 200));
+        }
+        return new JsonResponse(array('message' => 'You can access this only using Ajax!'), 400);
+    }
+
+    /**
      * @Route("/message/delete/{messageId}", name="message_delete", methods="GET|DELETE")
      */
     public function delete(UserInterface $user, MessageRepository $msgRepository, Request $request, $messageId): Response

@@ -48,6 +48,23 @@ class MessageRepository extends ServiceEntityRepository
     }
     */
 
+    public function countMessagesWithUnreadReplies(int $userId)
+    {
+        $querybuilder = $this->createQueryBuilder('m');
+
+        $querybuilder
+            ->select('m.id, COUNT(re) as unreadItems')
+            ->andWhere('unreadItems > 0')
+            ->andwhere('(s.id = :userId and m.isArchivedBySender = false)
+                        or (r.id = :userId and m.isArchivedByRecepient = false)')
+            ->andWhere('(s.id = :userId and m.isSenderCopyDeleted = false)
+                        or (r.id = :userId and m.isRecepientCopyDeleted = false)')
+            ->join('m.sender', 's')
+            ->join('m.recepient', 'r')
+            ->join('m.replies', 're')
+            ->setParameter('userId', $userId);
+    }
+
     /**
      * Retrieve messages that involve a user with the specified ID
      *
@@ -59,14 +76,15 @@ class MessageRepository extends ServiceEntityRepository
     {
         $querybuilder = $this->createQueryBuilder('m');
 
-
-            $querybuilder
-                ->addSelect('COUNT(re) as unreadItems')
-                ->andWhere('re.isRead = false and rs.id != :userId')
-                ->andWhere('re.isReceiverCopyDeleted = false')
-                ->addGroupBy('m.id')
-            ;
-
+        $querybuilder
+        ->addSelect('(
+            SELECT COUNT(re.isRead)
+            FROM App\Entity\Reply re
+            WHERE re.isRead = false
+                and IDENTITY(re.sender) != :userId
+                and re.isReceiverCopyDeleted = false
+                and m.id = IDENTITY(re.message)
+            ) as unreadItems');
 
         $querybuilder
             ->andwhere('(s.id = :userId and m.isArchivedBySender = :isArchived)
@@ -79,15 +97,12 @@ class MessageRepository extends ServiceEntityRepository
             ->orderBy('m.dateSent', 'DESC')
             ->join('m.sender', 's')
             ->join('m.recepient', 'r')
-            ->innerJoin('m.replies', 're')
-            ->innerJoin('re.sender', 'rs')
             ->setParameters(array(
                 'userId' => $userId,
                 'isArchived' => $isArchived
                 )
             )
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
 }
