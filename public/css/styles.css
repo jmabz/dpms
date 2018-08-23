@@ -9,6 +9,7 @@ td{
 .grid-container{
 	padding-top: 2%;
 }
+
 .log-in-form {
 	border: 1px solid #cacaca;
 	padding: 1rem;
@@ -243,7 +244,6 @@ td{
 	border-top: none;
 	overflow-y: scroll;
 	height: 400px;
-
 }
 
 #messageModal, #deleteModal {
@@ -292,9 +292,9 @@ td{
 	transition: all 0.5s ease;
 	display: none;
 	background-color: #fff;
-	box-shadow: 2px 3px #ccc;
+	box-shadow: 2px 2px #ccc;
 	border-radius: 10px;
-	padding: 5px 6px;
+	padding: 4px 4px;
 	text-align: justify;
 }
 
@@ -333,6 +333,8 @@ ul li ul:hover {
 	position: sticky;
 	background-color: white;
 	z-index: 1;
+	padding:10px;
+	border-bottom: 2px solid #ccc;
 }
 
 #profile-pic {
@@ -347,13 +349,24 @@ ul li ul:hover {
 #profile-pic:hover {
 	box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
 }
+#profile-pic1 {
+	padding: 5px;
+	border-radius: 15px;
+	width:200px;
+	height:200px;
+	margin-left:41%;
+	position:relative;
+}
+#a {margin-left:46%;}
+
 #messagepanel {
 	height: 555px !important;
 }
 
 #messagearea {
-	overflow-y: scroll;
+	overflow-y: auto;
 }
+
 .msg-section {
 	border: 1px solid #ccc;
 }
@@ -416,9 +429,11 @@ ul li ul:hover {
 }
 
 .msgPanel {
-    height: 100%;
-    width: 100%;
     -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
     -moz-box-sizing: border-box;    /* Firefox, other Gecko */
-    box-sizing: border-box;         /* Opera/IE 8+ */
+	box-sizing: border-box;         /* Opera/IE 8+ */
+}
+#output_image
+{
+	max-width:300px;
 }

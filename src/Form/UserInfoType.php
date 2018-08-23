@@ -18,7 +18,63 @@ class UserInfoType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
+        // $builder
+        //     ->add('fname', TextType::class, [
+        //         'label' => 'First Name',
+        //     ])
+        //     ->add('mname', TextType::class, [
+        //         'label' => 'Middle Name',
+        //     ])
+        //     ->add('lname', TextType::class, [
+        //         'label' => 'Family Name',
+        //     ])
+        //     ->add('suffix', TextType::class, [
+        //         'label' => 'Suffix',
+        //     ])
+        //     ->add('gender', ChoiceType::class, [
+        //             'choices' => [
+        //                 'Select Gender' => null,
+        //                 'Male' => 'Male',
+        //                 'Female' => 'Female'
+        //             ],
+        //             'label' => 'Gender:',
+        //             'attr' => ['class' => 'form-control']
+        //             ])
+        //     ->add('civil_status', ChoiceType::class, [
+        //             'choices' => [
+        //                 'Civil Status' => null,
+        //                 'Single' => 'Single',
+        //                 'Married' => 'Married',
+        //                 'Widowed' => 'Widowed',
+        //                 'Annulled' => 'Annulled'
+        //             ],
+        //             'attr' => ['class' => 'form-control']
+        //             ])
+        //     ->add('address', TextType::class, [
+        //         'label' => 'Address',
+        //     ])
+        //     ->add('birthDate', TextType::class, [
+        //         'label' => 'Birth Date',
+        //         'attr' => [
+        //             'class' => 'datepicker',
+        //         ],
+        //     ]);
+        //     $builder
+        //     ->get('birthDate')
+        //     ->addModelTransformer(new DateToStringTransformer($builder->get('birthDate')));
+
+            if($options["fileUpload"]){
+                $builder->add('fileUpload', FileType::class, array(
+                    'label' => 'Avatar Image',
+                    'attr'=>[
+                        'class' => 'form-control',
+                        'required'   => false,
+                        'onchange' => 'preview_image(event)',
+                    ]));
+            }
+
+            if($options["account"]){
+                $builder
             ->add('fname', TextType::class, [
                 'label' => 'First Name',
             ])
@@ -57,19 +113,12 @@ class UserInfoType extends AbstractType
                 'label' => 'Birth Date',
                 'attr' => [
                     'class' => 'datepicker',
+                    'required' => false
                 ],
             ]);
             $builder
             ->get('birthDate')
             ->addModelTransformer(new DateToStringTransformer($builder->get('birthDate')));
-
-            if($options["fileUpload"]){
-                $builder->add('fileUpload', FileType::class, array(
-                    'label' => 'Avatar Image',
-                    'attr'=>[
-                        'class' => 'form-control',
-                        'required'   => false,
-                    ]));
             }
         }
     /**
@@ -79,7 +128,8 @@ class UserInfoType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => UserInfo::class,
-            'fileUpload' => true
+            'account' => true,
+            'fileUpload' => true,
         ));
     }
 

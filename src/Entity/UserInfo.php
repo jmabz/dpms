@@ -19,19 +19,16 @@ class UserInfo
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="Please enter your first name.")
      */
     private $fname;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="Please enter your middle name.")
      */
     private $mname;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="Please enter your family name.")
      */
     private $lname;
 
@@ -42,25 +39,21 @@ class UserInfo
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="Please select your gender.")
      */
     private $gender;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="Please select your civil status.")
      */
     private $civilStatus;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="Please enter your address.")
      */
     private $address;
 
     /**
      * @ORM\Column(type="date")
-     * @Assert\NotBlank(message="Please enter your birth date.")
      */
     private $birthDate;
 
