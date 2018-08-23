@@ -19,7 +19,6 @@ class ReplyType extends AbstractType
                 'label' => false,
                 'attr' => array(
                     'placeholder' => 'Enter your reply here...',
-                    'resize' => 'none',
                 ),
             ));
     }

@@ -57,7 +57,18 @@ class MessageRepository extends ServiceEntityRepository
      */
     public function findMessagesWithUser(int $userId, bool $isArchived)
     {
-        $querybuilder = $this->createQueryBuilder('m')
+        $querybuilder = $this->createQueryBuilder('m');
+
+
+            $querybuilder
+                ->addSelect('COUNT(re) as unreadItems')
+                ->andWhere('re.isRead = false and rs.id != :userId')
+                ->andWhere('re.isReceiverCopyDeleted = false')
+                ->addGroupBy('m.id')
+            ;
+
+
+        $querybuilder
             ->andwhere('(s.id = :userId and m.isArchivedBySender = :isArchived)
                         or (r.id = :userId and m.isArchivedByRecepient = :isArchived)')
             ->andWhere('(s.id = :userId and m.isSenderCopyDeleted = false)
@@ -68,9 +79,13 @@ class MessageRepository extends ServiceEntityRepository
             ->orderBy('m.dateSent', 'DESC')
             ->join('m.sender', 's')
             ->join('m.recepient', 'r')
+            ->innerJoin('m.replies', 're')
+            ->innerJoin('re.sender', 'rs')
             ->setParameters(array(
                 'userId' => $userId,
-                'isArchived' => $isArchived))
+                'isArchived' => $isArchived
+                )
+            )
             ->getQuery()
             ->getResult()
         ;

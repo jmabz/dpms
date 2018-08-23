@@ -96,6 +96,7 @@ class MessageController extends Controller
             'action' => $this->generateUrl('message_new'),
             'userId' => $user->getId(),
             ]);
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -173,8 +174,8 @@ class MessageController extends Controller
             $message->setIsRead(true);
 
         $entityManager = $this->getDoctrine()->getManager();
-                    $entityManager->persist($message);
-                    $entityManager->flush();
+            $entityManager->persist($message);
+            $entityManager->flush();
 
         return $this->render('message/show.html.twig', [
             'message' => $message,

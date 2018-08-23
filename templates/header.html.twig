@@ -24,7 +24,7 @@
 					{% if app.request.get('_route') != 'doctor' and is_granted('ROLE_DOCTOR') %}
 							<li><a class="{{ app.request.attributes.get('_route') == 'appointment_doctor' ? 'menuitem--selected' }}" href="{{ path('appointment_doctor') }}"><i class="fas fa-calendar-alt fa-fw"></i>Appointments</a></li>
 							<li><a class="{{ app.request.attributes.get('_route') == 'messages' ? 'menuitem--selected' }}" href="{{ path('messages') }}"><i class="far fa-comments fa-fw"></i>Messages</a></li>
-						{% elseif app.request.get('_route') != 'patient' and is_granted('ROLE_PATIENT') %}
+					{% elseif app.request.get('_route') != 'patient' and is_granted('ROLE_PATIENT') %}
 							<li><a class="{{ app.request.attributes.get('_route') == 'record_history' ? 'menuitem--selected' }}" href="{{ path('record_history') }}"><i class="fas fa-file-invoice fa-fw"></i>Record History</a></li>
 						<li class="is-dropdown-submenu-parent"><a href="#"><i class="fas fa-calendar-alt fa-fw"></i>Appointments</a>
 							<ul class="menu vertical">
@@ -33,7 +33,7 @@
 							</ul>
 						</li>
 							<li><a class="{{ app.request.attributes.get('_route') == 'messages' ? 'menuitem--selected' }}" href="{{ path('messages') }}"><i class="far fa-comments fa-fw"></i>Messages</a></li>
-						{% endif %}
+					{% endif %}
 				</ul>
 			</div>
 			<div class="top-bar-right">
