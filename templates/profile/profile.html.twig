@@ -2,14 +2,16 @@
 {% set isActiveUser = userId == app.user.id %}
 {% block title %}Profile{% endblock %}
 {% block body %}
+{% set flashmsg = 0 %}
 <div class="notification">
 {% for msg in app.session.flashBag.get('success') %}
-	<div class="callout alert-callout-border success radius" data-closable="fade-out" autoClose="5000">
+	<div class="callout alert-callout-border success radius" data-closable="fade-out">
 		<em><strong>Success!</strong></em> {{ msg }}
 		<button class="close-button" aria-label="Dismiss alert" type="button" data-close>
 		<span aria-hidden="true">&times;</span>
 		</button>
 	</div>
+	{% set flashmsg = flashmsg + 1 %}
 {% endfor %}
 </div>
 	<div class="grid-container">
@@ -57,4 +59,10 @@
 		</div>
 	</div>
 </div>
+{% if flashmsg > 0 %}
+<script>
+setTimeout(function(){ $('button[aria-label="Dismiss alert"]').click(); console.log('Success') }, 3000);
+</script>
+{% endif %}
+
 {% endblock %}

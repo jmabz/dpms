@@ -437,15 +437,14 @@ ul li ul:hover {
     -moz-box-sizing: border-box;    /* Firefox, other Gecko */
 	box-sizing: border-box;         /* Opera/IE 8+ */
 }
-<<<<<<< HEAD
 #output_image
 {
-	max-width:300px;
+	max-width:350px;
+	padding-bottom:5%;
+	text-align:center;
 }
-=======
 
 #reply_replyBody {
 	resize : none;
 	white-space : normal;
 }
->>>>>>> 34b79cbf68fce1f737b8bfdb697f4a6037a787f3
