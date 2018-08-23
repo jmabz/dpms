@@ -8,17 +8,16 @@
                 {% endif %}
                 <button class="button alert" data-msg-id="{{ message.id }}" id="archive" data-open="archiveModal"><i class="fas fa-archive fa-fw"></i> {{ isArchived ? 'Recover' : 'Archive' }}</button>
             </div>
-            <div class="cell small-12 medium-9">
-                <b>{{ message.getSenderName() }}</b> to <b>{{ message.getRecepientName() }}</b>
+            <div class="cell small-12 medium-9 text-center">
+                <h5>{{ message.sender.getId() == app.user.id ? message.getRecepientName() : message.getSenderName() }}</h5>
             </div>
             <div class="cell small-12 medium-3">
                 <time class="timeago" datetime="{{ message.dateSent ? message.dateSent|date('Y-m-d H:i:s') : '' }}">{{ message.dateSent ? message.dateSent|date('Y-m-d h:i:s A') : '' }}</time>
             </div>
             <div class="cell small-12">
-                <h2>{{ message.subject }}</h2>
+                <b>Subject: {{ message.subject }}</b>
             </div>
         </div>
-        <hr>
         <ul id="replies">
             {% for reply in message.getReplies() %}
                 {% if  (not reply.isSenderCopyDeleted and reply.getSenderId() == app.user.id) or (not reply.isReceiverCopyDeleted and reply.getSenderId() != app.user.id) %}
