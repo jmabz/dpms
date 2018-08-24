@@ -60,8 +60,8 @@
     </div>
 
     <div class="reveal" id="archiveModal" data-reveal data-animation-in="slide-in-down" data-animation-out="slide-out-up">
-        <h3 class="text-center">Archive Message</h3>
-        <p>Are you sure you want to send your copy of this message to the archive?</p>
+        <h3 class="text-center archiveHeader">Archive Message</h3>
+        <p class="archiveMessage">Are you sure you want to send your copy of this message to the archive?</p>
         <button class="button" id="archive" data-msg-id data-close><i class="fas fa-check"></i> Yes</button>
         <button class="button alert float-right" data-close><i class="fas fa-times"></i> No</button>
         <button class="close-button" data-close aria-label="Close" type="button">
@@ -106,10 +106,19 @@
             }
         });
 
+        /**
+         * Events triggered when clicking the Inbox or Archive tabs
+         */
         $('#inbox').on('click','#messageBtn', function (event) {
-            getMessage($(event.currentTarget).data('msgId'));
-            replyToMessage($(event.currentTarget).data('msgId'));
-            getSelectedItem(this);
+            var buttonClicked = this;
+            var msgId = $(event.currentTarget).data('msgId');
+            getMessage(msgId);
+            replyToMessage(msgId);
+            getSelectedItem(buttonClicked);
+            changeReadStatus(buttonClicked);
+            if($(buttonClicked).find(".myBtn__newMsgCount").count !== 0)
+                $(buttonClicked).find(".myBtn__newMsgCount").remove();
+
         });
         $('#archive').on('click','#messageBtn', function (event) {
             getMessage($(event.currentTarget).data('msgId'));
@@ -145,6 +154,9 @@
             });
         }
 
+        /**
+         * Retrieves messages from user's archive, and populates the message list with the results.
+         */
         function getArchivedItems() {
             $.ajax({
                 url:            "{{ path('displayarchive') }}",
@@ -175,9 +187,18 @@
                     deleteReply($(event.currentTarget).data('replyId'));
                     $(this).closest('li').fadeOut('slow');
                 })
+                markAllRepliesAsRead(id);
             })
             .fail(function(xhr, textStatus, errorThrown) {
                 console.log(`Failed to retrieve the message`);
+            });
+        }
+
+        function markAllRepliesAsRead(id) {
+            $.ajax({
+                url: `{{ path('message_markreplies', {'messageId': 'msgId'}) }}`.replace('msgId', id),
+                type: 'POST',
+                contentType: "application/json",
             });
         }
 
@@ -219,6 +240,9 @@
             });
         }
 
+        /**
+         * Deletes a reply.
+         */
         function deleteReply(id) {
             $.ajax({
                 url: `{{ path('reply_delete', {'replyId': 'msgId'}) }}`.replace('msgId', id),

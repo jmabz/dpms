@@ -105,9 +105,7 @@ class AdminController extends Controller
             $doctor = $form->getData();
 
             $file = $userInfo->getFileUpload();
-
             $fileName = $fileUploader->upload($file);
-
             $doctor->getUserInfo()->setAvatar($fileName);
 
             $password = $this->get('security.password_encoder')
@@ -130,6 +128,12 @@ class AdminController extends Controller
     }
 
     /**
+     * Adds a new patient account
+     *
+     * @param Request $request
+     * @param FileUploader $fileUploader
+     * @return void
+     *
      * @Route("/admin/addpatient", name="add_patient")
      */
     public function addPatient(Request $request, FileUploader $fileUploader)
@@ -176,6 +180,11 @@ class AdminController extends Controller
     }
 
     /**
+     * Deletes a user
+     *
+     * @param [type] $userId
+     * @return void
+     *
      * @Route("/admin/deleteuser/{userId}", name="delete_user")
      */
     public function deleteUser($userId)
@@ -198,6 +207,11 @@ class AdminController extends Controller
     }
 
     /**
+     * Adds a diagnosis category
+     *
+     * @param Request $request
+     * @return void
+     *
      * @Route("/admin/adddiagnosiscategory", name="add_diagnosis_category")
      */
     public function addDiagnosisCategory(Request $request)
@@ -223,6 +237,11 @@ class AdminController extends Controller
     }
 
     /**
+     * Adds a clinic
+     *
+     * @param Request $request
+     * @return void
+     *
      * @Route("/admin/addclinic", name="add_clinic")
      */
     public function addClinic(Request $request)
