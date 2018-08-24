@@ -11,6 +11,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Vich\UploaderBundle\Form\Type\VichFileType;
 
 class MessageType extends AbstractType
 {
@@ -44,7 +45,12 @@ class MessageType extends AbstractType
                 'label' => 'Message',
                 'attr' => ['rows' => 15, 'cols' => 10,],
             ))
-
+            ->add('fileData', VichFileType::class, [
+                'required' => false,
+                'allow_delete' => true,
+                'download_uri' => true,
+                'download_label' => '...',
+            ]);
         ;
     }
 
