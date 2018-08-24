@@ -35,7 +35,7 @@
 				<tbody>
 					{% for doctor in doctors %}
 						<tr>
-							<td><img src="{{ asset('uploads/' ~ doctor.userinfo.getAvatar()) }}" alt="Embedded Image" style="width:70px;height:70px;"></td>
+							<td><img src="{{ asset('uploads/avatars/' ~ doctor.userinfo.getAvatar()) }}" alt="Embedded Image" style="width:70px;height:70px;"></td>
 							<td>
 								<a href="{{ path('profile', {userId : doctor.id}) }}" title="Click here to view profile.">{{ doctor.userInfo.getCompleteName }}</a>
 							</td>

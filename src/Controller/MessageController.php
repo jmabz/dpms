@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
-
+use App\Service\AttachmentUploader;
 
 use Faker\Provider\Lorem;
 
@@ -79,8 +79,9 @@ class MessageController extends Controller
      *
      * @Route("/message/compose", name="message_new", methods="GET|POST")
      */
-    public function composeMessage(UserInterface $user, Request $request): Response {
+    public function composeMessage(UserInterface $user, Request $request, AttachmentUploader $attachmentUploader): Response {
         $message = new Message();
+        
         $message->setSender($user);
         $message->setDateSent(new \DateTime('now'));
         $message->setSubject(Lorem::words($nb = 2, $asText = true));
@@ -100,6 +101,13 @@ class MessageController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            
+            $file = $form->getData()->getFilesUpload();
+
+            $fileName = $attachmentUploader->upload($file);
+
+            $message->setAttachments($fileName);
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($message);
             $entityManager->flush();

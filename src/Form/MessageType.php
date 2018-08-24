@@ -10,6 +10,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class MessageType extends AbstractType
@@ -44,8 +45,13 @@ class MessageType extends AbstractType
                 'label' => 'Message',
                 'attr' => ['rows' => 15, 'cols' => 10,],
             ))
-
-        ;
+            ->add('filesUpload', FileType::class, array(
+                'label' => 'Attachments',
+                'attr'=>[
+                    'class' => 'form-control',
+                    'required'   => false,
+                    'multiple' => true,
+                ]));
     }
 
     public function configureOptions(OptionsResolver $resolver)

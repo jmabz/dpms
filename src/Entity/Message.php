@@ -81,6 +81,13 @@ class Message
      */
     private $isRecepientCopyDeleted = false;
 
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $attachments;
+
+    private $filesUpload;
+    
     public function __construct()
     {
         $this->replies = new ArrayCollection();
@@ -260,5 +267,24 @@ class Message
         $this->isRecepientCopyDeleted = $isRecepientCopyDeleted;
 
         return $this;
+    }
+    public function getAttachment(): ?string
+    {
+        return $this->attachments;
+    }
+
+    public function setAttachment(string $attachments): self
+    {
+        $this->attachments = $attachments;
+
+        return $this;
+    }
+    public function getFilesUpload()
+    {
+        return $this->filesUpload;
+    }
+    public function setFilesUpload($filesUpload)
+    {
+        $this->filesUpload = $filesUpload;
     }
 }

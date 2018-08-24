@@ -26,7 +26,7 @@
 			{% for patient in patients %}
 				<tr>
 					<td>
-					<img src="{{ asset('uploads/' ~ patient.userinfo.getAvatar()) }}" alt="Embedded Image" style="width:70px;height:70px;">
+					<img src="{{ asset('uploads/avatars/' ~ patient.userinfo.getAvatar()) }}" alt="Embedded Image" style="width:70px;height:70px;">
 					<br>
 					<a href="{{ path('edit_avatar', {'userId': patient.id}) }}"><i class="fas fa-camera fa-fw"></i>Edit Avatar</a>
 					</td>

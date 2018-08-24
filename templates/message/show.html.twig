@@ -31,7 +31,7 @@
                                     </a>
                                 </div>
                                 <div class="cell small-3">
-                                    <img height="75" width="75" class="msg-avatar" src="{{ reply.sender.userInfo.getAvatar() ? asset('uploads/' ~ reply.sender.userInfo.getAvatar()) : 'http://via.placeholder.com/75x75' }}">
+                                    <img height="75" width="75" class="msg-avatar" src="{{ reply.sender.userInfo.getAvatar() ? asset('uploads/avatars/' ~ reply.sender.userInfo.getAvatar()) : 'http://via.placeholder.com/75x75' }}">
                                 </div>
                                 <div class="cell small-9">
                                     <strong>{{ reply.getSenderName() }}</strong>

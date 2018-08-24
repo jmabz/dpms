@@ -5,7 +5,8 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: 'en'
-    brochures_directory: '%kernel.project_dir%/public/uploads'
+    brochures_directory: '%kernel.project_dir%/public/uploads/avatars'
+    attachments_directory: '%kernel.project_dir%/public/uploads/attachments'
 
 services:
     # default configuration for services in *this* file
@@ -34,6 +35,10 @@ services:
     App\Service\FileUploader:
         arguments:
             $targetDirectory: '%brochures_directory%'
+            
+    App\Service\AttachmentUploader:
+        arguments:
+            $targetDirectory2: '%attachments_directory%'
 
     App\EventListener\AvatarUploadListener:
         tags:
