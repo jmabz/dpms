@@ -11,6 +11,7 @@ use App\Form\MessageType;
 use App\Form\ReplyType;
 use App\Repository\MessageRepository;
 use App\Repository\ReplyRepository;
+use App\Service\FileUploader;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -79,7 +80,7 @@ class MessageController extends Controller
      *
      * @Route("/message/compose", name="message_new", methods="GET|POST")
      */
-    public function composeMessage(UserInterface $user, Request $request): Response {
+    public function composeMessage(UserInterface $user, Request $request, FileUploader $fileUploader): Response {
         $message = new Message();
         $message->setSender($user);
         $message->setDateSent(new \DateTime('now'));
@@ -100,19 +101,28 @@ class MessageController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $message = $form->getData();
+
+            $file = $message->getFileUpload();
+            if($file !== null){
+            $fileName = $fileUploader->upload($file);
+            $message->setAttachment($fileName);
+            }
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($message);
             $entityManager->flush();
+            dump($message);
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($reply);
             $entityManager->flush();
-            return new JsonResponse(array('message' => 'Success!'), 200);
+            // return new JsonResponse(array('message' => 'Success!'), 200);
         }
-
-        return $this->render('message/composemessage.html.twig', [
-            'form' => $form->createView(),
-        ]);
+        if($request->isXmlHttpRequest())
+            return $this->render('message/composemessage.html.twig', [
+                'form' => $form->createView(),
+            ]);
+            return $this->render('message/message.html.twig');
     }
 
     /**

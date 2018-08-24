@@ -16,6 +16,10 @@
             </div>
             <div class="cell small-12">
                 <h2>{{ message.subject }}</h2>
+                {% if message.attachment %}
+                    <a href="{{ asset('uploads/' ~ message.attachment) }}">Open Attachment</a>
+                {% endif %}
+
             </div>
         </div>
         <hr>
