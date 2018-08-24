@@ -268,12 +268,12 @@ class Message
 
         return $this;
     }
-    public function getAttachment(): ?string
+    public function getAttachments(): ?string
     {
         return $this->attachments;
     }
 
-    public function setAttachment(string $attachments): self
+    public function setAttachments(string $attachments): self
     {
         $this->attachments = $attachments;
 

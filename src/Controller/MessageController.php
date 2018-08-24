@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Controller;
-
 use App\Entity\Doctor;
 use App\Entity\Message;
 use App\Entity\Patient;
@@ -17,13 +15,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
-use App\Service\AttachmentUploader;
-
 use Faker\Provider\Lorem;
-
+use App\Service\AttachmentUploader;
 class MessageController extends Controller
 {
-
     /**
      * @Route("/messages", name="messages", methods="GET|POST")
      */
@@ -31,7 +26,6 @@ class MessageController extends Controller
     {
         return $this->render('message/message.html.twig');
     }
-
     /**
      * @Route("/messages/inbox", name="inbox", methods="GET")
      */
@@ -44,13 +38,11 @@ class MessageController extends Controller
         if (!$request->isXmlHttpRequest()) {
             return new JsonResponse(array('message' => 'You can access this only using Ajax!'), 400);
         }
-
         //$jsonData = $this->listMessagesAsArray($messages);
         return $this->render('message/messagelist.html.twig', [
             'messages' => $messages,
         ]);
     }
-
     /**
      * @Route("/messages/displayarchive", name="displayarchive", methods="GET")
      */
@@ -63,13 +55,11 @@ class MessageController extends Controller
         if (!$request->isXmlHttpRequest()) {
             return new JsonResponse(array('message' => 'You can access this only using Ajax!'), 400);
         }
-
         //$jsonData = $this->listMessagesAsArray($messages);
         return $this->render('message/messagelist.html.twig', [
             'messages' => $messages,
         ]);
     }
-
     /**
      * Sends a new message
      *
@@ -81,13 +71,14 @@ class MessageController extends Controller
      */
     public function composeMessage(UserInterface $user, Request $request, AttachmentUploader $attachmentUploader): Response {
         $message = new Message();
-        
+
         $message->setSender($user);
         $message->setDateSent(new \DateTime('now'));
         $message->setSubject(Lorem::words($nb = 2, $asText = true));
         $message->setMessage(Lorem::paragraph($nbSentences = 3, $variableNbSentences = true));
-
+        
         $reply = new Reply();
+
         $reply->setSender($user);
         $reply->setReplyDate($message->getDateSent());
         $reply->setReplyBody($message->getMessage());
@@ -102,11 +93,11 @@ class MessageController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             
-            $file = $form->getData()->getFilesUpload();
+            $file = $message->getFilesUpload();
 
             $fileName = $attachmentUploader->upload($file);
 
-            $message->setAttachments($fileName);
+            $message->getMessage()->setAttachments($fileName);
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($message);
@@ -115,14 +106,13 @@ class MessageController extends Controller
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($reply);
             $entityManager->flush();
+
             return new JsonResponse(array('message' => 'Success!'), 200);
         }
-
         return $this->render('message/composemessage.html.twig', [
             'form' => $form->createView(),
         ]);
     }
-
     /**
      * @Route("/message/reply/{messageId}", name="message_reply", methods="GET|POST")
      */
@@ -131,44 +121,35 @@ class MessageController extends Controller
         $messageToReply = $this->getDoctrine()
             ->getRepository(Message::class)
             ->find($messageId);
-
         $reply = new Reply();
         $reply->setSender($user);
         $reply->setReplyDate(new \DateTime('now'));
         $reply->setReplyBody(Lorem::paragraph($nbSentences = 3, $variableNbSentences = true));
         $reply->setMessage($messageToReply);
-
         $form = $this->createForm(ReplyType::class, $reply, [
             'action' => $this->generateUrl('message_reply', [
                     'messageId' => $messageId,
                 ]),
             ]
         );
-
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             if($request->isXmlHttpRequest()) {
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($reply);
                 $entityManager->flush();
-
                 $template = $this->get('twig')->loadTemplate('message/show.html.twig');
-
                 $newMsg = $template->renderBlock('replytext', [
                     'reply' => $reply,
                     'userId' => $user->getId(),
                 ]);
-
                 return new JsonResponse(array('message' => 'Success!', 'newMsg' => $newMsg), 200);
             }
         }
-
         return $this->render('message/reply.html.twig', [
             'form' => $form->createView(),
         ]);
     }
-
     /**
      * @Route("/message/show/{messageId}", name="message_show", methods="GET|POST")
      */
@@ -177,19 +158,37 @@ class MessageController extends Controller
         $message = $this->getDoctrine()
             ->getRepository(Message::class)
             ->find($messageId);
-
         if($user->getId() == $message->getRecepient()->getId())
             $message->setIsRead(true);
-
         $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($message);
             $entityManager->flush();
-
         return $this->render('message/show.html.twig', [
             'message' => $message,
             'userId' => $user->getId(),]);
     }
-
+    /**
+     * @Route("/message/markreplies/{messageId}", name="message_markreplies", methods="POST")
+     */
+    public function markRepliesAsRead(UserInterface $user, Request $request, $messageId)
+    {
+        $message = $this->getDoctrine()
+            ->getRepository(Message::class)
+            ->find($messageId);
+        if ($request->isXmlHttpRequest()) {
+            $replies = $message->getReplies();
+            foreach ($replies as $reply) {
+                if ($reply->getSenderId() != $user->getId()) {
+                    $reply->setIsRead(true);
+                    $entityManager = $this->getDoctrine()->getManager();
+                    $entityManager->persist($reply);
+                    $entityManager->flush();
+                }
+            }
+            return new JsonResponse(array(['success' => 'Replies for this message have been read.'], 200));
+        }
+        return new JsonResponse(array('message' => 'You can access this only using Ajax!'), 400);
+    }
     /**
      * @Route("/message/delete/{messageId}", name="message_delete", methods="GET|DELETE")
      */
@@ -200,28 +199,23 @@ class MessageController extends Controller
             if (!$message) {
                 return new JsonResponse(['failure' => 'No message found for ID ' . $messageId]);
             }
-
                 if($message->getSender()->getId() == $user->getId()) {
                     $message->setIsSenderCopyDeleted(true);
                 } else {
                     $message->setIsRecepientCopyDeleted(true);
                 }
-
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($message);
                 $entityManager->flush();
-
                 if($message->getIsSenderCopyDeleted() && $message->getIsRecepientCopyDeleted()) {
                     $entityManager = $this->getDoctrine()->getManager();
                     $entityManager->remove($message);
                     $entityManager->flush();
                 }
-
                 return new JsonResponse(['success' => 'Deleted message ' . $messageId]);
         }
         return new JsonResponse(array('message' => 'You can access this only using Ajax!'), 400);
     }
-
     /**
      * @Route("/message/deletereply/{replyId}", name="reply_delete", methods="POST")
      */
@@ -232,28 +226,23 @@ class MessageController extends Controller
             if (!$reply) {
                 return new JsonResponse(['failure' => 'No reply found for ID ' . $replyId]);
             }
-
                 if($reply->getSenderId() == $user->getId()) {
                     $reply->setIsSenderCopyDeleted(true);
                 } else {
                     $reply->setIsReceiverCopyDeleted(true);
                 }
-
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($reply);
                 $entityManager->flush();
-
                 if($reply->getIsSenderCopyDeleted() && $reply->getIsReceiverCopyDeleted()) {
                     $entityManager = $this->getDoctrine()->getManager();
                     $entityManager->remove($reply);
                     $entityManager->flush();
                 }
-
                 return new JsonResponse(['success' => 'Deleted reply ' . $replyId]);
         }
         return new JsonResponse(array('message' => 'You can access this only using Ajax!'), 400);
     }
-
     /**
      * @Route("/message/archive/{messageId}", name="message_archive", methods="POST")
      */
@@ -264,17 +253,14 @@ class MessageController extends Controller
             if (!$message) {
                 return new JsonResponse(['failure' => 'No message found for ID ' . $messageId]);
             }
-
             if($message->getSender()->getId() == $user->getId()) {
                 $message->setIsArchivedBySender($message->getIsArchivedBySender() ? false : true);
             } else {
                 $message->setIsArchivedByRecepient($message->getIsArchivedByRecepient() ? false : true);
             }
-
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($message);
                 $entityManager->flush();
-
                 return new JsonResponse(['success' => 'Archived message ' . $messageId]);
         }
         return new JsonResponse(array('message' => 'You can access this only using Ajax!'), 400);

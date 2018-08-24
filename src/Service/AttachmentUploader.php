@@ -10,23 +10,22 @@ class AttachmentUploader
 
     public function __construct($targetDirectory2)
     {
-        $this->targetDirectory = $targetDirectory2;
+        $this->targetDirectory2 = $targetDirectory2;
     }
 
-    public function upload(UploadedFile $file)
+    public function upload(UploadedFile $files)
     {
-        foreach($this->files as $file)
-        {
+        foreach ($files as $file) {
                 $fileName = md5(uniqid()).'.'.$file->guessExtension();
 
-                $file->move($this->getTargetDirectory(), $fileName);
+                $file->move($this->getTargetDirectory2(), $fileName);
 
                 return $fileName;
         }
     }
 
-    public function getTargetDirectory()
+    public function getTargetDirectory2()
     {
-        return $this->targetDirectory;
+        return $this->targetDirectory2;
     }
 }
