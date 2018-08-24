@@ -10,12 +10,12 @@
             <div class="cell small-12 medium-3">
                 <time class="timeago" datetime="{{ message.dateSent ? message.dateSent|date('Y-m-d H:i:s') : '' }}">{{ message.dateSent ? message.dateSent|date('Y-m-d h:i:s A') : '' }}</time>
             </div>
-            <div class="cell small-12 medium-3 text-center" id="actions">
-            {% set isArchived = (message.sender.id == app.user.id and message.isArchivedBySender) or (message.recepient.id == app.user.id and message.isArchivedByRecepient) %}
-                {% if isArchived %}
-                    <button class="button alert" data-msg-id="{{ message.id }}" id="delete" data-open="deleteModal"><i class="fas fa-trash fa-fw"></i> Delete</button>
+            <div class="cell small-12">
+                <h2>{{ message.subject }}</h2>
+                {% if message.attachment %}
+                    <a href="{{ asset('uploads/' ~ message.attachment) }}">Open Attachment</a>
                 {% endif %}
-                <button class="button alert" data-msg-id="{{ message.id }}" id="archive" data-is-archived="{{ isArchived }}" data-open="archiveModal"><i class="fas fa-archive fa-fw"></i> {{ isArchived ? 'Recover' : 'Archive' }}</button>
+
             </div>
         </div>
         <ul id="replies">

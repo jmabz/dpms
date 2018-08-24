@@ -103,7 +103,6 @@ class AdminController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $doctor = $form->getData();
-
             $file = $userInfo->getFileUpload();
             $fileName = $fileUploader->upload($file);
             $doctor->getUserInfo()->setAvatar($fileName);

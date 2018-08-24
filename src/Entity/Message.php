@@ -5,6 +5,8 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -56,8 +58,9 @@ class Message
      */
     private $isRead = false;
 
+
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Reply", mappedBy="message", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Reply", mappedBy="message", orphanRemoval=true, cascade={"remove"})
      */
     private $replies;
 
@@ -82,12 +85,12 @@ class Message
     private $isRecepientCopyDeleted = false;
 
     /**
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $attachments;
+    private $attachment;
 
-    private $filesUpload;
-    
+    private $fileUpload;
+
     public function __construct()
     {
         $this->replies = new ArrayCollection();
@@ -268,23 +271,26 @@ class Message
 
         return $this;
     }
-    public function getAttachments(): ?string
+
+    public function getAttachment(): ?string
     {
-        return $this->attachments;
+        return $this->attachment;
     }
 
-    public function setAttachments(string $attachments): self
+    public function setAttachment(?string $attachment): self
     {
-        $this->attachments = $attachments;
+        $this->attachment = $attachment;
 
         return $this;
     }
-    public function getFilesUpload()
+
+    public function getFileUpload()
     {
-        return $this->filesUpload;
+        return $this->fileUpload;
     }
-    public function setFilesUpload($filesUpload)
+
+    public function setFileUpload($fileUpload)
     {
-        $this->filesUpload = $filesUpload;
+        $this->fileUpload = $fileUpload;
     }
 }

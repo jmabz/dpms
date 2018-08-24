@@ -1,0 +1,54 @@
+Always pull before adding and commiting
+-- git pull origin master
+
+Creating new branch
+*make sure you're in the master branch (check using "git branch" command)
+-- git branch feature/ticket-# (for new feature)
+-- git branch hotfix/ticket-# (tickets that is put to testing failed)
+-- Go to created branch
+-- git checkout branchname(feature/ticket-#)
+
+"samlpe:
+git branch feature/ticket-1000
+git checkout feature/ticket-1000
+"
+
+check files to be added
+-- git status
+
+add file to be commited
+-- git add . (add all files)
+-- git add src/file_path (single add)
+-- make sure to add only files connected to your ticket
+
+Commit added files
+-- git commit -m "Ticket[#]-short-description"
+-- Only commit once per branch
+
+"sample:
+git commit -m "Ticket[#1000]-test"
+"
+
+Push file to gitlab
+- git push origin feature/ticket-# (branch name)
+
+"sample:
+git push origin feature/ticket-1000
+"
+
+After push
+go to gitlab -> creage merge request -> autodeploy
+
+if autoDeploy success
+-- return to master branch
+-- git checkout master
+
+then pull from master
+-- git pull origin master
+
+then delete the feature/hotfix branch
+-- git branch -D feature/ticket#
+
+"sample:
+git branch -D feature/ticket-1000
+"
