@@ -1,11 +1,15 @@
 {% block body %}
     {% if message %}
         <div class="grid-x" id="messageheader">
-            <div class="cell small-12 medium-12 text-center">
-                <h3><strong>{{ message.sender.getId() == app.user.id ? message.getRecepientName() : message.getSenderName() }}</strong></h3>
+            <div class="cell small-12" id="actions">
+            {% set isArchived = (message.sender.id == app.user.id and message.isArchivedBySender) or (message.recepient.id == app.user.id and message.isArchivedByRecepient) %}
+                {% if isArchived %}
+                    <button class="button alert" data-msg-id="{{ message.id }}" id="delete" data-open="deleteModal"><i class="fas fa-trash fa-fw"></i> Delete</button>
+                {% endif %}
+                <button class="button alert" data-msg-id="{{ message.id }}" id="archive" data-is-archived="{{ isArchived }}" data-open="archiveModal"><i class="fas fa-archive fa-fw"></i> {{ isArchived ? 'Recover' : 'Archive' }}</button>
             </div>
-            <div class="cell small-12 medium-6">
-                <b>Subject: {{ message.subject }}</b>
+            <div class="cell small-12 medium-9">
+                <b>{{ message.getSenderName() }}</b> to <b>{{ message.getRecepientName() }}</b>
             </div>
             <div class="cell small-12 medium-3">
                 <time class="timeago" datetime="{{ message.dateSent ? message.dateSent|date('Y-m-d H:i:s') : '' }}">{{ message.dateSent ? message.dateSent|date('Y-m-d h:i:s A') : '' }}</time>
@@ -18,6 +22,7 @@
 
             </div>
         </div>
+        <hr>
         <ul id="replies">
             {% for reply in message.getReplies() %}
                 {% if (not reply.isSenderCopyDeleted and reply.getSenderId() == app.user.id) or (not reply.isReceiverCopyDeleted and reply.getSenderId() != app.user.id) %}
@@ -31,7 +36,7 @@
                                     </a>
                                 </div>
                                 <div class="cell small-3">
-                                    <img height="75" width="75" class="msg-avatar" src="{{ reply.sender.userInfo.getAvatar() ? asset('uploads/avatars/' ~ reply.sender.userInfo.getAvatar()) : 'http://via.placeholder.com/75x75' }}">
+                                    <img height="75" width="75" class="msg-avatar" src="{{ reply.sender.userInfo.getAvatar() ? asset('uploads/' ~ reply.sender.userInfo.getAvatar()) : 'http://via.placeholder.com/75x75' }}">
                                 </div>
                                 <div class="cell small-9">
                                     <strong>{{ reply.getSenderName() }}</strong>
